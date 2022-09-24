@@ -178,7 +178,9 @@ function buildTooltip(playerName, targetType)
 
     currentLineNumber = currentLineNumber + 1
     local guildExtraSpaces = characterInfo['icon'] ~= "" and "           " or ""
-    GameTooltip:AddLine("|cffFFD700" .. guildExtraSpaces .. "<" .. guildName .. ">")
+    if guildName ~= nil then
+      GameTooltip:AddLine("|cffFFD700" .. guildExtraSpaces .. "<" .. guildName .. ">")
+    end
 
     currentLineNumber = currentLineNumber + 1
     GameTooltip:AddLine(" ")
@@ -246,7 +248,9 @@ function buildTooltip(playerName, targetType)
     GameTooltip:AddLine("|cff" .. thisClassColor[4] .. fullName)
 
     currentLineNumber = currentLineNumber + 1
-    GameTooltip:AddLine("|cffFFD700" .. "<" .. guildName .. ">")
+    if guildName ~= nil then
+      GameTooltip:AddLine("|cffFFD700" .. "<" .. guildName .. ">")
+    end
 
     currentLineNumber = currentLineNumber + 1
     GameTooltip:AddLine(" ")
