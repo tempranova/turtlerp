@@ -366,7 +366,7 @@
             <FontString inherits="ChatFontNormal" />
           </EditBox>
           <!-- IC frame scrolling -->
-          <ScrollFrame name="$parent_ICScrollBox" inherits="UIPanelScrollFrameTemplate">
+          <ScrollFrame name="$parent_ICScrollBox" inherits="UIPanelScrollFrameTemplate" enableMouse="true" >
             <Size>
               <AbsDimension x="180" y="110" />
             </Size>
@@ -418,7 +418,7 @@
           </ScrollFrame>
 
           <!-- OOC frame scrolling -->
-          <ScrollFrame name="$parent_OOCScrollBox" inherits="UIPanelScrollFrameTemplate">
+          <ScrollFrame name="$parent_OOCScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
             <Size>
               <AbsDimension x="180" y="110" />
             </Size>
@@ -677,7 +677,7 @@
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\CancelButton-Highlight"/>
           </Button>
           <!-- AAG1 frame scrolling -->
-          <ScrollFrame name="$parent_AtAGlance1ScrollBox" inherits="UIPanelScrollFrameTemplate">
+          <ScrollFrame name="$parent_AtAGlance1ScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
             <Size>
               <AbsDimension x="180" y="110" />
             </Size>
@@ -729,7 +729,7 @@
           </ScrollFrame>
 
           <!-- AAG2 frame scrolling -->
-          <ScrollFrame name="$parent_AtAGlance2ScrollBox" inherits="UIPanelScrollFrameTemplate">
+          <ScrollFrame name="$parent_AtAGlance2ScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
             <Size>
               <AbsDimension x="180" y="110" />
             </Size>
@@ -781,7 +781,7 @@
           </ScrollFrame>
 
           <!-- AAG3 frame scrolling -->
-          <ScrollFrame name="$parent_AtAGlance3ScrollBox" inherits="UIPanelScrollFrameTemplate">
+          <ScrollFrame name="$parent_AtAGlance3ScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
             <Size>
               <AbsDimension x="180" y="110" />
             </Size>
@@ -900,7 +900,7 @@
             </Anchors>
           </Button>
           <!-- Description frame scrolling -->
-          <ScrollFrame name="$parent_DescriptionScrollBox" inherits="UIPanelScrollFrameTemplate">
+          <ScrollFrame name="$parent_DescriptionScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
             <Size>
               <AbsDimension x="400" y="100" />
             </Size>
@@ -1189,7 +1189,7 @@
             <Layers>
               <Layer level="OVERLAY">
                 <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-                  <Size x="150" y="50"/>
+                  <Size x="140" y="50"/>
                   <Anchors>
                     <Anchor point="TOPLEFT">
                       <Offset>
@@ -1256,7 +1256,7 @@
             <Layers>
               <Layer level="OVERLAY">
                 <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-                  <Size x="150" y="50"/>
+                  <Size x="140" y="50"/>
                   <Anchors>
                     <Anchor point="CENTER">
                       <Offset>
@@ -1323,7 +1323,7 @@
             <Layers>
               <Layer level="OVERLAY">
                 <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-                  <Size x="150" y="50"/>
+                  <Size x="140" y="50"/>
                   <Anchors>
                     <Anchor point="CENTER">
                       <Offset>
@@ -1400,7 +1400,7 @@
         </Anchors>
       </Button>
       <!-- Description frame scrolling -->
-      <ScrollFrame name="$parent_DescriptionScrollBox" inherits="UIPanelScrollFrameTemplate">
+      <ScrollFrame name="$parent_DescriptionScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
         <Size>
           <AbsDimension x="300" y="280" />
         </Size>
@@ -1504,6 +1504,19 @@
       </Anchor>
     </Anchors>
     <Frames>
+      <!-- Close button -->
+      <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
+        <Size>
+          <AbsDimension x="25" y="25" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="25" y="25"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
       <ScrollFrame name="$parent_ScrollBox" inherits="FauxScrollFrameTemplate">
         <Size>
           <AbsDimension x="125" y="100" />
@@ -1599,7 +1612,7 @@
         <Layers>
           <Layer level="BACKGROUND">
             <Texture name="$parentEye" file="Interface\Addons\TurtleRP\images\wizard-hat">
-              <Size x="11" y="11"/>
+              <Size x="13" y="13"/>
               <Anchors>
                 <Anchor point="CENTER">
                   <Offset x="-2" y="2"/>

@@ -2,15 +2,18 @@
 
 BUGS
 -- Need to test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE
+-- Test when drunk (SLURRED_SPEECH)
+-- Testing channel being joined properly
 
 NEXT UP
-
--- Selector for main tooltip icon
--- Allow to "deselect" and icon and delete it
+-- Fixing sometime disappearance of tooltip
+-- adding pronouns and adding that beside the IC / OOC
+-- description autopops when clicked by another
+-- Allowing custom class text and custom class color
 
 -- Passing through HTML for the Description, adding some "Advanced" instructions on click
 ----- (link to HTML instructions, and a link to lists of images and names of images they can use in the text)
--- Allowing custom class text and custom class color
+
 
 ]]
 
@@ -19,7 +22,8 @@ NEXT UP
 -----
 TurtleRP = {}
 TurtleRP.currentlyRequestedData = nil
-TurtleRP.iconFrames = {}
+TurtleRP.iconFrames = nil
+TurtleRP.iconSelectorCreated = nil
 TurtleRP.currentTooltip = nil
 TurtleRP.currentIconSelector = nil
 
@@ -73,7 +77,7 @@ function TurtleRP:OnEvent()
 
     -- Intro message
     log("Welcome, " .. getFullName(TurtleRPCharacterInfo["title"], TurtleRPCharacterInfo["first_name"], TurtleRPCharacterInfo["last_name"]) .. ", to TurtleRP.")
-    log("Share your story by typing /ttrp to open the menu.")
+    log("Type |ccfFF0000/ttrp |ccfFFFFFFto open the addon.")
 
     if GetRealmName() == "Turtle WoW" and UnitLevel("player") < 5 and UnitLevel("player") ~= 0 then
       log("|ccfFF0000Sorry, but due to Turtle WoW restrictions you can't access other player's TurtleRP profiles until level 5.")
@@ -158,31 +162,31 @@ end
 
 function buildTooltip(playerName, targetType)
   local characterInfo = TurtleRPCharacters[playerName]
-  if TurtleRPCharacters[playerName]["keyM"] ~= nil and TurtleRP.currentTooltip == nil then
+  if TurtleRPCharacters[playerName]["keyM"] ~= nil then
+    GameTooltip:ClearLines()
     TurtleRP.currentTooltip = playerName
     local fullName = getFullName(characterInfo['title'], characterInfo['first_name'], characterInfo['last_name'])
     local race = UnitRace(targetType)
     local class = UnitClass(targetType)
     local guildName = GetGuildInfo(targetType)
     local level = UnitLevel(targetType)
+    local thisClassColor = TurtleRPClassData[class]
 
     local currentLineNumber = 1
     local titleExtraSpaces = characterInfo['icon'] ~= "" and "         " or ""
-    getglobal("GameTooltipTextLeft1"):SetText(titleExtraSpaces .. fullName, 0.53, 0.53, 0.93)
-    local thisClassColor = TurtleRPClassData[class]
-    getglobal("GameTooltipTextLeft1"):SetTextColor(thisClassColor[1], thisClassColor[2], thisClassColor[3])
+    GameTooltip:AddLine("|cff" .. thisClassColor[4] .. titleExtraSpaces .. fullName)
+    -- getglobal("GameTooltipTextLeft1"):SetText(titleExtraSpaces .. fullName, 0.53, 0.53, 0.93)
+    -- getglobal("GameTooltipTextLeft1"):SetTextColor(thisClassColor[1], thisClassColor[2], thisClassColor[3])
     getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 18)
 
     currentLineNumber = currentLineNumber + 1
     local guildExtraSpaces = characterInfo['icon'] ~= "" and "           " or ""
-    getglobal("GameTooltipTextLeft2"):SetText(guildExtraSpaces .. "<" .. guildName .. ">")
-    getglobal("GameTooltipTextLeft2"):SetTextColor(0.83, 0.62, 0.09)
+    GameTooltip:AddLine("|cffFFD700" .. guildExtraSpaces .. "<" .. guildName .. ">")
 
     currentLineNumber = currentLineNumber + 1
     GameTooltip:AddLine(" ")
 
     currentLineNumber = currentLineNumber + 1
-    getglobal("GameTooltipTextRight2"):SetText()
     local statusText = characterInfo['currently_ic'] == "on" and "|cff40AF6FIC" or "|cffD3681EOOC"
     local levelAndStatusText = "Level " .. level .. " (" .. statusText .. "|cffFFFFFF)"
     GameTooltip:AddDoubleLine(race .. " |cff" .. thisClassColor[4] .. class, levelAndStatusText, 1, 1, 1, 1, 1, 1)
@@ -210,7 +214,6 @@ function buildTooltip(playerName, targetType)
       GameTooltip:AddLine(characterInfo['ooc_info'], 0.8, 0.8, 0.8, true)
       getglobal("GameTooltipTextLeft" .. currentLineNumber):SetFont("Fonts\\FRIZQT__.ttf", 10)
     end
-    GameTooltip:Show()
 
     if characterInfo['icon'] ~= "" then
       TurtleRP_Tooltip_Icon:SetPoint("TOPLEFT", "GameTooltipTextLeft1", "TOPLEFT")
@@ -219,7 +222,36 @@ function buildTooltip(playerName, targetType)
       local iconIndex = characterInfo["icon"]
       TurtleRP_Tooltip_Icon_Icon:SetTexture("Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)])
       TurtleRP_Tooltip_Icon:Show()
+    else
+      TurtleRP_Tooltip_Icon:Hide()
     end
+
+    GameTooltip:Show()
+  else
+    -- Normie tooltip
+    GameTooltip:ClearLines()
+    local fullName = UnitName(targetType)
+    local race = UnitRace(targetType)
+    local class = UnitClass(targetType)
+    local guildName = GetGuildInfo(targetType)
+    local level = UnitLevel(targetType)
+    local thisClassColor = TurtleRPClassData[class]
+
+    local currentLineNumber = 1
+    GameTooltip:AddLine("|cff" .. thisClassColor[4] .. fullName)
+    getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 18)
+
+    currentLineNumber = currentLineNumber + 1
+    GameTooltip:AddLine("|cffFFD700" .. "<" .. guildName .. ">")
+
+    currentLineNumber = currentLineNumber + 1
+    GameTooltip:AddLine(" ")
+
+    currentLineNumber = currentLineNumber + 1
+    local statusText = characterInfo['currently_ic'] == "on" and "|cff40AF6FIC" or "|cffD3681EOOC"
+    local levelText = "Level " .. level
+    GameTooltip:AddDoubleLine(race .. " |cff" .. thisClassColor[4] .. class, levelText, 1, 1, 1, 1, 1, 1)
+    GameTooltip:Show()
   end
 end
 
@@ -343,6 +375,24 @@ function interface_events()
   TurtleRP_Admin_SettingsButton:SetScript("OnClick", function(self, arg1)
     showHidePanels(TurtleRP_Admin_Settings)
   end)
+  TurtleRP_Admin_General_ICScrollBox:SetScript("OnMouseDown", function()
+    TurtleRP_Admin_General_ICScrollBox_ICInfoInput:SetFocus()
+  end)
+  TurtleRP_Admin_General_OOCScrollBox:SetScript("OnMouseDown", function()
+    TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:SetFocus()
+  end)
+  TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox:SetScript("OnMouseDown", function()
+    TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:SetFocus()
+  end)
+  TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox:SetScript("OnMouseDown", function()
+    TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:SetFocus()
+  end)
+  TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox:SetScript("OnMouseDown", function()
+    TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:SetFocus()
+  end)
+  TurtleRP_Admin_Description_DescriptionScrollBox:SetScript("OnMouseDown", function()
+    TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:SetFocus()
+  end)
   TurtleRP_Admin_General_ICButton:SetScript("OnClick", function()
     if TurtleRPCharacterInfo["currently_ic"] == "off" then
       TurtleRPCharacterInfo["currently_ic"] = "on"
@@ -390,6 +440,16 @@ function interface_events()
       TurtleRPSettings["bgs"] = "off"
     end
   end)
+  -- TurtleRP_Admin_EnabledButton:SetScript("OnClick", function()
+  --   log(TurtleRP_Admin_EnabledButton:GetChecked() and "yes" or "no")
+  --   if TurtleRP_Admin_EnabledButton:GetChecked() then
+  --     local type, name = JoinChannelByName("TTRP", nil, 7)
+  --     log(type)
+  --     log(name)
+  --   else
+  --     LeaveChannelByName("TTRP")
+  --   end
+  -- end)
   TurtleRP_Admin:SetScript("OnMouseDown", function()
     TurtleRP_Admin:StartMoving()
   end)
@@ -529,8 +589,11 @@ function create_icon_selector()
   TurtleRP_IconSelector:Show()
   TurtleRP_IconSelector:SetFrameStrata("tooltip")
   TurtleRP_IconSelector:SetFrameLevel(99)
-  TurtleRP.iconFrames = makeIconFrames()
-  renderIcons(0)
+  if TurtleRP.iconFrames == nil then
+    TurtleRP.iconFrames = makeIconFrames()
+  end
+  local currentLine = FauxScrollFrame_GetOffset(TurtleRP_IconSelector_ScrollBox)
+  renderIcons((currentLine * 5))
 end
 
 function MyModScrollBar_Update()
@@ -616,49 +679,6 @@ function getFullName(title, first_name, last_name)
   end
   return fullName
 end
-
--- function setGeneralDataToInterface(msg)
---   local beginningOfData = strfind(msg, "&&")
---   local dataSlice = strsub(arg1, beginningOfData)
---   local splitArray = string.split(dataSlice, "&&")
---   local title = splitArray[2]
---   local first_name = splitArray[3]
---   local last_name = splitArray[4]
---   local ic_info = splitArray[5]
---   local ooc_info = splitArray[6]
---   local currently_ic = splitArray[7]
---   if TurtleRP.currentPlayerRequestedMouseover == UnitName("mouseover") then
---     local race = UnitRace("mouseover")
---     local class = UnitClass("mouseover")
---     local guildName = GetGuildInfo("mouseover")
---     local level = UnitLevel("mouseover")
---     buildTooltip(title, first_name, last_name, race, class, guildName, level, ic_info, ooc_info, currently_ic)
---   end
---   if TurtleRP.currentPlayerRequestedMouseover == UnitName("target") then
---     buildTargetFrame(title, first_name, last_name)
---   end
---   TurtleRP.currentPlayerRequestedMouseover = nil
--- end
---
--- function setDescriptionDataToInterface(msg)
---   if TurtleRP.currentPlayerRequestedTarget == UnitName("target") then
---     local beginningOfData = strfind(msg, "&&")
---     local dataSlice = strsub(arg1, beginningOfData)
---     local splitArray = string.split(dataSlice, "&&")
---     local index = splitArray[2]
---     local total = splitArray[3]
---     local text = splitArray[4]
---     if(TurtleRP.currentDescriptionCount == tonumber(index)) then
---       TurtleRP.currentDescriptionCount = TurtleRP.currentDescriptionCount + 1
---       TurtleRP.currentDescription = TurtleRP.currentDescription .. text
---     end
---     local reconstitutedDescriptionWithLineBreaks = gsub(TurtleRP.currentDescription, "@N", "%\n")
---     buildDescription(reconstitutedDescriptionWithLineBreaks)
---     if (TurtleRP.currentDescriptionCount - 1) == tonumber(total) then
---       TurtleRP.currentPlayerRequestedTarget = nil
---     end
---   end
--- end
 
 function randomchars()
 	local res = ""

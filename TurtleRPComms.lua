@@ -37,18 +37,43 @@ DR
 local lastRequestType = nil
 local lastPlayerName = nil
 local timeOfLastSend = time()
+local channelIndex = 0
 
+-- This function often runs too early
 function communication_prep()
-  local joinedChannel = "no"
-  local channelList = { GetChannelList() }
-  for id1, name1, disabled in channelList do
-     if name1 == "TTRP" then
-       joinedChannel = "yes"
-     end
-  end
-  if joinedChannel == "no" then
-    JoinChannelByName("TTRP", nil, nil, nil)
-  end
+  local TurtleRPChannelJoinDelay = CreateFrame("Frame")
+  TurtleRPChannelJoinDelay:Hide()
+  TurtleRPChannelJoinDelay:SetScript("OnShow", function()
+      this.startTime = GetTime()
+  end)
+  TurtleRPChannelJoinDelay:SetScript("OnHide", function()
+      checkTTRPChannel()
+  end)
+  TurtleRPChannelJoinDelay:SetScript("OnUpdate", function()
+    local plus = 15 --seconds
+    local gt = GetTime() * 1000
+    local st = (this.startTime + plus) * 1000
+    if gt >= st then
+        TurtleRPChannelJoinDelay:Hide()
+    end
+  end)
+  TurtleRPChannelJoinDelay:Show()
+end
+
+
+function checkTTRPChannel()
+    local lastVal = 0
+    local chanList = { GetChannelList() }
+    for _, value in next, chanList do
+        if value == "TTRP" then
+            channelIndex = lastVal
+            break
+        end
+        lastVal = value
+    end
+    if channelIndex == 0 then
+        JoinChannelByName("TTRP")
+    end
 end
 
 function communication_events()
