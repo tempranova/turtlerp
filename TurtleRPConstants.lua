@@ -1,4 +1,7 @@
 --[[
+  Created by Vee (http://victortemprano.com), Drixi in-game
+  See Github repo at https://github.com/tempranova/turtlerp
+
   Constants
 
   -----
@@ -28,7 +31,6 @@
   TurtleRPCharacters["PlayerName"]["keyD"] = // Unique key stored and checked when checking description
   TurtleRPCharacters["PlayerName"]["description"] = // 1000 char limit
 
-  
 --]]
 
 TurtleRPClassData = {}

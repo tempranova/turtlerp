@@ -1,4 +1,6 @@
 --[[
+  Created by Vee (http://victortemprano.com), Drixi in-game
+  See Github repo at https://github.com/tempranova/turtlerp
 
 -- Communication system
 --- Notes :
@@ -22,11 +24,6 @@ DR
 -- Player2 is listening, recieves the request
   - If the key matches their local key, they send nothing back
   - If the key doesn't match, they send a response: "<data type>:<Player2>&&<unique key>&&<DATA>"
-
-- Recieving descriptions requires some finessing, since multiple descriptions may be getting sent at the same time
-- and need to make sure they are sorted well into the right profiles
-
------
 
 ]]
 
