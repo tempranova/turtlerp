@@ -11,12 +11,12 @@ Bugs
 - Need to test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE
 - Test when drunk (SLURRED_SPEECH)
 - Testing channel being joined properly
+- description autopops when clicked by another
 
 Next Up
 
 - Fixing sometime disappearance of tooltip
 - adding pronouns and adding that beside the IC / OOC
-- description autopops when clicked by another
 - Allowing custom class text and custom class color
 
 Feature List
