@@ -81,6 +81,8 @@ function communication_events()
     else
       sendRequestForData("D", UnitName("target"))
     end
+    TurtleRP_Description:Show()
+    TurtleRP_Admin:Hide()
   end)
 
   local CheckMessages = CreateFrame("Frame")
@@ -177,7 +179,7 @@ end
 function dataKeys(dataPrefix)
   local dataKeys = {}
   if dataPrefix == "M" or dataPrefix == "MR" then
-    dataKeys = { "keyM", "icon", "title", "first_name", "last_name", "ooc_info", "ic_info", "currently_ic" }
+    dataKeys = { "keyM", "icon", "title", "first_name", "last_name", "ooc_info", "ic_info", "currently_ic", "ooc_pronouns", "ic_pronouns" }
   end
   if dataPrefix == "T" or dataPrefix == "TR" then
     dataKeys = { "keyT", "atAGlance1", "atAGlance1Icon", "atAGlance2", "atAGlance2Icon", "atAGlance3", "atAGlance3Icon" }

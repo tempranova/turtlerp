@@ -13,11 +13,14 @@
   TurtleRPCharacters["PlayerName"] = {}
   -- Comes on mouseover
   TurtleRPCharacters["PlayerName"]["keyM"] = // Unique key stored and checked when checking mouseover, 5 chars
-  TurtleRPCharacters["PlayerName"]["title"] // 20 char limit
-  TurtleRPCharacters["PlayerName"]["first_name"] // 20 char limit
-  TurtleRPCharacters["PlayerName"]["last_name"] // 20 char limit
+  TurtleRPCharacters["PlayerName"]["title"] // 15 char limit
+  TurtleRPCharacters["PlayerName"]["first_name"] // 15 char limit
+  TurtleRPCharacters["PlayerName"]["last_name"] // 15 char limit
   TurtleRPCharacters["PlayerName"]["ooc_info"] // 75 char limit
   TurtleRPCharacters["PlayerName"]["ic_info"] // 75 char limit
+  TurtleRPCharacters["PlayerName"]["ic_pronouns"] = // 10 char limit
+  TurtleRPCharacters["PlayerName"]["ooc_pronouns"] = // 10 char limit
+  TurtleRPCharacters["PlayerName"]["currently_ic"] = // 3 char
   TurtleRPCharacters["PlayerName"]["icon"] // 4 char limit (a number referring to the icon in the Constants list)
   -- Comes on target
   TurtleRPCharacters["PlayerName"]["keyT"] = // Unique key stored and checked when checking target

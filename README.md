@@ -6,20 +6,25 @@ For more information, visit [https://tempranova.github.io/turtlerp/](https://tem
 
 ### To Do
 
+Tests
+
+- // Need to test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE (tested `~!@#$%^&*()-_=+[]\{}|;':",./<>?`)
+- More comprehensive tests are worthwhile on bad characters
+
 Bugs
 
-- Need to test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE
 - Test when drunk (SLURRED_SPEECH)
-- Testing channel being joined properly
-- description autopops when clicked by another
+- // Testing channel being joined properly
+- // Fixing sometime disappearance of tooltip
+- // description autopops when clicked by another
 
 Next Up
 
-- Fixing sometime disappearance of tooltip
-- adding pronouns and adding that beside the IC / OOC
+- // adding pronouns and adding that beside the IC / OOC
 - Allowing custom class text and custom class color
+ - This requires some rethinking of how tooltip is sent, as we're nearing 255 char limit (see Class Constants for char limits). Do we split the tooltip into parts, like description? Or enforce other limits?
 
 Feature List
 
-- Passing through HTML for the Description, adding some "Advanced" instructions on click
-- (adding link to HTML instructions, and a link to lists of images and names of images they can use in the text)
+- // Passing through HTML for the Description
+- More to come after beta testing and first release, based on community response

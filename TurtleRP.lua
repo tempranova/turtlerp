@@ -10,7 +10,6 @@ TurtleRP = {}
 TurtleRP.currentlyRequestedData = nil
 TurtleRP.iconFrames = nil
 TurtleRP.iconSelectorCreated = nil
-TurtleRP.currentTooltip = nil
 TurtleRP.currentIconSelector = nil
 
 -----
@@ -39,6 +38,8 @@ function TurtleRP:OnEvent()
       TurtleRPCharacterInfo["last_name"] = ""
       TurtleRPCharacterInfo["ic_info"] = ""
       TurtleRPCharacterInfo["ooc_info"] = ""
+      TurtleRPCharacterInfo["ic_pronouns"] = ""
+      TurtleRPCharacterInfo["ooc_pronouns"] = ""
       TurtleRPCharacterInfo["currently_ic"] = "on"
 
       TurtleRPCharacterInfo["keyT"] = randomchars()
@@ -59,6 +60,17 @@ function TurtleRP:OnEvent()
     if TurtleRPSettings == nil then
       TurtleRPSettings = {}
       TurtleRPSettings["bgs"] = "off"
+    end
+
+    -- For adding additional fields after plugin is in use
+    if TurtleRPCharacterInfo ~= nil then
+      if TurtleRPCharacterInfo["ic_pronouns"] == nil then
+        TurtleRPCharacterInfo["ic_pronouns"] = ""
+      end
+      if TurtleRPCharacterInfo["ooc_pronouns"] == nil then
+        TurtleRPCharacterInfo["ooc_pronouns"] = ""
+      end
+      TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
     end
 
     -- Intro message
@@ -148,9 +160,8 @@ end
 
 function buildTooltip(playerName, targetType)
   local characterInfo = TurtleRPCharacters[playerName]
-  if TurtleRPCharacters[playerName]["keyM"] ~= nil then
+  if TurtleRPCharacters[playerName] ~= nil and TurtleRPCharacters[playerName]["keyM"] ~= nil then
     GameTooltip:ClearLines()
-    TurtleRP.currentTooltip = playerName
     local fullName = getFullName(characterInfo['title'], characterInfo['first_name'], characterInfo['last_name'])
     local race = UnitRace(targetType)
     local class = UnitClass(targetType)
@@ -182,7 +193,11 @@ function buildTooltip(playerName, targetType)
       GameTooltip:AddLine(" ")
 
       currentLineNumber = currentLineNumber + 1
-      GameTooltip:AddLine("IC Info", 1, 0.6, 0, true)
+      local ic_pronouns_text = ""
+      if characterInfo['ic_pronouns'] ~= "" and characterInfo['ic_pronouns'] ~= nil then
+        ic_pronouns_text = " |cffffcc80(" .. characterInfo['ic_pronouns'] .. ")"
+      end
+      GameTooltip:AddLine("IC Info" .. ic_pronouns_text, 1, 0.6, 0, true)
 
       currentLineNumber = currentLineNumber + 1
       GameTooltip:AddLine(characterInfo['ic_info'], 0.8, 0.8, 0.8, true)
@@ -194,7 +209,11 @@ function buildTooltip(playerName, targetType)
       GameTooltip:AddLine(" ")
 
       currentLineNumber = currentLineNumber + 1
-      GameTooltip:AddLine("OOC Info", 1, 0.6, 0, true)
+      local ooc_pronouns_text = ""
+      if characterInfo['ooc_pronouns'] ~= "" and characterInfo['ooc_pronouns'] ~= nil then
+        ooc_pronouns_text = " |cffffcc80(" .. characterInfo['ooc_pronouns'] .. ")"
+      end
+      GameTooltip:AddLine("OOC Info" .. ooc_pronouns_text, 1, 0.6, 0, true)
 
       currentLineNumber = currentLineNumber + 1
       GameTooltip:AddLine(characterInfo['ooc_info'], 0.8, 0.8, 0.8, true)
@@ -225,7 +244,6 @@ function buildTooltip(playerName, targetType)
 
     local currentLineNumber = 1
     GameTooltip:AddLine("|cff" .. thisClassColor[4] .. fullName)
-    getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 18)
 
     currentLineNumber = currentLineNumber + 1
     GameTooltip:AddLine("|cffFFD700" .. "<" .. guildName .. ">")
@@ -234,7 +252,6 @@ function buildTooltip(playerName, targetType)
     GameTooltip:AddLine(" ")
 
     currentLineNumber = currentLineNumber + 1
-    local statusText = characterInfo['currently_ic'] == "on" and "|cff40AF6FIC" or "|cffD3681EOOC"
     local levelText = "Level " .. level
     GameTooltip:AddDoubleLine(race .. " |cff" .. thisClassColor[4] .. class, levelText, 1, 1, 1, 1, 1, 1)
     GameTooltip:Show()
@@ -291,9 +308,8 @@ function buildDescription(playerName)
     if (stringWidth + 40) > 350 then
       TurtleRP_Target:SetWidth(tonumber(stringWidth) + 40)
     end
-    TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_TargetDescription:SetText(characterInfo['description'])
-    TurtleRP_Description:Show()
-    TurtleRP_Admin:Hide()
+    -- TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body><h1>Hi</h1></body></html>")
+    TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body>" .. characterInfo['description'] .. "</body></html>")
   end
 end
 
@@ -306,6 +322,8 @@ function populate_interface_user_data()
   TurtleRP_Admin_General_LastNameInput:SetText(TurtleRPCharacterInfo["last_name"])
   TurtleRP_Admin_General_ICScrollBox_ICInfoInput:SetText(TurtleRPCharacterInfo["ic_info"])
   TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:SetText(TurtleRPCharacterInfo["ooc_info"])
+  TurtleRP_Admin_General_ICPronounsInput:SetText(TurtleRPCharacterInfo["ic_pronouns"])
+  TurtleRP_Admin_General_OOCPronounsInput:SetText(TurtleRPCharacterInfo["ooc_pronouns"])
   setCharacterIcon()
   TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:SetText(TurtleRPCharacterInfo["atAGlance1"])
   TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:SetText(TurtleRPCharacterInfo["atAGlance1"])
@@ -324,11 +342,11 @@ function interface_tweaks()
   TurtleRP_Admin_AtAGlance_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
   TurtleRP_Target_DescriptionButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
 
-  TurtleRP_Admin_General_TitleInput:SetMaxLetters(20)
-  TurtleRP_Admin_General_FirstNameInput:SetMaxLetters(20)
-  TurtleRP_Admin_General_LastNameInput:SetMaxLetters(20)
-  TurtleRP_Admin_General_ICScrollBox_ICInfoInput:SetMaxLetters(100)
-  TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:SetMaxLetters(100)
+  TurtleRP_Admin_General_TitleInput:SetMaxLetters(15)
+  TurtleRP_Admin_General_FirstNameInput:SetMaxLetters(15)
+  TurtleRP_Admin_General_LastNameInput:SetMaxLetters(15)
+  TurtleRP_Admin_General_ICScrollBox_ICInfoInput:SetMaxLetters(75)
+  TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:SetMaxLetters(75)
   TurtleRP_Admin_General_ICScrollBox_ICInfoInput:SetMultiLine(true)
   TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:SetMultiLine(true)
   TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:SetMultiLine(true)
@@ -426,16 +444,6 @@ function interface_events()
       TurtleRPSettings["bgs"] = "off"
     end
   end)
-  -- TurtleRP_Admin_EnabledButton:SetScript("OnClick", function()
-  --   log(TurtleRP_Admin_EnabledButton:GetChecked() and "yes" or "no")
-  --   if TurtleRP_Admin_EnabledButton:GetChecked() then
-  --     local type, name = JoinChannelByName("TTRP", nil, 7)
-  --     log(type)
-  --     log(name)
-  --   else
-  --     LeaveChannelByName("TTRP")
-  --   end
-  -- end)
   TurtleRP_Admin:SetScript("OnMouseDown", function()
     TurtleRP_Admin:StartMoving()
   end)
@@ -460,9 +468,13 @@ function interface_events()
   TurtleRP_MinimapIcon_OpenAdmin:SetScript("OnMouseUp", function()
     TurtleRP_MinimapIcon:StopMovingOrSizing()
   end)
+  GameTooltip:SetScript("OnShow", function()
+    if UnitIsPlayer("mouseover") then
+      buildTooltip(UnitName("mouseover"), "mouseover")
+    end
+  end)
   GameTooltip:SetScript("OnHide", function()
     TurtleRP_Tooltip_Icon:Hide()
-    TurtleRP.currentTooltip = nil
   end)
   TurtleRP_MinimapIcon_OpenAdmin:SetScript("OnClick", function()
     TurtleRP_Admin:Show()
@@ -505,6 +517,12 @@ function save_events()
     local ooc_info = TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:GetText()
     TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:ClearFocus()
     TurtleRPCharacterInfo["ooc_info"] = ooc_info
+    local ic_pronouns = TurtleRP_Admin_General_ICPronounsInput:GetText()
+    TurtleRP_Admin_General_ICPronounsInput:ClearFocus()
+    TurtleRPCharacterInfo["ic_pronouns"] = ic_pronouns
+    local ooc_pronouns = TurtleRP_Admin_General_OOCPronounsInput:GetText()
+    TurtleRP_Admin_General_OOCPronounsInput:ClearFocus()
+    TurtleRPCharacterInfo["ooc_pronouns"] = ooc_pronouns
     TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
     setCharacterIcon()
   end

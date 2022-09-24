@@ -6,7 +6,7 @@
   <!-- Admin frame -->
   <Frame name="TurtleRP_Admin" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true">
     <Size>
-      <AbsDimension x="500" y="400" />
+      <AbsDimension x="500" y="410" />
     </Size>
     <Anchors>
       <Anchor point="TOP">
@@ -257,6 +257,34 @@
               </FontHeight>
               <Color r="255" g="255" b="255" />
             </FontString>
+            <!-- IC Pronouns Text -->
+            <FontString name="$parent_ICPronounsText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="IC Pronouns">
+              <Anchors>
+                <Anchor point="LEFT" relativeTo="$parent_ICInfoText" relativePoint="LEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-113" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="255" g="255" b="255" />
+            </FontString>
+            <!-- OOC Pronouns Text -->
+            <FontString name="$parent_OOCPronounsText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="OOC Pronouns">
+              <Anchors>
+                <Anchor point="LEFT" relativeTo="$parent_OOCInfoText" relativePoint="LEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-113" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="255" g="255" b="255" />
+            </FontString>
           </Layer>
         </Layers>
         <Frames>
@@ -360,6 +388,34 @@
               <Anchor point="LEFT" relativeTo="$parent_FirstNameInput" relativePoint="LEFT">
                 <Offset>
                   <AbsDimension x="0" y="-50" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <FontString inherits="ChatFontNormal" />
+          </EditBox>
+          <!-- IC Pronouns Box -->
+          <EditBox name="$parent_ICPronounsInput" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
+            <Size>
+              <AbsDimension x="60" y="30" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" relativeTo="$parent_ICPronounsText" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="20" y="0" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <FontString inherits="ChatFontNormal" />
+          </EditBox>
+          <!-- OOC Pronouns Box -->
+          <EditBox name="$parent_OOCPronounsInput" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
+            <Size>
+              <AbsDimension x="60" y="30" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" relativeTo="$parent_OOCPronounsText" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="20" y="0" />
                 </Offset>
               </Anchor>
             </Anchors>
@@ -870,7 +926,10 @@
               <Color r="255" g="255" b="255" />
             </FontString>
             <!-- Description Text -->
-            <FontString name="$parent_TitleText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Give a more detailed description here, such as background and appearance.">
+            <FontString name="$parent_TitleText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyV="top" justifyH="left" text="Give a more detailed description here, such as background and appearance.&#xA;&#xA;You may use basic HTML (h1, h2, h3, p), but your HTML must be well-formed or it will render incorrectly.">
+              <Size>
+                <AbsDimension x="400" y="70" />
+              </Size>
               <Anchors>
                 <Anchor point="TOPLEFT">
                   <Offset>
@@ -1018,7 +1077,7 @@
             </FontString>
             <!-- About Text -->
             <FontString name="$parent_AboutText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyV="top" justifyH="left"
-              text="TurtleRP was developed by Drixi, with collaboration and help in funding from Ashkir. Many more features are planned:  &#xA;&#xA;Guild functionality&#xA;Additional description formatting&#xA;Map locator&#xA;&#xA;Send us your ideas!">
+              text="TurtleRP was developed by Drixi, with collaboration and help in funding from Ashkir. Many more features are planned:  &#xA;&#xA;Guild functionality&#xA;Additional description formatting&#xA;Map locator&#xA;&#xA;Get in touch and find out more here: |ccf8A8AFFhttps://tempranova.github.io/turtlerp/">
               <Size>
                 <AbsDimension x="450" y="100" />
               </Size>
@@ -1049,7 +1108,7 @@
               <Color r="255" g="255" b="255" />
             </FontString>
             <!-- Issues Text -->
-            <FontString name="$parent_AboutText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyH="left" text="Due to chat restrictions, on the Turtle WoW server players under level 5 cannot see other profiles and others cannot see theirs. Level up already!">
+            <FontString name="$parent_AboutText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyV="top" justifyH="left" text="Not seeing profiles? Double-check if you are in the TTRP channel (/join ttrp).&#xA;&#xA;Due to chat restrictions, on the Turtle WoW server players under level 5 cannot see other profiles and others cannot see theirs. Level up already!">
               <Size>
                 <AbsDimension x="450" y="50" />
               </Size>
@@ -1440,27 +1499,48 @@
                 </Offset>
               </Anchor>
             </Anchors>
-            <Layers>
-        			<Layer level="OVERLAY">
-                <!-- Target Name Text -->
-                <FontString name="$parent_TargetDescription" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyH="LEFT" justifyV="TOP">
-                  <Size>
-                    <AbsDimension x="280" />
-                  </Size>
-                  <Anchors>
-                    <Anchor point="TOPLEFT">
-                      <Offset>
-                        <AbsDimension x="0" y="-10" />
-                      </Offset>
-                    </Anchor>
-                  </Anchors>
-                  <FontHeight>
-                    <AbsValue val="12" />
-                  </FontHeight>
+            <Frames>
+              <SimpleHTML name="$parent_DescriptionHTML">
+                <Size>
+                  <AbsDimension x="280" y="250" />
+                </Size>
+                <Anchors>
+                  <Anchor point="TOPLEFT">
+                    <Offset>
+                      <AbsDimension x="0" y="-30" />
+                    </Offset>
+                  </Anchor>
+                </Anchors>
+                <FontStringHeader1 inherits="GameFontHighlightLarge" />
+                <FontStringHeader2 inherits="NumberFontNormalLarge" />
+                <FontStringHeader3 inherits="QuestTitleFont">
+                  <Color r="1" g="1" b="1"/>
+                </FontStringHeader3>
+                <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT">
                   <Color r="255" g="255" b="255" />
                 </FontString>
-              </Layer>
-            </Layers>
+                <!-- <Layers>
+            			<Layer level="OVERLAY">
+                    <FontString name="$parent_TargetDescription" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyH="LEFT" justifyV="TOP">
+                      <Size>
+                        <AbsDimension x="280" />
+                      </Size>
+                      <Anchors>
+                        <Anchor point="TOPLEFT">
+                          <Offset>
+                            <AbsDimension x="0" y="-10" />
+                          </Offset>
+                        </Anchor>
+                      </Anchors>
+                      <FontHeight>
+                        <AbsValue val="12" />
+                      </FontHeight>
+                      <Color r="255" g="255" b="255" />
+                    </FontString>
+                  </Layer>
+                </Layers> -->
+              </SimpleHTML>
+            </Frames>
           </Frame>
         </ScrollChild>
       </ScrollFrame>
