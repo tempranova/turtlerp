@@ -1,0 +1,7 @@
+## Interface: 10000
+## Title: TurtleRP
+## SavedVariables: TurtleRPSettings, TurtleRPCharacters
+## SavedVariablesPerCharacter: TurtleRPCharacterInfo
+
+ChatThrottleLib\ChatThrottleLib.lua
+TurtleRP.xml
