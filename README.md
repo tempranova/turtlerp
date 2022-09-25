@@ -4,7 +4,7 @@ An RP addon custom-made for Vanilla WoW.
 
 For more information, visit [https://tempranova.github.io/turtlerp/](https://tempranova.github.io/turtlerp/).
 
-To archive from source code, use `git archive --output=TurtleRP-0.0.3.zip --prefix=TurtleRP/ HEAD`.
+To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix=TurtleRP/ HEAD`.
 
 ### To Do
 
@@ -13,14 +13,13 @@ Tests
 - // Need to test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE (tested `~!@#$%^&*()-_=+[]\{}|;':",./<>?`)
 - More comprehensive tests are worthwhile on bad characters
 - Testing tooltips across different game situations (in raids, parties, bgs, etc)
+- Test when drunk (SLURRED_SPEECH)
 
 Bugs
 
-- 1000+ character descriptions getting cut off in scrollbar
 - Difficult to replicate bug with tooltip "getting stuck" from an item
 - Framerate issues when opening tooltips? reported 2s lag
-- Test when drunk (SLURRED_SPEECH)
-- Slight adjustment in PvP text size when icon added while PvP enabled
+- Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
 
 Next Up
 
@@ -34,6 +33,7 @@ Feature List
 
 Recently Done
 
+- // 1000+ character descriptions getting cut off in scrollbar
 - // Fix with wrong icons being selected when filtering
 - // Refactoring tooltip generation to be robust
 - // Tooltips are missing health bar underneath

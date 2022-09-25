@@ -137,18 +137,17 @@ function interface_frame_events()
   -- Other player mouseover
   local TurtleRPMouseoverFrame = CreateFrame("Frame")
   TurtleRPMouseoverFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
-  TurtleRPMouseoverFrame:SetScript("OnEvent",
-  	function(self, event, ...)
+  TurtleRPMouseoverFrame:RegisterEvent("CURSOR_UPDATE")
+  TurtleRPMouseoverFrame:SetScript("OnEvent",function(self, event)
+      -- Ensuring defaults are in place
+      getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 15)
       if (IsInInstance() == "pvp" and TurtleRPSettings["bgs"] == "off") or IsInInstance() ~= "pvp" then
-        -- Ensuring defaults are in place
-        getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 15)
         if (UnitIsPlayer("mouseover")) then
           getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 18)
           sendRequestForData("M", UnitName("mouseover"))
         end
       end
-  	end
-  )
+  end)
 
   -- Self target mouseover frame (preview of self mouseover)
   TargetFrame:EnableMouse()
@@ -403,6 +402,7 @@ function interface_events()
     if TurtleRPStatusBarFrame ~= nil then
       TurtleRPStatusBarFrame:Hide()
     end
+    getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 15)
   end)
   TurtleRP_MinimapIcon_OpenAdmin:SetScript("OnClick", function()
     TurtleRP_Admin:Show()

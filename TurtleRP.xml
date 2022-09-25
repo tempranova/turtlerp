@@ -1014,17 +1014,17 @@
               <!-- Description Input Box -->
               <EditBox name="$parent_DescriptionInput" visible="true" enableMouse="true" autoFocus="false">
                 <Size>
-                  <AbsDimension x="390" y="300" />
+                  <AbsDimension x="390" y="1000" />
                 </Size>
                 <Anchors>
-                  <Anchor point="TOPLEFT" relativeTo="TurtleRP_Admin_Description_TitleText" relativePoint="TOPLEFT">
+                  <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
                     <Offset>
-                      <AbsDimension x="5" y="-20" />
+                      <AbsDimension x="0" y="0" />
                     </Offset>
                   </Anchor>
-                  <Anchor point="BOTTOMLEFT" relativeTo="TurtleRP_Admin_Description_TitleText" relativePoint="TOPLEFT">
+                  <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT">
                     <Offset>
-                      <AbsDimension x="0" y="-255" />
+                      <AbsDimension x="0" y="0" />
                     </Offset>
                   </Anchor>
                 </Anchors>
@@ -1651,7 +1651,7 @@
                 <Anchors>
                   <Anchor point="TOPLEFT">
                     <Offset>
-                      <AbsDimension x="0" y="-30" />
+                      <AbsDimension x="0" y="0" />
                     </Offset>
                   </Anchor>
                 </Anchors>
