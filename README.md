@@ -12,10 +12,10 @@ Tests
 
 - // Need to test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE (tested `~!@#$%^&*()-_=+[]\{}|;':",./<>?`)
 - More comprehensive tests are worthwhile on bad characters
+- Testing tooltips across different game situations (in raids, parties, bgs, etc)
 
 Bugs
 
-- Tooltips are missing health bar underneath
 - Framerate issues when opening tooltips? reported 2s lag
 - Test when drunk (SLURRED_SPEECH)
 
@@ -31,6 +31,7 @@ Feature List
 
 Recently Done
 
+- // Tooltips are missing health bar underneath
 - // Adding a "notes" section
 - // Limiting description to 2000 characters
 - // Adding a text input for quickly searching through icons
