@@ -42,7 +42,7 @@
       </Layer>
     </Layers>
     <Frames>
-      <!-- General button -->
+      <!-- Open Description button -->
       <Button name="$parent_DescriptionButton" inherits="UIPanelButtonGrayTemplate" text="See Description">
         <Size>
           <AbsDimension x="100" y="30" />
@@ -92,32 +92,46 @@
         </Layers>
         <Frames>
           <Frame name="$parent_TextPanel" hidden="true">
-            <Size x="150" y="50"/>
+            <Size x="170" y="60"/>
             <Anchors>
               <Anchor point="CENTER">
-                <Offset x="0" y="30"/>
+                <Offset x="0" y="50"/>
               </Anchor>
             </Anchors>
             <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
               <EdgeSize>
                 <AbsValue val="1"/>
               </EdgeSize>
-              <Color r="0" g="0" b="0" a="0.5" />
+              <Color r="0" g="0" b="0" a="1" />
               <BorderColor r="255" g="255" b="255" a="0" />
             </Backdrop>
             <Layers>
               <Layer level="OVERLAY">
-                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-                  <Size x="140" y="50"/>
+                <FontString name="$parent_TitleText" inherits="GameFontHighlight" font="Fonts\FRIZQT__.ttf">
+                  <Size x="170" y="13"/>
                   <Anchors>
-                    <Anchor point="TOPLEFT">
+                    <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP">
                       <Offset>
-                        <AbsDimension x="5" y="0" />
+                        <AbsDimension x="0" y="-5" />
                       </Offset>
                     </Anchor>
                   </Anchors>
                   <FontHeight>
-                    <AbsValue val="12" />
+                    <AbsValue val="14" />
+                  </FontHeight>
+                  <Color r="255" g="255" b="255" />
+                </FontString>
+                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
+                  <Size x="160" y="35"/>
+                  <Anchors>
+                    <Anchor point="TOP" relativeTo="$parent_TitleText" relativePoint="BOTTOM">
+                      <Offset>
+                        <AbsDimension x="0" y="-3" />
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
                   </FontHeight>
                   <Color r="255" g="255" b="255" />
                 </FontString>
@@ -167,32 +181,46 @@
         </Layers>
         <Frames>
           <Frame name="$parent_TextPanel" hidden="true">
-            <Size x="150" y="50"/>
+            <Size x="170" y="60"/>
             <Anchors>
               <Anchor point="CENTER">
-                <Offset x="0" y="30"/>
+                <Offset x="0" y="50"/>
               </Anchor>
             </Anchors>
             <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
               <EdgeSize>
                 <AbsValue val="1"/>
               </EdgeSize>
-              <Color r="0" g="0" b="0" a="0.5" />
+              <Color r="0" g="0" b="0" a="1" />
               <BorderColor r="255" g="255" b="255" a="0" />
             </Backdrop>
             <Layers>
               <Layer level="OVERLAY">
-                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-                  <Size x="140" y="50"/>
+                <FontString name="$parent_TitleText" inherits="GameFontHighlight" font="Fonts\FRIZQT__.ttf">
+                  <Size x="170" y="13"/>
                   <Anchors>
-                    <Anchor point="CENTER">
+                    <Anchor point="TOPLEFT">
                       <Offset>
-                        <AbsDimension x="0" y="5" />
+                        <AbsDimension x="0" y="-5" />
                       </Offset>
                     </Anchor>
                   </Anchors>
                   <FontHeight>
-                    <AbsValue val="12" />
+                    <AbsValue val="14" />
+                  </FontHeight>
+                  <Color r="255" g="255" b="255" />
+                </FontString>
+                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
+                  <Size x="160" y="35"/>
+                  <Anchors>
+                    <Anchor point="TOP" relativeTo="$parent_TitleText" relativePoint="BOTTOM">
+                      <Offset>
+                        <AbsDimension x="0" y="-3" />
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
                   </FontHeight>
                   <Color r="255" g="255" b="255" />
                 </FontString>
@@ -242,32 +270,46 @@
         </Layers>
         <Frames>
           <Frame name="$parent_TextPanel" hidden="true">
-            <Size x="150" y="50"/>
+            <Size x="170" y="60"/>
             <Anchors>
               <Anchor point="CENTER">
-                <Offset x="0" y="30"/>
+                <Offset x="0" y="50"/>
               </Anchor>
             </Anchors>
             <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
               <EdgeSize>
                 <AbsValue val="1"/>
               </EdgeSize>
-              <Color r="0" g="0" b="0" a="0.5" />
+              <Color r="0" g="0" b="0" a="1" />
               <BorderColor r="255" g="255" b="255" a="0" />
             </Backdrop>
             <Layers>
               <Layer level="OVERLAY">
-                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-                  <Size x="140" y="50"/>
+                <FontString name="$parent_TitleText" inherits="GameFontHighlight" font="Fonts\FRIZQT__.ttf">
+                  <Size x="170" y="13"/>
                   <Anchors>
-                    <Anchor point="CENTER">
+                    <Anchor point="TOPLEFT">
                       <Offset>
-                        <AbsDimension x="0" y="5" />
+                        <AbsDimension x="0" y="-5" />
                       </Offset>
                     </Anchor>
                   </Anchors>
                   <FontHeight>
-                    <AbsValue val="12" />
+                    <AbsValue val="14" />
+                  </FontHeight>
+                  <Color r="255" g="255" b="255" />
+                </FontString>
+                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
+                  <Size x="160" y="35"/>
+                  <Anchors>
+                    <Anchor point="TOP" relativeTo="$parent_TitleText" relativePoint="BOTTOM">
+                      <Offset>
+                        <AbsDimension x="0" y="-3" />
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
                   </FontHeight>
                   <Color r="255" g="255" b="255" />
                 </FontString>

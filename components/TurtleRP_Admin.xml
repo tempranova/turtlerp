@@ -747,15 +747,34 @@
               </OnClick>
             </Scripts>
           </Button>
+          <!-- AAG1 Title Box -->
+          <EditBox name="$parent_AAG1TitleInput" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
+            <Size>
+              <AbsDimension x="100" y="30" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent_AAG1Text" relativePoint="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="5" y="-20"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <FontString inherits="ChatFontNormal" />
+            <Scripts>
+              <OnLoad>
+                this:SetMaxLetters(15)
+              </OnLoad>
+            </Scripts>
+          </EditBox>
           <!-- AAG1 Icon Button -->
           <Button name="$parent_AAG1IconButton">
             <Size>
               <AbsDimension x="25" y="25" />
             </Size>
             <Anchors>
-              <Anchor point="TOPLEFT" relativeTo="$parent_AAG1Text" relativePoint="TOPLEFT">
+              <Anchor point="LEFT" relativeTo="$parent_AAG1TitleInput" relativePoint="RIGHT">
                 <Offset>
-                  <AbsDimension x="0" y="-20"/>
+                  <AbsDimension x="30" y="3"/>
                 </Offset>
               </Anchor>
             </Anchors>
@@ -797,15 +816,34 @@
               </OnClick>
             </Scripts>
           </Button>
+          <!-- AAG2 Title Box -->
+          <EditBox name="$parent_AAG2TitleInput" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
+            <Size>
+              <AbsDimension x="100" y="30" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent_AAG2Text" relativePoint="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="5" y="-20"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <FontString inherits="ChatFontNormal" />
+            <Scripts>
+              <OnLoad>
+                this:SetMaxLetters(15)
+              </OnLoad>
+            </Scripts>
+          </EditBox>
           <!-- AAG2 Icon Button -->
           <Button name="$parent_AAG2IconButton">
             <Size>
               <AbsDimension x="25" y="25" />
             </Size>
             <Anchors>
-              <Anchor point="TOPLEFT" relativeTo="$parent_AAG2Text" relativePoint="TOPLEFT">
+              <Anchor point="LEFT" relativeTo="$parent_AAG2TitleInput" relativePoint="RIGHT">
                 <Offset>
-                  <AbsDimension x="0" y="-20"/>
+                  <AbsDimension x="30" y="3"/>
                 </Offset>
               </Anchor>
             </Anchors>
@@ -847,15 +885,34 @@
               </OnClick>
             </Scripts>
           </Button>
+          <!-- AAG3 Title Box -->
+          <EditBox name="$parent_AAG3TitleInput" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
+            <Size>
+              <AbsDimension x="100" y="30" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent_AAG3Text" relativePoint="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="5" y="-20"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <FontString inherits="ChatFontNormal" />
+            <Scripts>
+              <OnLoad>
+                this:SetMaxLetters(15)
+              </OnLoad>
+            </Scripts>
+          </EditBox>
           <!-- AAG3 Icon Button -->
           <Button name="$parent_AAG3IconButton">
             <Size>
               <AbsDimension x="25" y="25" />
             </Size>
             <Anchors>
-              <Anchor point="TOPLEFT" relativeTo="$parent_AAG3Text" relativePoint="TOPLEFT">
+              <Anchor point="LEFT" relativeTo="$parent_AAG3TitleInput" relativePoint="RIGHT">
                 <Offset>
-                  <AbsDimension x="0" y="-20"/>
+                  <AbsDimension x="30" y="3"/>
                 </Offset>
               </Anchor>
             </Anchors>

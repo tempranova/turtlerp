@@ -27,10 +27,13 @@
   -- Comes on target
   TurtleRPCharacters["PlayerName"]["keyT"] = // Unique key stored and checked when checking target
   TurtleRPCharacters["PlayerName"]["atAGlance1"] = // 50 char limit
+  TurtleRPCharacters["PlayerName"]["atAGlance1Title"] = // 15 char limit
   TurtleRPCharacters["PlayerName"]["atAGlance1Icon"] = // 4 char limit
   TurtleRPCharacters["PlayerName"]["atAGlance2"] = // 50 char limit
+  TurtleRPCharacters["PlayerName"]["atAGlance2Title"] = // 15 char limit
   TurtleRPCharacters["PlayerName"]["atAGlance2Icon"] = // 4 char limit
   TurtleRPCharacters["PlayerName"]["atAGlance3"] = // 50 char limit
+  TurtleRPCharacters["PlayerName"]["atAGlance3Title"] = // 15 char limit
   TurtleRPCharacters["PlayerName"]["atAGlance3Icon"] = // 4 char limit
   -- Comes on description request
   TurtleRPCharacters["PlayerName"]["keyD"] = // Unique key stored and checked when checking description

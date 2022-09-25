@@ -48,10 +48,13 @@ function TurtleRP:OnEvent()
 
       TurtleRPCharacterInfo["keyT"] = TurtleRP.randomchars()
       TurtleRPCharacterInfo["atAGlance1"] = ""
+      TurtleRPCharacterInfo["atAGlance1Title"] = ""
       TurtleRPCharacterInfo["atAGlance1Icon"] = ""
       TurtleRPCharacterInfo["atAGlance2"] = ""
+      TurtleRPCharacterInfo["atAGlance2Title"] = ""
       TurtleRPCharacterInfo["atAGlance2Icon"] = ""
       TurtleRPCharacterInfo["atAGlance3"] = ""
+      TurtleRPCharacterInfo["atAGlance3Title"] = ""
       TurtleRPCharacterInfo["atAGlance3Icon"] = ""
 
       TurtleRPCharacterInfo["keyD"] = TurtleRP.randomchars()
@@ -68,14 +71,10 @@ function TurtleRP:OnEvent()
 
     -- For adding additional fields after plugin is in use
     if TurtleRPCharacterInfo ~= nil then
-      if TurtleRPCharacterInfo["ic_pronouns"] == nil then
-        TurtleRPCharacterInfo["ic_pronouns"] = ""
-      end
-      if TurtleRPCharacterInfo["ooc_pronouns"] == nil then
-        TurtleRPCharacterInfo["ooc_pronouns"] = ""
-      end
-      if TurtleRPCharacterInfo["notes"] == nil then
-        TurtleRPCharacterInfo["notes"] = ""
+      for i, field in pairs(TurtleRPCharacterInfo) do
+        if TurtleRPCharacterInfo[i] == nil then
+          TurtleRPCharacterInfo[i] = ""
+        end
       end
       TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
     end
@@ -168,6 +167,7 @@ end
 -----
 function TurtleRP.buildTargetFrame(playerName)
   local characterInfo = TurtleRPCharacters[playerName]
+  TurtleRP_Target:Hide()
   if characterInfo["keyT"] ~= nil then
     local fullName = TurtleRP.getFullName(characterInfo['title'], characterInfo['first_name'], characterInfo['last_name'])
     TurtleRP_Target_TargetName:SetText(fullName)
@@ -181,8 +181,8 @@ function TurtleRP.buildTargetFrame(playerName)
     if characterInfo['atAGlance1Icon'] ~= "" then
       local iconIndex = characterInfo["atAGlance1Icon"]
       TurtleRP_Target_AtAGlance1_Icon:SetTexture("Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)])
+      TurtleRP_Target_AtAGlance1_TextPanel_TitleText:SetText(characterInfo["atAGlance1Title"])
       TurtleRP_Target_AtAGlance1_TextPanel_Text:SetText(characterInfo["atAGlance1"])
-      TurtleRP_Target_AtAGlance1_TextPanel_Text:SetFont("Fonts\\FRIZQT__.ttf", 10)
       TurtleRP_Target_AtAGlance1:Show()
     end
 
@@ -190,8 +190,8 @@ function TurtleRP.buildTargetFrame(playerName)
     if characterInfo['atAGlance2Icon'] ~= "" then
       local iconIndex = characterInfo["atAGlance2Icon"]
       TurtleRP_Target_AtAGlance2_Icon:SetTexture("Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)])
+      TurtleRP_Target_AtAGlance2_TextPanel_TitleText:SetText(characterInfo["atAGlance2Title"])
       TurtleRP_Target_AtAGlance2_TextPanel_Text:SetText(characterInfo["atAGlance2"])
-      TurtleRP_Target_AtAGlance2_TextPanel_Text:SetFont("Fonts\\FRIZQT__.ttf", 10)
       TurtleRP_Target_AtAGlance2:Show()
     end
 
@@ -199,8 +199,8 @@ function TurtleRP.buildTargetFrame(playerName)
     if characterInfo['atAGlance3Icon'] ~= "" then
       local iconIndex = characterInfo["atAGlance3Icon"]
       TurtleRP_Target_AtAGlance3_Icon:SetTexture("Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)])
+      TurtleRP_Target_AtAGlance3_TextPanel_TitleText:SetText(characterInfo["atAGlance3Title"])
       TurtleRP_Target_AtAGlance3_TextPanel_Text:SetText(characterInfo["atAGlance3"])
-      TurtleRP_Target_AtAGlance3_TextPanel_Text:SetFont("Fonts\\FRIZQT__.ttf", 10)
       TurtleRP_Target_AtAGlance3:Show()
     end
 
@@ -240,9 +240,11 @@ function TurtleRP.populate_interface_user_data()
   TurtleRP_Admin_General_OOCPronounsInput:SetText(TurtleRPCharacterInfo["ooc_pronouns"])
   TurtleRP.setCharacterIcon()
   TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:SetText(TurtleRPCharacterInfo["atAGlance1"])
-  TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:SetText(TurtleRPCharacterInfo["atAGlance1"])
+  TurtleRP_Admin_AtAGlance_AAG1TitleInput:SetText(TurtleRPCharacterInfo["atAGlance1Title"])
   TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:SetText(TurtleRPCharacterInfo["atAGlance2"])
+  TurtleRP_Admin_AtAGlance_AAG2TitleInput:SetText(TurtleRPCharacterInfo["atAGlance2Title"])
   TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:SetText(TurtleRPCharacterInfo["atAGlance3"])
+  TurtleRP_Admin_AtAGlance_AAG3TitleInput:SetText(TurtleRPCharacterInfo["atAGlance3Title"])
   TurtleRP.setAtAGlanceIcons()
   TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:SetText(TurtleRPCharacterInfo["description"])
   TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:SetText(TurtleRPCharacterInfo["notes"])
@@ -315,12 +317,21 @@ function TurtleRP.save_at_a_glance()
   local aag1Text = TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:GetText()
   TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:ClearFocus()
   TurtleRPCharacterInfo["atAGlance1"] = aag1Text
+  local aag1TitleText = TurtleRP_Admin_AtAGlance_AAG1TitleInput:GetText()
+  TurtleRP_Admin_AtAGlance_AAG1TitleInput:ClearFocus()
+  TurtleRPCharacterInfo["atAGlance1Title"] = aag1TitleText
   local aag2Text = TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:GetText()
   TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:ClearFocus()
+  local aag2TitleText = TurtleRP_Admin_AtAGlance_AAG2TitleInput:GetText()
+  TurtleRP_Admin_AtAGlance_AAG2TitleInput:ClearFocus()
+  TurtleRPCharacterInfo["atAGlance2Title"] = aag2TitleText
   TurtleRPCharacterInfo["atAGlance2"] = aag2Text
   local aag3Text = TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:GetText()
   TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:ClearFocus()
   TurtleRPCharacterInfo["atAGlance3"] = aag3Text
+  local aag3TitleText = TurtleRP_Admin_AtAGlance_AAG3TitleInput:GetText()
+  TurtleRP_Admin_AtAGlance_AAG3TitleInput:ClearFocus()
+  TurtleRPCharacterInfo["atAGlance3Title"] = aag3TitleText
   TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
   TurtleRP.setAtAGlanceIcons()
 end
