@@ -4,6 +4,8 @@ An RP addon custom-made for Vanilla WoW.
 
 For more information, visit [https://tempranova.github.io/turtlerp/](https://tempranova.github.io/turtlerp/).
 
+To archive from source code, use `git archive --output=TurtleRP-0.0.3.zip --prefix=TurtleRP/ HEAD`.
+
 ### To Do
 
 Tests
@@ -13,6 +15,7 @@ Tests
 
 Bugs
 
+- Framerate issues when opening tooltips? reported 2s lag
 - Test when drunk (SLURRED_SPEECH)
 
 Next Up
@@ -27,6 +30,8 @@ Feature List
 
 Recently Done
 
+- // Adding a "notes" section
+- // Limiting description to 2000 characters
 - // Adding a text input for quickly searching through icons
 - // Adding icon to the frame
 - // Changing icon on website to Turtle icon, adding link to the Discord

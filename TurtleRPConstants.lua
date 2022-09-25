@@ -11,6 +11,8 @@
   -----
   TurtleRPCharacters = {}
   TurtleRPCharacters["PlayerName"] = {}
+  -- Not shared
+  TurtleRPCharacters["PlayerName"]["notes"] // 15 char limit
   -- Comes on mouseover
   TurtleRPCharacters["PlayerName"]["keyM"] = // Unique key stored and checked when checking mouseover, 5 chars
   TurtleRPCharacters["PlayerName"]["title"] // 15 char limit

@@ -43,6 +43,8 @@ function TurtleRP:OnEvent()
       TurtleRPCharacterInfo["ooc_pronouns"] = ""
       TurtleRPCharacterInfo["currently_ic"] = "on"
 
+      TurtleRPCharacterInfo["notes"] = ""
+
       TurtleRPCharacterInfo["keyT"] = randomchars()
       TurtleRPCharacterInfo["atAGlance1"] = ""
       TurtleRPCharacterInfo["atAGlance1Icon"] = ""
@@ -70,6 +72,9 @@ function TurtleRP:OnEvent()
       end
       if TurtleRPCharacterInfo["ooc_pronouns"] == nil then
         TurtleRPCharacterInfo["ooc_pronouns"] = ""
+      end
+      if TurtleRPCharacterInfo["notes"] == nil then
+        TurtleRPCharacterInfo["notes"] = ""
       end
       TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
     end
@@ -342,6 +347,7 @@ function populate_interface_user_data()
   TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:SetText(TurtleRPCharacterInfo["atAGlance3"])
   setAtAGlanceIcons()
   TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:SetText(TurtleRPCharacterInfo["description"])
+  TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:SetText(TurtleRPCharacterInfo["notes"])
 
   TurtleRP_Admin_Settings_PVPButton:SetChecked(TurtleRPSettings["bgs"] == "on" and true or false)
   TurtleRP_Admin_General_ICButton:SetChecked(TurtleRPCharacterInfo["currently_ic"] == "on" and true or false)
@@ -350,6 +356,7 @@ end
 function interface_tweaks()
   TurtleRP_Admin_General_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
   TurtleRP_Admin_Description_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
+  TurtleRP_Admin_Notes_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
   TurtleRP_Admin_AtAGlance_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
   TurtleRP_Target_DescriptionButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
   TurtleRP_IconSelector_FilterButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
@@ -368,7 +375,9 @@ function interface_tweaks()
   TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:SetMultiLine(true)
   TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:SetMaxLetters(75)
   TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:SetMultiLine(true)
+  TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:SetMaxLetters(2000)
   TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:SetMultiLine(true)
+  TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:SetMultiLine(true)
 end
 
 function interface_events()
@@ -376,6 +385,7 @@ function interface_events()
     TurtleRP_Admin_General:Hide()
     TurtleRP_Admin_AtAGlance:Hide()
     TurtleRP_Admin_Description:Hide()
+    TurtleRP_Admin_Notes:Hide()
     TurtleRP_Admin_Settings:Hide()
     panelName:Show()
   end
@@ -387,6 +397,9 @@ function interface_events()
   end)
   TurtleRP_Admin_DescriptionButton:SetScript("OnClick", function(self, arg1)
     showHidePanels(TurtleRP_Admin_Description)
+  end)
+  TurtleRP_Admin_NotesButton:SetScript("OnClick", function(self, arg1)
+    showHidePanels(TurtleRP_Admin_Notes)
   end)
   TurtleRP_Admin_SettingsButton:SetScript("OnClick", function(self, arg1)
     showHidePanels(TurtleRP_Admin_Settings)
@@ -408,6 +421,9 @@ function interface_events()
   end)
   TurtleRP_Admin_Description_DescriptionScrollBox:SetScript("OnMouseDown", function()
     TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:SetFocus()
+  end)
+  TurtleRP_Admin_Notes_NotesScrollBox:SetScript("OnMouseDown", function()
+    TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:SetFocus()
   end)
   TurtleRP_Admin_General_ICButton:SetScript("OnClick", function()
     if TurtleRPCharacterInfo["currently_ic"] == "off" then
@@ -564,6 +580,11 @@ function save_events()
     TurtleRPCharacterInfo["description"] = description
     TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
   end
+  function save_notes()
+    local notes = TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:GetText()
+    TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:ClearFocus()
+    TurtleRPCharacterInfo["notes"] = notes
+  end
   TurtleRP_Admin_General_SaveButton:SetScript("OnClick", function(self, arg1)
     save_general()
   end)
@@ -573,6 +594,9 @@ function save_events()
   TurtleRP_Admin_Description_SaveButton:SetScript("OnClick", function(self, arg1)
     save_description()
     TurtleRPCharacterInfo['descriptionUniqueKey'] = randomchars()
+  end)
+  TurtleRP_Admin_Notes_SaveButton:SetScript("OnClick", function(self, arg1)
+    save_notes()
   end)
 end
 

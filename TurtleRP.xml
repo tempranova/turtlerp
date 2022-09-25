@@ -120,13 +120,26 @@
           </Anchor>
         </Anchors>
       </Button>
+      <!-- Notes button -->
+      <Button name="$parent_NotesButton" inherits="UIPanelButtonTemplate" text="Notes">
+        <Size>
+          <AbsDimension x="50" y="30" />
+        </Size>
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parent_DescriptionButton" relativePoint="RIGHT">
+            <Offset>
+              <AbsDimension x="2" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
       <!-- Settings button -->
       <Button name="$parent_SettingsButton" inherits="UIPanelButtonTemplate" text="Settings">
         <Size>
           <AbsDimension x="70" y="30" />
         </Size>
         <Anchors>
-          <Anchor point="LEFT" relativeTo="$parent_DescriptionButton" relativePoint="RIGHT">
+          <Anchor point="LEFT" relativeTo="$parent_NotesButton" relativePoint="RIGHT">
             <Offset>
               <AbsDimension x="2" y="0"/>
             </Offset>
@@ -1021,6 +1034,127 @@
         </Frames>
       </Frame>
 
+      <!-- Notes Tab -->
+      <Frame name="$parent_Notes" hidden="true">
+        <Size>
+          <AbsDimension x="477" y="310" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOP">
+            <Offset>
+              <AbsDimension x="0" y="-80" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
+          <EdgeSize>
+            <AbsValue val="0.5"/>
+          </EdgeSize>
+          <Color r="0" g="0" b="0" a="0" />
+          <BorderColor r="255" g="255" b="255" a="0.1" />
+        </Backdrop>
+        <Layers>
+    			<Layer level="OVERLAY">
+            <!-- Tab Name -->
+            <FontString name="$parent_TabName" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Private Notes">
+              <Anchors>
+                <Anchor point="TOPLEFT">
+                  <Offset>
+                    <AbsDimension x="10" y="-10" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="255" g="255" b="255" />
+            </FontString>
+            <!-- Notes Text -->
+            <FontString name="$parent_TitleText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyV="top" justifyH="left" text="Add notes to yourself about your character, interactions with other players, etc. These will not be shared.">
+              <Size>
+                <AbsDimension x="400" y="70" />
+              </Size>
+              <Anchors>
+                <Anchor point="TOPLEFT">
+                  <Offset>
+                    <AbsDimension x="10" y="-30" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="255" g="255" b="255" />
+            </FontString>
+          </Layer>
+        </Layers>
+        <Frames>
+          <!-- Notes Save Button -->
+          <Button name="$parent_SaveButton" inherits="UIPanelButtonGrayTemplate" text="Save">
+            <Size>
+              <AbsDimension x="50" y="25" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+                <Offset>
+                  <AbsDimension x="-10" y="-10"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Button>
+          <!-- Notes frame scrolling -->
+          <ScrollFrame name="$parent_NotesScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
+            <Size>
+              <AbsDimension x="400" y="100" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" relativeTo="$parent_TitleText" relativePoint="LEFT">
+                <Offset>
+                  <AbsDimension x="0" y="-10" />
+                </Offset>
+              </Anchor>
+              <Anchor point="TOP" relativeTo="$parent_TitleText" relativePoint="LEFT">
+                <Offset>
+                  <AbsDimension x="0" y="-10" />
+                </Offset>
+              </Anchor>
+              <Anchor point="BOTTOM" relativeTo="$parent_TitleText" relativePoint="LEFT">
+                <Offset>
+                  <AbsDimension x="0" y="-245" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
+              <EdgeSize>
+                <AbsValue val="0.5"/>
+              </EdgeSize>
+              <Color r="1" g="1" b="1" a="0.1" />
+              <BorderColor r="255" g="255" b="255" a="0" />
+            </Backdrop>
+            <ScrollChild>
+              <!-- Notes Input Box -->
+              <EditBox name="$parent_NotesInput" visible="true" enableMouse="true" autoFocus="false">
+                <Size>
+                  <AbsDimension x="390" y="300" />
+                </Size>
+                <Anchors>
+                  <Anchor point="TOPLEFT" relativeTo="TurtleRP_Admin_Notes_TitleText" relativePoint="TOPLEFT">
+                    <Offset>
+                      <AbsDimension x="5" y="-20" />
+                    </Offset>
+                  </Anchor>
+                  <Anchor point="BOTTOMLEFT" relativeTo="TurtleRP_Admin_Notes_TitleText" relativePoint="TOPLEFT">
+                    <Offset>
+                      <AbsDimension x="0" y="-255" />
+                    </Offset>
+                  </Anchor>
+                </Anchors>
+                <FontString inherits="ChatFontNormal" />
+              </EditBox>
+            </ScrollChild>
+          </ScrollFrame>
+        </Frames>
+      </Frame>
       <!-- Settings Tab -->
       <Frame name="$parent_Settings" hidden="true">
         <Size>
