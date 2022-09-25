@@ -15,6 +15,7 @@ Tests
 
 Bugs
 
+- Tooltips are missing health bar underneath
 - Framerate issues when opening tooltips? reported 2s lag
 - Test when drunk (SLURRED_SPEECH)
 

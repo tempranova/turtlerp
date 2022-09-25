@@ -166,8 +166,11 @@ end
 
 function buildTooltip(playerName, targetType)
   local characterInfo = TurtleRPCharacters[playerName]
+  -- If player is non-pvp, 2 lines; if pvp, 3 lines
+  local numLines = GameTooltip:NumLines()
+  local linesToCheck = getglobal("GameTooltipTextLeft3"):GetText() == nil and 2 or 3
   if TurtleRPCharacters[playerName] ~= nil and TurtleRPCharacters[playerName]["keyM"] ~= nil then
-    GameTooltip:ClearLines()
+    -- GameTooltip:ClearLines()
     local fullName = getFullName(characterInfo['title'], characterInfo['first_name'], characterInfo['last_name'])
     local race = UnitRace(targetType)
     local class = UnitClass(targetType)
@@ -177,54 +180,85 @@ function buildTooltip(playerName, targetType)
 
     local currentLineNumber = 1
     local titleExtraSpaces = characterInfo['icon'] ~= "" and "         " or ""
-    GameTooltip:AddLine("|cff" .. thisClassColor[4] .. titleExtraSpaces .. fullName)
-    -- getglobal("GameTooltipTextLeft1"):SetText(titleExtraSpaces .. fullName, 0.53, 0.53, 0.93)
-    -- getglobal("GameTooltipTextLeft1"):SetTextColor(thisClassColor[1], thisClassColor[2], thisClassColor[3])
-    getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 18)
+    getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText("|cff" .. thisClassColor[4] .. titleExtraSpaces .. fullName)
+    getglobal("GameTooltipTextLeft" .. currentLineNumber):SetFont("Fonts\\FRIZQT__.ttf", 18)
 
-    currentLineNumber = currentLineNumber + 1
     local guildExtraSpaces = characterInfo['icon'] ~= "" and "           " or ""
     if guildName ~= nil then
-      GameTooltip:AddLine("|cffFFD700" .. guildExtraSpaces .. "<" .. guildName .. ">")
+      currentLineNumber = currentLineNumber + 1
+      getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText("|cffFFD700" .. guildExtraSpaces .. "<" .. guildName .. ">")
     end
 
     currentLineNumber = currentLineNumber + 1
-    GameTooltip:AddLine(" ")
+    if numLines == linesToCheck and linesToCheck == 2 then
+      GameTooltip:AddLine(" ")
+    else
+      getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText(" ")
+    end
 
     currentLineNumber = currentLineNumber + 1
     local statusText = characterInfo['currently_ic'] == "on" and "|cff40AF6FIC" or "|cffD3681EOOC"
     local levelAndStatusText = "Level " .. level .. " (" .. statusText .. "|cffFFFFFF)"
-    GameTooltip:AddDoubleLine(race .. " |cff" .. thisClassColor[4] .. class, levelAndStatusText, 1, 1, 1, 1, 1, 1)
+    if numLines == linesToCheck then
+      GameTooltip:AddDoubleLine(race .. " |cff" .. thisClassColor[4] .. class, levelAndStatusText, 1, 1, 1, 1, 1, 1)
+    else
+      getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText(race .. " |cff" .. thisClassColor[4] .. class)
+      getglobal("GameTooltipTextRight" .. currentLineNumber):SetText(levelAndStatusText)
+    end
     if characterInfo['ic_info'] ~= "" then
 
       currentLineNumber = currentLineNumber + 1
-      GameTooltip:AddLine(" ")
+      if numLines == linesToCheck then
+        GameTooltip:AddLine(" ")
+      else
+        getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText(" ")
+      end
 
       currentLineNumber = currentLineNumber + 1
       local ic_pronouns_text = ""
       if characterInfo['ic_pronouns'] ~= "" and characterInfo['ic_pronouns'] ~= nil then
         ic_pronouns_text = " |cffffcc80(" .. characterInfo['ic_pronouns'] .. ")"
       end
-      GameTooltip:AddLine("IC Info" .. ic_pronouns_text, 1, 0.6, 0, true)
+      if numLines == linesToCheck then
+        GameTooltip:AddLine("IC Info" .. ic_pronouns_text, 1, 0.6, 0, true)
+      else
+        getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText("IC Info" .. ic_pronouns_text)
+      end
 
       currentLineNumber = currentLineNumber + 1
-      GameTooltip:AddLine(characterInfo['ic_info'], 0.8, 0.8, 0.8, true)
+      if numLines == linesToCheck then
+        GameTooltip:AddLine(characterInfo['ic_info'], 0.8, 0.8, 0.8, true)
+      else
+        getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText(characterInfo['ic_info'])
+      end
       getglobal("GameTooltipTextLeft" .. currentLineNumber):SetFont("Fonts\\FRIZQT__.ttf", 10)
     end
     if characterInfo['ooc_info'] ~= "" then
 
       currentLineNumber = currentLineNumber + 1
-      GameTooltip:AddLine(" ")
+      if numLines == linesToCheck then
+        GameTooltip:AddLine(" ")
+      else
+        getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText(" ")
+      end
 
       currentLineNumber = currentLineNumber + 1
       local ooc_pronouns_text = ""
       if characterInfo['ooc_pronouns'] ~= "" and characterInfo['ooc_pronouns'] ~= nil then
         ooc_pronouns_text = " |cffffcc80(" .. characterInfo['ooc_pronouns'] .. ")"
       end
-      GameTooltip:AddLine("OOC Info" .. ooc_pronouns_text, 1, 0.6, 0, true)
+      if numLines == linesToCheck then
+        GameTooltip:AddLine("OOC Info" .. ooc_pronouns_text, 1, 0.6, 0, true)
+      else
+        GameTooltip:AddLine("IC Info" .. ooc_pronouns_text, 1, 0.6, 0, true)
+      end
 
       currentLineNumber = currentLineNumber + 1
-      GameTooltip:AddLine(characterInfo['ooc_info'], 0.8, 0.8, 0.8, true)
+      if numLines == linesToCheck then
+        GameTooltip:AddLine(characterInfo['ooc_info'], 0.8, 0.8, 0.8, true)
+      else
+        getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText(characterInfo['ooc_info'])
+      end
       getglobal("GameTooltipTextLeft" .. currentLineNumber):SetFont("Fonts\\FRIZQT__.ttf", 10)
     end
 
@@ -242,7 +276,7 @@ function buildTooltip(playerName, targetType)
     GameTooltip:Show()
   else
     -- Normie tooltip
-    GameTooltip:ClearLines()
+    -- GameTooltip:ClearLines()
     local fullName = UnitName(targetType)
     local race = UnitRace(targetType)
     local class = UnitClass(targetType)
@@ -251,19 +285,29 @@ function buildTooltip(playerName, targetType)
     local thisClassColor = TurtleRPClassData[class]
 
     local currentLineNumber = 1
-    GameTooltip:AddLine("|cff" .. thisClassColor[4] .. fullName)
+    getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText("|cff" .. thisClassColor[4] .. fullName)
 
-    currentLineNumber = currentLineNumber + 1
     if guildName ~= nil then
-      GameTooltip:AddLine("|cffFFD700" .. "<" .. guildName .. ">")
+      currentLineNumber = currentLineNumber + 1
+      getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText("|cffFFD700" .. "<" .. guildName .. ">")
     end
 
     currentLineNumber = currentLineNumber + 1
-    GameTooltip:AddLine(" ")
+    if numLines == linesToCheck and linesToCheck == 2 then
+      GameTooltip:AddLine(" ")
+    else
+      getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText(" ")
+    end
 
     currentLineNumber = currentLineNumber + 1
     local levelText = "Level " .. level
-    GameTooltip:AddDoubleLine(race .. " |cff" .. thisClassColor[4] .. class, levelText, 1, 1, 1, 1, 1, 1)
+    if numLines == linesToCheck then
+      GameTooltip:AddDoubleLine(race .. " |cff" .. thisClassColor[4] .. class, levelText, 1, 1, 1, 1, 1, 1)
+    else
+      getglobal("GameTooltipTextLeft" .. currentLineNumber):SetText(race .. " |cff" .. thisClassColor[4] .. class)
+      getglobal("GameTooltipTextRight" .. currentLineNumber):SetText(levelText)
+    end
+
     GameTooltip:Show()
   end
 end
@@ -503,6 +547,9 @@ function interface_events()
   end)
   GameTooltip:SetScript("OnHide", function()
     TurtleRP_Tooltip_Icon:Hide()
+    if TurtleRPStatusBarFrame ~= nil then
+      TurtleRPStatusBarFrame:Hide()
+    end
   end)
   TurtleRP_MinimapIcon_OpenAdmin:SetScript("OnClick", function()
     TurtleRP_Admin:Show()
