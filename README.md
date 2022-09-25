@@ -17,10 +17,7 @@ Bugs
 
 Next Up
 
-- Changing icon on website to Turtle icon, adding link to the Discord
-- Adding icon to the frame 
 - "RP Mode" like IRP, turning off all frames except chat
-- Adding a text input for quickly searching through icons
 - Allowing custom class text and custom class color
  - This requires some rethinking of how tooltip is sent, as we're nearing 255 char limit (see Class Constants for char limits). Do we split the tooltip into parts, like description? Or enforce other limits?
 
@@ -30,6 +27,9 @@ Feature List
 
 Recently Done
 
+- // Adding a text input for quickly searching through icons
+- // Adding icon to the frame
+- // Changing icon on website to Turtle icon, adding link to the Discord
 - // Testing channel being joined properly
 - // Fixing sometime disappearance of tooltip
 - // description autopops when clicked by another

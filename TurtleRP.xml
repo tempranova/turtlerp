@@ -28,12 +28,21 @@
     </Backdrop>
     <Layers>
 			<Layer level="OVERLAY">
+        <!-- Logo -->
+        <Texture name="$parent_Icon" file="Interface\Addons\TurtleRP\Images\wizardturtle">
+          <Size x="30" y="30"/>
+          <Anchors>
+            <Anchor point="TOPLEFT">
+              <Offset x="15" y="-15"/>
+            </Anchor>
+          </Anchors>
+        </Texture>
         <!-- Plugin Name -->
         <FontString name="$parent_PluginName" inherits="GameFontHighlight" font="Fonts\FRIZQT__.ttf" text="TurtleRP">
           <Anchors>
-            <Anchor point="TOPLEFT">
+            <Anchor point="LEFT" relativeTo="$parent_Icon" relativePoint="RIGHT">
               <Offset>
-                <AbsDimension x="15" y="-15" />
+                <AbsDimension x="5" y="0" />
               </Offset>
             </Anchor>
           </Anchors>
@@ -1574,7 +1583,7 @@
 
   <Frame name="TurtleRP_IconSelector" hidden="true">
     <Size>
-      <AbsDimension x="125" y="100" />
+      <AbsDimension x="165" y="150" />
     </Size>
     <Anchors>
       <Anchor point="CENTER" relativeTo="TurtleRP_Admin" relativePoint="CENTER">
@@ -1583,16 +1592,54 @@
         </Offset>
       </Anchor>
     </Anchors>
+    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+      <BackgroundInsets>
+        <AbsInset left="11" right="12" top="12" bottom="11"/>
+      </BackgroundInsets>
+      <TileSize>
+        <AbsValue val="32"/>
+      </TileSize>
+      <EdgeSize>
+        <AbsValue val="32"/>
+      </EdgeSize>
+    </Backdrop>
     <Frames>
       <!-- Close button -->
       <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
         <Size>
-          <AbsDimension x="25" y="25" />
+          <AbsDimension x="20" y="20" />
         </Size>
         <Anchors>
           <Anchor point="TOPRIGHT">
             <Offset>
-              <AbsDimension x="25" y="25"/>
+              <AbsDimension x="-10" y="-10"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <!-- Filter search -->
+      <EditBox name="$parent_FilterSearchInput" maxLetters="20" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
+        <Size>
+          <AbsDimension x="70" y="20" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="20" y="-12" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <FontString inherits="ChatFontNormal" />
+      </EditBox>
+      <!-- Filter button -->
+      <Button name="$parent_FilterButton" inherits="UIPanelButtonGrayTemplate" text="Filter">
+        <Size>
+          <AbsDimension x="40" y="20" />
+        </Size>
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parent_FilterSearchInput" relativePoint="RIGHT">
+            <Offset>
+              <AbsDimension x="5" y="0"/>
             </Offset>
           </Anchor>
         </Anchors>
@@ -1602,14 +1649,14 @@
           <AbsDimension x="125" y="100" />
         </Size>
         <Anchors>
-          <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP">
+          <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
             <Offset>
-              <AbsDimension x="0" y="0" />
+              <AbsDimension x="15" y="-35" />
             </Offset>
           </Anchor>
-          <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM">
+          <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
             <Offset>
-              <AbsDimension x="0" y="0" />
+              <AbsDimension x="-25" y="20" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -1631,42 +1678,6 @@
       </ScrollFrame>
     </Frames>
   </Frame>
-
-  <!-- <Frame name="TurtleRP_HTML" parent="UIParent">
-    <Size>
-      <AbsDimension x="300" y="300" />
-    </Size>
-    <Anchors>
-      <Anchor point="CENTER">
-        <Offset x="0" y="0" />
-      </Anchor>
-    </Anchors>
-    <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
-      <EdgeSize>
-        <AbsValue val="0.5"/>
-      </EdgeSize>
-      <Color r="1" g="1" b="1" a="0.1" />
-      <BorderColor r="255" g="255" b="255" a="0" />
-    </Backdrop>
-    <Frames>
-      <SimpleHTML name="$parent_Renderer">
-        <Size>
-          <AbsDimension x="300" y="300" />
-        </Size>
-        <Anchors>
-          <Anchor point="CENTER">
-            <Offset x="0" y="0" />
-          </Anchor>
-        </Anchors>
-        <FontStringHeader1 inherits="GameFontHighlightLarge" />
-        <FontStringHeader2 inherits="NumberFontNormalLarge" />
-        <FontStringHeader3 inherits="QuestTitleFont">
-          <Color r="1" g="1" b="1"/>
-        </FontStringHeader3>
-        <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" />
-      </SimpleHTML>
-    </Frames>
-  </Frame> -->
 
   <Frame name="TurtleRP_MinimapIcon" movable="true" toplevel="true" enableMouse="true">
     <Size>

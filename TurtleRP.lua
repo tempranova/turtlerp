@@ -11,6 +11,7 @@ TurtleRP.currentlyRequestedData = nil
 TurtleRP.iconFrames = nil
 TurtleRP.iconSelectorCreated = nil
 TurtleRP.currentIconSelector = nil
+TurtleRP.iconSelectorFilter = ""
 
 -----
 -- Addon load event
@@ -351,6 +352,7 @@ function interface_tweaks()
   TurtleRP_Admin_Description_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
   TurtleRP_Admin_AtAGlance_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
   TurtleRP_Target_DescriptionButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
+  TurtleRP_IconSelector_FilterButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
 
   TurtleRP_Admin_General_TitleInput:SetMaxLetters(15)
   TurtleRP_Admin_General_FirstNameInput:SetMaxLetters(15)
@@ -507,6 +509,11 @@ function interface_events()
   TurtleRP_Target_AtAGlance3:SetScript("OnLeave", function()
     TurtleRP_Target_AtAGlance3_TextPanel:Hide()
   end)
+  TurtleRP_IconSelector_FilterButton:SetScript("OnClick", function()
+    local currentText = TurtleRP_IconSelector_FilterSearchInput:GetText()
+    TurtleRP.iconSelectorFilter = currentText
+    renderIcons(0)
+  end)
 end
 
 function save_events()
@@ -601,11 +608,14 @@ end
 
 function create_icon_selector()
   TurtleRP_IconSelector:Show()
-  TurtleRP_IconSelector:SetFrameStrata("tooltip")
-  TurtleRP_IconSelector:SetFrameLevel(99)
+  TurtleRP_IconSelector:SetFrameStrata("high")
+  TurtleRP_IconSelector_FilterSearchInput:SetFrameStrata("high")
+  TurtleRP_IconSelector_ScrollBox:SetFrameStrata("high")
   if TurtleRP.iconFrames == nil then
     TurtleRP.iconFrames = makeIconFrames()
   end
+  TurtleRP.iconSelectorFilter = ""
+  TurtleRP_IconSelector_FilterSearchInput:SetText("")
   local currentLine = FauxScrollFrame_GetOffset(TurtleRP_IconSelector_ScrollBox)
   renderIcons((currentLine * 5))
 end
@@ -647,9 +657,27 @@ end
 
 function renderIcons(iconOffset)
   if TurtleRP.iconFrames ~= nil then
+    local filteredIcons = {}
+    local numberAdded = 0
+    for i, iconName in ipairs(TurtleRPIcons) do
+      if TurtleRP.iconSelectorFilter ~= "" then
+        if TurtleRPIcons[i + iconOffset] ~= nil then
+          if string.find(string.lower(TurtleRPIcons[i + iconOffset]), string.lower(TurtleRP.iconSelectorFilter)) then
+            filteredIcons[numberAdded + 1] = TurtleRPIcons[i + iconOffset]
+            numberAdded = numberAdded + 1
+          end
+        end
+      else
+        filteredIcons = TurtleRPIcons
+      end
+    end
     for i, iconFrame in ipairs(TurtleRP.iconFrames) do
-      iconFrame:SetText(i + iconOffset)
-      iconFrame:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[i + iconOffset] })
+      if filteredIcons[i + iconOffset] ~= nil then
+        iconFrame:SetText(i + iconOffset)
+        iconFrame:SetBackdrop({ bgFile = "Interface\\Icons\\" .. filteredIcons[i + iconOffset] })
+      else
+        iconFrame:SetBackdrop(nil)
+      end
     end
   end
 end
