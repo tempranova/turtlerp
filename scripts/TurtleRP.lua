@@ -29,36 +29,39 @@ function TurtleRP:OnEvent()
     -- TurtleRPCharacters = nil
     -- TurtleRPSettings = nil
 
+    local TurtleRPCharacterInfoTemplate = {}
+
+    TurtleRPCharacterInfoTemplate["keyM"] = TurtleRP.randomchars()
+    TurtleRPCharacterInfoTemplate["icon"] = ""
+    TurtleRPCharacterInfoTemplate["title"] = ""
+    TurtleRPCharacterInfoTemplate["first_name"] = UnitName("player")
+    TurtleRPCharacterInfoTemplate["last_name"] = ""
+    TurtleRPCharacterInfoTemplate["ic_info"] = ""
+    TurtleRPCharacterInfoTemplate["ooc_info"] = ""
+    TurtleRPCharacterInfoTemplate["ic_pronouns"] = ""
+    TurtleRPCharacterInfoTemplate["ooc_pronouns"] = ""
+    TurtleRPCharacterInfoTemplate["currently_ic"] = "on"
+
+    TurtleRPCharacterInfoTemplate["notes"] = ""
+
+    TurtleRPCharacterInfoTemplate["keyT"] = TurtleRP.randomchars()
+    TurtleRPCharacterInfoTemplate["atAGlance1"] = ""
+    TurtleRPCharacterInfoTemplate["atAGlance1Title"] = ""
+    TurtleRPCharacterInfoTemplate["atAGlance1Icon"] = ""
+    TurtleRPCharacterInfoTemplate["atAGlance2"] = ""
+    TurtleRPCharacterInfoTemplate["atAGlance2Title"] = ""
+    TurtleRPCharacterInfoTemplate["atAGlance2Icon"] = ""
+    TurtleRPCharacterInfoTemplate["atAGlance3"] = ""
+    TurtleRPCharacterInfoTemplate["atAGlance3Title"] = ""
+    TurtleRPCharacterInfoTemplate["atAGlance3Icon"] = ""
+    TurtleRPCharacterInfoTemplate["newfieldtest"] = ""
+
+    TurtleRPCharacterInfoTemplate["keyD"] = TurtleRP.randomchars()
+    TurtleRPCharacterInfoTemplate["description"] = ""
+
     -- Global character defaults setup
     if TurtleRPCharacterInfo == nil then
-      TurtleRPCharacterInfo = {}
-
-      TurtleRPCharacterInfo["keyM"] = TurtleRP.randomchars()
-      TurtleRPCharacterInfo["icon"] = ""
-      TurtleRPCharacterInfo["title"] = ""
-      TurtleRPCharacterInfo["first_name"] = UnitName("player")
-      TurtleRPCharacterInfo["last_name"] = ""
-      TurtleRPCharacterInfo["ic_info"] = ""
-      TurtleRPCharacterInfo["ooc_info"] = ""
-      TurtleRPCharacterInfo["ic_pronouns"] = ""
-      TurtleRPCharacterInfo["ooc_pronouns"] = ""
-      TurtleRPCharacterInfo["currently_ic"] = "on"
-
-      TurtleRPCharacterInfo["notes"] = ""
-
-      TurtleRPCharacterInfo["keyT"] = TurtleRP.randomchars()
-      TurtleRPCharacterInfo["atAGlance1"] = ""
-      TurtleRPCharacterInfo["atAGlance1Title"] = ""
-      TurtleRPCharacterInfo["atAGlance1Icon"] = ""
-      TurtleRPCharacterInfo["atAGlance2"] = ""
-      TurtleRPCharacterInfo["atAGlance2Title"] = ""
-      TurtleRPCharacterInfo["atAGlance2Icon"] = ""
-      TurtleRPCharacterInfo["atAGlance3"] = ""
-      TurtleRPCharacterInfo["atAGlance3Title"] = ""
-      TurtleRPCharacterInfo["atAGlance3Icon"] = ""
-
-      TurtleRPCharacterInfo["keyD"] = TurtleRP.randomchars()
-      TurtleRPCharacterInfo["description"] = ""
+      TurtleRPCharacterInfo = TurtleRPCharacterInfoTemplate
     end
     if TurtleRPCharacters == nil then
       TurtleRPCharacters = {}
@@ -71,7 +74,7 @@ function TurtleRP:OnEvent()
 
     -- For adding additional fields after plugin is in use
     if TurtleRPCharacterInfo ~= nil then
-      for i, field in pairs(TurtleRPCharacterInfo) do
+      for i, field in pairs(TurtleRPCharacterInfoTemplate) do
         if TurtleRPCharacterInfo[i] == nil then
           TurtleRPCharacterInfo[i] = ""
         end
