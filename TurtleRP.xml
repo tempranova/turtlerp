@@ -1519,7 +1519,7 @@
                 <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT">
                   <Color r="255" g="255" b="255" />
                 </FontString>
-                <!-- <Layers>
+                <Layers>
             			<Layer level="OVERLAY">
                     <FontString name="$parent_TargetDescription" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyH="LEFT" justifyV="TOP">
                       <Size>
@@ -1538,7 +1538,7 @@
                       <Color r="255" g="255" b="255" />
                     </FontString>
                   </Layer>
-                </Layers> -->
+                </Layers>
               </SimpleHTML>
             </Frames>
           </Frame>
