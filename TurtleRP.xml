@@ -2,6 +2,7 @@
   <Script file="TurtleRPConstants.lua" />
   <Script file="TurtleRP.lua" />
   <Script file="TurtleRPComms.lua" />
+  <Script file="TurtleRPTooltip.lua" />
 
   <!-- Admin frame -->
   <Frame name="TurtleRP_Admin" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true">

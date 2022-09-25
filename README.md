@@ -16,8 +16,11 @@ Tests
 
 Bugs
 
+- 1000+ character descriptions getting cut off in scrollbar
+- Difficult to replicate bug with tooltip "getting stuck" from an item
 - Framerate issues when opening tooltips? reported 2s lag
 - Test when drunk (SLURRED_SPEECH)
+- Slight adjustment in PvP text size when icon added while PvP enabled
 
 Next Up
 
@@ -31,6 +34,8 @@ Feature List
 
 Recently Done
 
+- // Fix with wrong icons being selected when filtering
+- // Refactoring tooltip generation to be robust
 - // Tooltips are missing health bar underneath
 - // Adding a "notes" section
 - // Limiting description to 2000 characters
