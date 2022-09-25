@@ -10,7 +10,22 @@
 
 --]]
 
-function getStatusText(currently_ic, ICOn, ICOff, whiteColor)
+function TurtleRP.tooltip_events()
+  GameTooltip:SetScript("OnShow", function()
+    if UnitIsPlayer("mouseover") then
+      TurtleRP.buildTooltip(UnitName("mouseover"), "mouseover")
+    end
+  end)
+  GameTooltip:SetScript("OnHide", function()
+    TurtleRP_Tooltip_Icon:Hide()
+    if TurtleRPStatusBarFrame ~= nil then
+      TurtleRPStatusBarFrame:Hide()
+    end
+    getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 15)
+  end)
+end
+
+function TurtleRP.getStatusText(currently_ic, ICOn, ICOff, whiteColor)
   local statusText = ""
   if currently_ic ~= nil then
     if currently_ic == 'on' then
@@ -22,7 +37,7 @@ function getStatusText(currently_ic, ICOn, ICOff, whiteColor)
   return statusText
 end
 
-function getPronounsText(pronouns, pronounColor)
+function TurtleRP.getPronounsText(pronouns, pronounColor)
   local pronounText = ""
   if pronouns ~= nil and pronouns ~= "" then
     pronounText = pronounColor .. " (" .. pronouns .. ")"
@@ -30,7 +45,7 @@ function getPronounsText(pronouns, pronounColor)
   return pronounText
 end
 
-function printICandOOC(info, headerText, blankLine, l)
+function TurtleRP.printICandOOC(info, headerText, blankLine, l)
   local n = l
   if info ~= nil and info ~= "" then
     n = n + 1
@@ -58,7 +73,7 @@ function printICandOOC(info, headerText, blankLine, l)
   return n
 end
 
-function buildTooltip(playerName, targetType)
+function TurtleRP.buildTooltip(playerName, targetType)
   -- Prepping character from database
   local characterInfo = TurtleRPCharacters[playerName]
   local locallyRetrievable = nil
@@ -67,7 +82,7 @@ function buildTooltip(playerName, targetType)
   end
 
   -- Getting details for character
-  local fullName        = locallyRetrievable and getFullName(characterInfo['title'], characterInfo['first_name'], characterInfo['last_name']) or UnitName(targetType)
+  local fullName        = locallyRetrievable and TurtleRP.getFullName(characterInfo['title'], characterInfo['first_name'], characterInfo['last_name']) or UnitName(targetType)
   local race            = UnitRace(targetType)
   local class           = UnitClass(targetType)
   local guildName       = GetGuildInfo(targetType)
@@ -92,11 +107,11 @@ function buildTooltip(playerName, targetType)
   local titleExtraSpaces    = (icon ~= nil and icon ~= "") and "         " or ""
   local guildExtraSpaces    = (icon ~= nil and icon ~= "") and "           " or ""
   local blankLine           = " "
-  local statusText          = getStatusText(currently_ic, ICOn, ICOff, whiteColor)
+  local statusText          = TurtleRP.getStatusText(currently_ic, ICOn, ICOff, whiteColor)
   local levelAndStatusText  = "Level " .. level .. statusText
   local raceAndClassText    = race .. " " .. thisClassColor .. class
-  local ICandPronounsText   = "IC Info" .. getPronounsText(ic_pronouns, pronounColor)
-  local OOCandPronounsText  = "OOC Info" .. getPronounsText(ooc_pronouns, pronounColor)
+  local ICandPronounsText   = "IC Info" .. TurtleRP.getPronounsText(ic_pronouns, pronounColor)
+  local OOCandPronounsText  = "OOC Info" .. TurtleRP.getPronounsText(ooc_pronouns, pronounColor)
 
   -- Modify tooltip
   local l = 1
@@ -131,8 +146,8 @@ function buildTooltip(playerName, targetType)
   -- Stuff only available for TTRP folks
   if locallyRetrievable then
 
-    l = printICandOOC(ic_info, ICandPronounsText, blankLine, l)
-    l = printICandOOC(ooc_info, OOCandPronounsText, blankLine, l)
+    l = TurtleRP.printICandOOC(ic_info, ICandPronounsText, blankLine, l)
+    l = TurtleRP.printICandOOC(ooc_info, OOCandPronounsText, blankLine, l)
 
     if icon ~= nil and icon ~= "" then
       TurtleRP_Tooltip_Icon:SetPoint("TOPLEFT", "GameTooltipTextLeft1", "TOPLEFT")

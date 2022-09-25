@@ -1,0 +1,298 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+
+  <Frame name="TurtleRP_Target" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true">
+    <Size>
+      <AbsDimension y="60" />
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER">
+        <Offset>
+          <AbsDimension x="0" y="-200" />
+        </Offset>
+      </Anchor>
+    </Anchors>
+    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+      <BackgroundInsets>
+        <AbsInset left="11" right="12" top="12" bottom="11"/>
+      </BackgroundInsets>
+      <TileSize>
+        <AbsValue val="32"/>
+      </TileSize>
+      <EdgeSize>
+        <AbsValue val="32"/>
+      </EdgeSize>
+    </Backdrop>
+
+    <Layers>
+			<Layer level="OVERLAY">
+        <!-- Target Name Text -->
+        <FontString name="$parent_TargetName" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
+          <Anchors>
+            <Anchor point="CENTER">
+              <Offset>
+                <AbsDimension x="0" y="5" />
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <FontHeight>
+            <AbsValue val="12" />
+          </FontHeight>
+          <Color r="255" g="255" b="255" />
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <!-- General button -->
+      <Button name="$parent_DescriptionButton" inherits="UIPanelButtonGrayTemplate" text="See Description">
+        <Size>
+          <AbsDimension x="100" y="30" />
+        </Size>
+        <Anchors>
+          <Anchor point="CENTER">
+            <Offset>
+              <AbsDimension x="0" y="-20"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+          </OnLoad>
+        </Scripts>
+      </Button>
+
+      <Button name="$parent_AtAGlance1" enableMouse="true" hidden="true">
+        <Size x="28" y="28"/>
+        <Anchors>
+          <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+            <Offset>
+              <AbsDimension x="-41" y="25" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture name="$parent_Icon" file="Interface\Addons\TurtleRP\Images\TurtleRP_Icon">
+              <Size x="18" y="18"/>
+              <Anchors>
+                <Anchor point="CENTER">
+                  <Offset x="0" y="0"/>
+                </Anchor>
+              </Anchors>
+            </Texture>
+          </Layer>
+          <Layer level="OVERLAY">
+            <Texture file="Interface\Minimap\MiniMap-TrackingBorder">
+              <Size x="50" y="50"/>
+              <Anchors>
+                <Anchor point="TOPLEFT"/>
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
+        <Frames>
+          <Frame name="$parent_TextPanel" hidden="true">
+            <Size x="150" y="50"/>
+            <Anchors>
+              <Anchor point="CENTER">
+                <Offset x="0" y="30"/>
+              </Anchor>
+            </Anchors>
+            <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+              <EdgeSize>
+                <AbsValue val="1"/>
+              </EdgeSize>
+              <Color r="0" g="0" b="0" a="0.5" />
+              <BorderColor r="255" g="255" b="255" a="0" />
+            </Backdrop>
+            <Layers>
+              <Layer level="OVERLAY">
+                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
+                  <Size x="140" y="50"/>
+                  <Anchors>
+                    <Anchor point="TOPLEFT">
+                      <Offset>
+                        <AbsDimension x="5" y="0" />
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="12" />
+                  </FontHeight>
+                  <Color r="255" g="255" b="255" />
+                </FontString>
+              </Layer>
+            </Layers>
+          </Frame>
+        </Frames>
+        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+        <Scripts>
+          <OnEnter>
+            TurtleRP_Target_AtAGlance1_TextPanel:Show()
+          </OnEnter>
+          <OnLeave>
+            TurtleRP_Target_AtAGlance1_TextPanel:Hide()
+          </OnLeave>
+        </Scripts>
+      </Button>
+
+      <Button name="$parent_AtAGlance2" enableMouse="true" hidden="true">
+        <Size x="28" y="28"/>
+        <Anchors>
+          <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+            <Offset>
+              <AbsDimension x="-1" y="25" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture name="$parent_Icon" file="Interface\Addons\LFT\images\eye\battlenetworking0">
+              <Size x="18" y="18"/>
+              <Anchors>
+                <Anchor point="CENTER">
+                  <Offset x="0" y="0"/>
+                </Anchor>
+              </Anchors>
+            </Texture>
+          </Layer>
+          <Layer level="OVERLAY">
+            <Texture file="Interface\Minimap\MiniMap-TrackingBorder">
+              <Size x="50" y="50"/>
+              <Anchors>
+                <Anchor point="TOPLEFT"/>
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
+        <Frames>
+          <Frame name="$parent_TextPanel" hidden="true">
+            <Size x="150" y="50"/>
+            <Anchors>
+              <Anchor point="CENTER">
+                <Offset x="0" y="30"/>
+              </Anchor>
+            </Anchors>
+            <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+              <EdgeSize>
+                <AbsValue val="1"/>
+              </EdgeSize>
+              <Color r="0" g="0" b="0" a="0.5" />
+              <BorderColor r="255" g="255" b="255" a="0" />
+            </Backdrop>
+            <Layers>
+              <Layer level="OVERLAY">
+                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
+                  <Size x="140" y="50"/>
+                  <Anchors>
+                    <Anchor point="CENTER">
+                      <Offset>
+                        <AbsDimension x="0" y="5" />
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="12" />
+                  </FontHeight>
+                  <Color r="255" g="255" b="255" />
+                </FontString>
+              </Layer>
+            </Layers>
+          </Frame>
+        </Frames>
+        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+        <Scripts>
+          <OnEnter>
+            TurtleRP_Target_AtAGlance2_TextPanel:Show()
+          </OnEnter>
+          <OnLeave>
+            TurtleRP_Target_AtAGlance2_TextPanel:Hide()
+          </OnLeave>
+        </Scripts>
+      </Button>
+
+      <Button name="$parent_AtAGlance3" enableMouse="true" hidden="true">
+        <Size x="28" y="28"/>
+        <Anchors>
+          <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+            <Offset>
+              <AbsDimension x="38" y="25" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture name="$parent_Icon" file="Interface\Addons\LFT\images\eye\battlenetworking0">
+              <Size x="18" y="18"/>
+              <Anchors>
+                <Anchor point="CENTER">
+                  <Offset x="0" y="0"/>
+                </Anchor>
+              </Anchors>
+            </Texture>
+          </Layer>
+          <Layer level="OVERLAY">
+            <Texture file="Interface\Minimap\MiniMap-TrackingBorder">
+              <Size x="50" y="50"/>
+              <Anchors>
+                <Anchor point="TOPLEFT"/>
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
+        <Frames>
+          <Frame name="$parent_TextPanel" hidden="true">
+            <Size x="150" y="50"/>
+            <Anchors>
+              <Anchor point="CENTER">
+                <Offset x="0" y="30"/>
+              </Anchor>
+            </Anchors>
+            <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+              <EdgeSize>
+                <AbsValue val="1"/>
+              </EdgeSize>
+              <Color r="0" g="0" b="0" a="0.5" />
+              <BorderColor r="255" g="255" b="255" a="0" />
+            </Backdrop>
+            <Layers>
+              <Layer level="OVERLAY">
+                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
+                  <Size x="140" y="50"/>
+                  <Anchors>
+                    <Anchor point="CENTER">
+                      <Offset>
+                        <AbsDimension x="0" y="5" />
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="12" />
+                  </FontHeight>
+                  <Color r="255" g="255" b="255" />
+                </FontString>
+              </Layer>
+            </Layers>
+          </Frame>
+        </Frames>
+        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+        <Scripts>
+          <OnEnter>
+            TurtleRP_Target_AtAGlance3_TextPanel:Show()
+          </OnEnter>
+          <OnLeave>
+            TurtleRP_Target_AtAGlance3_TextPanel:Hide()
+          </OnLeave>
+        </Scripts>
+      </Button>
+    </Frames>
+    <Scripts>
+      <OnMouseDown>
+        this:StartMoving()
+      </OnMouseDown>
+      <OnMouseUp>
+        this:StopMovingOrSizing()
+      </OnMouseUp>
+    </Scripts>
+  </Frame>
+</Ui>

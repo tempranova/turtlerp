@@ -7,4 +7,13 @@
 ## SavedVariablesPerCharacter: TurtleRPCharacterInfo
 
 ChatThrottleLib\ChatThrottleLib.lua
-TurtleRP.xml
+scripts\TurtleRPConstants.lua
+scripts\TurtleRP.lua
+scripts\TurtleRPComms.lua
+scripts\TurtleRPTooltip.lua
+components\TurtleRP_Admin.xml
+components\TurtleRP_Target.xml
+components\TurtleRP_Description.xml
+components\TurtleRP_Tooltip.xml
+components\TurtleRP_Minimap.xml
+components\TurtleRP_RPButton.xml

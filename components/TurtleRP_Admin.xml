@@ -1,8 +1,4 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
-  <Script file="TurtleRPConstants.lua" />
-  <Script file="TurtleRP.lua" />
-  <Script file="TurtleRPComms.lua" />
-  <Script file="TurtleRPTooltip.lua" />
 
   <!-- Admin frame -->
   <Frame name="TurtleRP_Admin" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true">
@@ -94,6 +90,11 @@
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnClick>
+            TurtleRP.showHidePanels(TurtleRP_Admin_General)
+          </OnClick>
+        </Scripts>
       </Button>
       <!-- At A Glance button -->
       <Button name="$parent_AtAGlanceButton" inherits="UIPanelButtonTemplate" text="At A Glance">
@@ -107,6 +108,11 @@
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnClick>
+            TurtleRP.showHidePanels(TurtleRP_Admin_AtAGlance)
+          </OnClick>
+        </Scripts>
       </Button>
       <!-- Description button -->
       <Button name="$parent_DescriptionButton" inherits="UIPanelButtonTemplate" text="Description">
@@ -120,6 +126,11 @@
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnClick>
+            TurtleRP.showHidePanels(TurtleRP_Admin_Description)
+          </OnClick>
+        </Scripts>
       </Button>
       <!-- Notes button -->
       <Button name="$parent_NotesButton" inherits="UIPanelButtonTemplate" text="Notes">
@@ -133,6 +144,11 @@
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnClick>
+            TurtleRP.showHidePanels(TurtleRP_Admin_Notes)
+          </OnClick>
+        </Scripts>
       </Button>
       <!-- Settings button -->
       <Button name="$parent_SettingsButton" inherits="UIPanelButtonTemplate" text="Settings">
@@ -146,6 +162,11 @@
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnClick>
+            TurtleRP.showHidePanels(TurtleRP_Admin_Settings)
+          </OnClick>
+        </Scripts>
       </Button>
       <!-- General Tab -->
       <Frame name="$parent_General">
@@ -322,6 +343,14 @@
                 </Offset>
               </Anchor>
             </Anchors>
+        		<Scripts>
+              <OnLoad>
+                TurtleRP_Admin_General_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+              <OnClick>
+                TurtleRP.save_general()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- Icon Button -->
           <Button name="$parent_IconButton">
@@ -341,6 +370,12 @@
              </TileSize>
             </Backdrop>
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+            <Scripts>
+              <OnClick>
+                TurtleRP.currentIconSelector = 'icon'
+                TurtleRP.create_icon_selector()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- Icon Cancel Button -->
           <Button name="$parent_CancelIconButton">
@@ -360,6 +395,12 @@
              </TileSize>
             </Backdrop>
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\CancelButton-Highlight"/>
+            <Scripts>
+              <OnClick>
+                TurtleRPCharacterInfo['icon'] = ""
+                TurtleRP.save_general()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- IC Button -->
           <CheckButton name="$parent_ICButton" inherits="UICheckButtonTemplate">
@@ -373,6 +414,16 @@
                 </Offset>
               </Anchor>
             </Anchors>
+            <Scripts>
+              <OnClick>
+                if TurtleRPCharacterInfo["currently_ic"] == "off" then
+                  TurtleRPCharacterInfo["currently_ic"] = "on"
+                else
+                  TurtleRPCharacterInfo["currently_ic"] = "off"
+                end
+                TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
+              </OnClick>
+            </Scripts>
           </CheckButton>
           <!-- Title Input Box -->
           <EditBox name="$parent_TitleInput" maxLetters="10" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
@@ -387,6 +438,11 @@
               </Anchor>
             </Anchors>
             <FontString inherits="ChatFontNormal" />
+            <Scripts>
+              <OnLoad>
+                TurtleRP_Admin_General_TitleInput:SetMaxLetters(15)
+              </OnLoad>
+            </Scripts>
           </EditBox>
           <!-- First Name Input Box -->
           <EditBox name="$parent_FirstNameInput" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
@@ -401,6 +457,11 @@
               </Anchor>
             </Anchors>
             <FontString inherits="ChatFontNormal" />
+            <Scripts>
+              <OnLoad>
+                TurtleRP_Admin_General_FirstNameInput:SetMaxLetters(15)
+              </OnLoad>
+            </Scripts>
           </EditBox>
           <!-- Last Name Input Box -->
           <EditBox name="$parent_LastNameInput" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
@@ -415,6 +476,11 @@
               </Anchor>
             </Anchors>
             <FontString inherits="ChatFontNormal" />
+            <Scripts>
+              <OnLoad>
+                TurtleRP_Admin_General_LastNameInput:SetMaxLetters(15)
+              </OnLoad>
+            </Scripts>
           </EditBox>
           <!-- IC Pronouns Box -->
           <EditBox name="$parent_ICPronounsInput" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
@@ -429,6 +495,11 @@
               </Anchor>
             </Anchors>
             <FontString inherits="ChatFontNormal" />
+            <Scripts>
+              <OnLoad>
+                TurtleRP_Admin_General_ICPronounsInput:SetMaxLetters(10)
+              </OnLoad>
+            </Scripts>
           </EditBox>
           <!-- OOC Pronouns Box -->
           <EditBox name="$parent_OOCPronounsInput" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
@@ -443,6 +514,11 @@
               </Anchor>
             </Anchors>
             <FontString inherits="ChatFontNormal" />
+            <Scripts>
+              <OnLoad>
+                TurtleRP_Admin_General_OOCPronounsInput:SetMaxLetters(10)
+              </OnLoad>
+            </Scripts>
           </EditBox>
           <!-- IC frame scrolling -->
           <ScrollFrame name="$parent_ICScrollBox" inherits="UIPanelScrollFrameTemplate" enableMouse="true" >
@@ -473,6 +549,11 @@
               <Color r="1" g="1" b="1" a="0.1" />
               <BorderColor r="255" g="255" b="255" a="0" />
             </Backdrop>
+            <Scripts>
+              <OnMouseDown>
+                TurtleRP_Admin_General_ICScrollBox_ICInfoInput:SetFocus()
+              </OnMouseDown>
+            </Scripts>
             <ScrollChild>
               <!-- IC Info Input Box -->
               <EditBox name="$parent_ICInfoInput" visible="true" enableMouse="true" autoFocus="false">
@@ -492,6 +573,12 @@
                   </Anchor>
                 </Anchors>
                 <FontString inherits="ChatFontNormal" />
+                <Scripts>
+                  <OnLoad>
+                    TurtleRP_Admin_General_ICScrollBox_ICInfoInput:SetMaxLetters(75)
+                    TurtleRP_Admin_General_ICScrollBox_ICInfoInput:SetMultiLine(true)
+                  </OnLoad>
+                </Scripts>
               </EditBox>
             </ScrollChild>
           </ScrollFrame>
@@ -525,6 +612,11 @@
               <Color r="1" g="1" b="1" a="0.1" />
               <BorderColor r="255" g="255" b="255" a="0" />
             </Backdrop>
+            <Scripts>
+              <OnMouseDown>
+                TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:SetFocus()
+              </OnMouseDown>
+            </Scripts>
             <ScrollChild>
               <!-- OOC Info Input Box -->
               <EditBox name="$parent_OOCInfoInput" visible="true" enableMouse="true" autoFocus="false">
@@ -544,6 +636,12 @@
                   </Anchor>
                 </Anchors>
                 <FontString inherits="ChatFontNormal" />
+                <Scripts>
+                  <OnLoad>
+                    TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:SetMaxLetters(75)
+                    TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:SetMultiLine(true)
+                  </OnLoad>
+                </Scripts>
               </EditBox>
             </ScrollChild>
           </ScrollFrame>
@@ -640,6 +738,14 @@
                 </Offset>
               </Anchor>
             </Anchors>
+        		<Scripts>
+              <OnLoad>
+                TurtleRP_Admin_AtAGlance_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+              <OnClick>
+                TurtleRP.save_at_a_glance()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- AAG1 Icon Button -->
           <Button name="$parent_AAG1IconButton">
@@ -659,6 +765,12 @@
              </TileSize>
             </Backdrop>
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+            <Scripts>
+              <OnClick>
+                TurtleRP.currentIconSelector = 'atAGlance1Icon'
+                TurtleRP.create_icon_selector()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- Icon Cancel Button -->
           <Button name="$parent_CancelAAG1IconButton">
@@ -678,6 +790,12 @@
              </TileSize>
             </Backdrop>
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\CancelButton-Highlight"/>
+            <Scripts>
+              <OnClick>
+                TurtleRPCharacterInfo['atAGlance1Icon'] = ""
+                TurtleRP.save_at_a_glance()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- AAG2 Icon Button -->
           <Button name="$parent_AAG2IconButton">
@@ -697,6 +815,12 @@
              </TileSize>
             </Backdrop>
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+            <Scripts>
+              <OnClick>
+                TurtleRP.currentIconSelector = 'atAGlance2Icon'
+                TurtleRP.create_icon_selector()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- Icon Cancel Button -->
           <Button name="$parent_CancelAAG2IconButton">
@@ -716,6 +840,12 @@
              </TileSize>
             </Backdrop>
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\CancelButton-Highlight"/>
+            <Scripts>
+              <OnClick>
+                TurtleRPCharacterInfo['atAGlance2Icon'] = ""
+                TurtleRP.save_at_a_glance()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- AAG3 Icon Button -->
           <Button name="$parent_AAG3IconButton">
@@ -735,6 +865,12 @@
              </TileSize>
             </Backdrop>
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+            <Scripts>
+              <OnClick>
+                TurtleRP.currentIconSelector = 'atAGlance3Icon'
+                TurtleRP.create_icon_selector()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- Icon Cancel Button -->
           <Button name="$parent_CancelAAG3IconButton">
@@ -754,6 +890,12 @@
              </TileSize>
             </Backdrop>
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\CancelButton-Highlight"/>
+            <Scripts>
+              <OnClick>
+                TurtleRPCharacterInfo['atAGlance3Icon'] = ""
+                TurtleRP.save_at_a_glance()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- AAG1 frame scrolling -->
           <ScrollFrame name="$parent_AtAGlance1ScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
@@ -784,6 +926,11 @@
               <Color r="1" g="1" b="1" a="0.1" />
               <BorderColor r="255" g="255" b="255" a="0" />
             </Backdrop>
+            <Scripts>
+              <OnMouseDown>
+                TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:SetFocus()
+              </OnMouseDown>
+            </Scripts>
             <ScrollChild>
               <!-- AAG1 Info Input Box -->
               <EditBox name="$parent_AAG1Input" visible="true" enableMouse="true" autoFocus="false">
@@ -803,6 +950,12 @@
                   </Anchor>
                 </Anchors>
                 <FontString inherits="ChatFontNormal" />
+                <Scripts>
+                  <OnLoad>
+                    TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:SetMaxLetters(75)
+                    TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:SetMultiLine(true)
+                  </OnLoad>
+                </Scripts>
               </EditBox>
             </ScrollChild>
           </ScrollFrame>
@@ -836,6 +989,11 @@
               <Color r="1" g="1" b="1" a="0.1" />
               <BorderColor r="255" g="255" b="255" a="0" />
             </Backdrop>
+            <Scripts>
+              <OnMouseDown>
+                TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:SetFocus()
+              </OnMouseDown>
+            </Scripts>
             <ScrollChild>
               <!-- AAG2 Info Input Box -->
               <EditBox name="$parent_AAG2Input" visible="true" enableMouse="true" autoFocus="false">
@@ -855,6 +1013,12 @@
                   </Anchor>
                 </Anchors>
                 <FontString inherits="ChatFontNormal" />
+                <Scripts>
+                  <OnLoad>
+                    TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:SetMaxLetters(75)
+                    TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:SetMultiLine(true)
+                  </OnLoad>
+                </Scripts>
               </EditBox>
             </ScrollChild>
           </ScrollFrame>
@@ -888,6 +1052,11 @@
               <Color r="1" g="1" b="1" a="0.1" />
               <BorderColor r="255" g="255" b="255" a="0" />
             </Backdrop>
+            <Scripts>
+              <OnMouseDown>
+                TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:SetFocus()
+              </OnMouseDown>
+            </Scripts>
             <ScrollChild>
               <!-- AAG3 Info Input Box -->
               <EditBox name="$parent_AAG3Input" visible="true" enableMouse="true" autoFocus="false">
@@ -907,6 +1076,12 @@
                   </Anchor>
                 </Anchors>
                 <FontString inherits="ChatFontNormal" />
+                <Scripts>
+                  <OnLoad>
+                    TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:SetMaxLetters(75)
+                    TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:SetMultiLine(true)
+                  </OnLoad>
+                </Scripts>
               </EditBox>
             </ScrollChild>
           </ScrollFrame>
@@ -980,6 +1155,14 @@
                 </Offset>
               </Anchor>
             </Anchors>
+        		<Scripts>
+              <OnLoad>
+                TurtleRP_Admin_Description_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+              <OnClick>
+                TurtleRP.save_description()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- Description frame scrolling -->
           <ScrollFrame name="$parent_DescriptionScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
@@ -1010,6 +1193,11 @@
               <Color r="1" g="1" b="1" a="0.1" />
               <BorderColor r="255" g="255" b="255" a="0" />
             </Backdrop>
+            <Scripts>
+              <OnMouseDown>
+                TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:SetFocus()
+              </OnMouseDown>
+            </Scripts>
             <ScrollChild>
               <!-- Description Input Box -->
               <EditBox name="$parent_DescriptionInput" visible="true" enableMouse="true" autoFocus="false">
@@ -1029,6 +1217,12 @@
                   </Anchor>
                 </Anchors>
                 <FontString inherits="ChatFontNormal" />
+                <Scripts>
+                  <OnLoad>
+                    TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:SetMaxLetters(2000)
+                    TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:SetMultiLine(true)
+                  </OnLoad>
+                </Scripts>
               </EditBox>
             </ScrollChild>
           </ScrollFrame>
@@ -1102,6 +1296,14 @@
                 </Offset>
               </Anchor>
             </Anchors>
+        		<Scripts>
+              <OnLoad>
+                TurtleRP_Admin_Notes_SaveButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+              <OnClick>
+                TurtleRP.save_notes()
+              </OnClick>
+            </Scripts>
           </Button>
           <!-- Notes frame scrolling -->
           <ScrollFrame name="$parent_NotesScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
@@ -1132,6 +1334,11 @@
               <Color r="1" g="1" b="1" a="0.1" />
               <BorderColor r="255" g="255" b="255" a="0" />
             </Backdrop>
+            <Scripts>
+              <OnMouseDown>
+                TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:SetFocus()
+              </OnMouseDown>
+            </Scripts>
             <ScrollChild>
               <!-- Notes Input Box -->
               <EditBox name="$parent_NotesInput" visible="true" enableMouse="true" autoFocus="false">
@@ -1151,6 +1358,11 @@
                   </Anchor>
                 </Anchors>
                 <FontString inherits="ChatFontNormal" />
+                <Scripts>
+                  <OnLoad>
+                    TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:SetMultiLine(true)
+                  </OnLoad>
+                </Scripts>
               </EditBox>
             </ScrollChild>
           </ScrollFrame>
@@ -1283,437 +1495,27 @@
                 </Offset>
               </Anchor>
             </Anchors>
+            <Scripts>
+              <OnClick>
+                if TurtleRPSettings["bgs"] == "off" then
+                  TurtleRPSettings["bgs"] = "on"
+                else
+                  TurtleRPSettings["bgs"] = "off"
+                end
+              </OnClick>
+            </Scripts>
           </CheckButton>
         </Frames>
       </Frame>
     </Frames>
-  </Frame>
-
-  <Frame name="TurtleRP_Target" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true">
-    <Size>
-      <AbsDimension y="60" />
-    </Size>
-    <Anchors>
-      <Anchor point="CENTER">
-        <Offset>
-          <AbsDimension x="0" y="-200" />
-        </Offset>
-      </Anchor>
-    </Anchors>
-    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-      <BackgroundInsets>
-        <AbsInset left="11" right="12" top="12" bottom="11"/>
-      </BackgroundInsets>
-      <TileSize>
-        <AbsValue val="32"/>
-      </TileSize>
-      <EdgeSize>
-        <AbsValue val="32"/>
-      </EdgeSize>
-    </Backdrop>
-
-    <Layers>
-			<Layer level="OVERLAY">
-        <!-- Target Name Text -->
-        <FontString name="$parent_TargetName" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-          <Anchors>
-            <Anchor point="CENTER">
-              <Offset>
-                <AbsDimension x="0" y="5" />
-              </Offset>
-            </Anchor>
-          </Anchors>
-          <FontHeight>
-            <AbsValue val="12" />
-          </FontHeight>
-          <Color r="255" g="255" b="255" />
-        </FontString>
-      </Layer>
-    </Layers>
-    <Frames>
-      <!-- General button -->
-      <Button name="$parent_DescriptionButton" inherits="UIPanelButtonGrayTemplate" text="See Description">
-        <Size>
-          <AbsDimension x="100" y="30" />
-        </Size>
-        <Anchors>
-          <Anchor point="CENTER">
-            <Offset>
-              <AbsDimension x="0" y="-20"/>
-            </Offset>
-          </Anchor>
-        </Anchors>
-      </Button>
-
-      <Button name="$parent_AtAGlance1" enableMouse="true" hidden="true">
-        <Size x="28" y="28"/>
-        <Anchors>
-          <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
-            <Offset>
-              <AbsDimension x="-41" y="25" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Layers>
-          <Layer level="BACKGROUND">
-            <Texture name="$parent_Icon" file="Interface\Addons\TurtleRP\Images\TurtleRP_Icon">
-              <Size x="18" y="18"/>
-              <Anchors>
-                <Anchor point="CENTER">
-                  <Offset x="0" y="0"/>
-                </Anchor>
-              </Anchors>
-            </Texture>
-          </Layer>
-          <Layer level="OVERLAY">
-            <Texture file="Interface\Minimap\MiniMap-TrackingBorder">
-              <Size x="50" y="50"/>
-              <Anchors>
-                <Anchor point="TOPLEFT"/>
-              </Anchors>
-            </Texture>
-          </Layer>
-        </Layers>
-        <Frames>
-          <Frame name="$parent_TextPanel" hidden="true">
-            <Size x="150" y="50"/>
-            <Anchors>
-              <Anchor point="CENTER">
-                <Offset x="0" y="30"/>
-              </Anchor>
-            </Anchors>
-            <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-              <EdgeSize>
-                <AbsValue val="1"/>
-              </EdgeSize>
-              <Color r="0" g="0" b="0" a="0.5" />
-              <BorderColor r="255" g="255" b="255" a="0" />
-            </Backdrop>
-            <Layers>
-              <Layer level="OVERLAY">
-                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-                  <Size x="140" y="50"/>
-                  <Anchors>
-                    <Anchor point="TOPLEFT">
-                      <Offset>
-                        <AbsDimension x="5" y="0" />
-                      </Offset>
-                    </Anchor>
-                  </Anchors>
-                  <FontHeight>
-                    <AbsValue val="12" />
-                  </FontHeight>
-                  <Color r="255" g="255" b="255" />
-                </FontString>
-              </Layer>
-            </Layers>
-          </Frame>
-        </Frames>
-        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
-      </Button>
-
-      <Button name="$parent_AtAGlance2" enableMouse="true" hidden="true">
-        <Size x="28" y="28"/>
-        <Anchors>
-          <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
-            <Offset>
-              <AbsDimension x="-1" y="25" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Layers>
-          <Layer level="BACKGROUND">
-            <Texture name="$parent_Icon" file="Interface\Addons\LFT\images\eye\battlenetworking0">
-              <Size x="18" y="18"/>
-              <Anchors>
-                <Anchor point="CENTER">
-                  <Offset x="0" y="0"/>
-                </Anchor>
-              </Anchors>
-            </Texture>
-          </Layer>
-          <Layer level="OVERLAY">
-            <Texture file="Interface\Minimap\MiniMap-TrackingBorder">
-              <Size x="50" y="50"/>
-              <Anchors>
-                <Anchor point="TOPLEFT"/>
-              </Anchors>
-            </Texture>
-          </Layer>
-        </Layers>
-        <Frames>
-          <Frame name="$parent_TextPanel" hidden="true">
-            <Size x="150" y="50"/>
-            <Anchors>
-              <Anchor point="CENTER">
-                <Offset x="0" y="30"/>
-              </Anchor>
-            </Anchors>
-            <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-              <EdgeSize>
-                <AbsValue val="1"/>
-              </EdgeSize>
-              <Color r="0" g="0" b="0" a="0.5" />
-              <BorderColor r="255" g="255" b="255" a="0" />
-            </Backdrop>
-            <Layers>
-              <Layer level="OVERLAY">
-                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-                  <Size x="140" y="50"/>
-                  <Anchors>
-                    <Anchor point="CENTER">
-                      <Offset>
-                        <AbsDimension x="0" y="5" />
-                      </Offset>
-                    </Anchor>
-                  </Anchors>
-                  <FontHeight>
-                    <AbsValue val="12" />
-                  </FontHeight>
-                  <Color r="255" g="255" b="255" />
-                </FontString>
-              </Layer>
-            </Layers>
-          </Frame>
-        </Frames>
-        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
-      </Button>
-
-      <Button name="$parent_AtAGlance3" enableMouse="true" hidden="true">
-        <Size x="28" y="28"/>
-        <Anchors>
-          <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
-            <Offset>
-              <AbsDimension x="38" y="25" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Layers>
-          <Layer level="BACKGROUND">
-            <Texture name="$parent_Icon" file="Interface\Addons\LFT\images\eye\battlenetworking0">
-              <Size x="18" y="18"/>
-              <Anchors>
-                <Anchor point="CENTER">
-                  <Offset x="0" y="0"/>
-                </Anchor>
-              </Anchors>
-            </Texture>
-          </Layer>
-          <Layer level="OVERLAY">
-            <Texture file="Interface\Minimap\MiniMap-TrackingBorder">
-              <Size x="50" y="50"/>
-              <Anchors>
-                <Anchor point="TOPLEFT"/>
-              </Anchors>
-            </Texture>
-          </Layer>
-        </Layers>
-        <Frames>
-          <Frame name="$parent_TextPanel" hidden="true">
-            <Size x="150" y="50"/>
-            <Anchors>
-              <Anchor point="CENTER">
-                <Offset x="0" y="30"/>
-              </Anchor>
-            </Anchors>
-            <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-              <EdgeSize>
-                <AbsValue val="1"/>
-              </EdgeSize>
-              <Color r="0" g="0" b="0" a="0.5" />
-              <BorderColor r="255" g="255" b="255" a="0" />
-            </Backdrop>
-            <Layers>
-              <Layer level="OVERLAY">
-                <FontString name="$parent_Text" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-                  <Size x="140" y="50"/>
-                  <Anchors>
-                    <Anchor point="CENTER">
-                      <Offset>
-                        <AbsDimension x="0" y="5" />
-                      </Offset>
-                    </Anchor>
-                  </Anchors>
-                  <FontHeight>
-                    <AbsValue val="12" />
-                  </FontHeight>
-                  <Color r="255" g="255" b="255" />
-                </FontString>
-              </Layer>
-            </Layers>
-          </Frame>
-        </Frames>
-        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
-      </Button>
-    </Frames>
-  </Frame>
-
-  <Frame name="TurtleRP_Description" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true">
-    <Size>
-      <AbsDimension x="350" y="300" />
-    </Size>
-    <Anchors>
-      <Anchor point="TOP">
-        <Offset>
-          <AbsDimension x="0" y="-100" />
-        </Offset>
-      </Anchor>
-    </Anchors>
-    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-      <BackgroundInsets>
-        <AbsInset left="11" right="12" top="12" bottom="11"/>
-      </BackgroundInsets>
-      <TileSize>
-        <AbsValue val="32"/>
-      </TileSize>
-      <EdgeSize>
-        <AbsValue val="32"/>
-      </EdgeSize>
-    </Backdrop>
-    <Layers>
-			<Layer level="OVERLAY">
-        <!-- Target Name Text -->
-        <FontString name="$parent_TargetName" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
-          <Anchors>
-            <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" >
-              <Offset>
-                <AbsDimension x="0" y="-15"/>
-              </Offset>
-            </Anchor>
-          </Anchors>
-          <FontHeight>
-            <AbsValue val="18" />
-          </FontHeight>
-          <Color r="255" g="255" b="255" />
-        </FontString>
-      </Layer>
-    </Layers>
-    <Frames>
-      <!-- Close button -->
-      <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
-        <Size>
-          <AbsDimension x="25" y="25" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPRIGHT">
-            <Offset>
-              <AbsDimension x="2" y="2"/>
-            </Offset>
-          </Anchor>
-        </Anchors>
-      </Button>
-      <!-- Description frame scrolling -->
-      <ScrollFrame name="$parent_DescriptionScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
-        <Size>
-          <AbsDimension x="300" y="280" />
-        </Size>
-        <Anchors>
-          <Anchor point="LEFT" relativeTo="TurtleRP_Description" relativePoint="LEFT">
-            <Offset>
-              <AbsDimension x="20" y="0" />
-            </Offset>
-          </Anchor>
-          <Anchor point="TOP" relativeTo="TurtleRP_Description" relativePoint="TOP">
-            <Offset>
-              <AbsDimension x="0" y="-50" />
-            </Offset>
-          </Anchor>
-          <Anchor point="BOTTOM" relativeTo="TurtleRP_Description" relativePoint="TOP">
-            <Offset>
-              <AbsDimension x="0" y="-265" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
-          <EdgeSize>
-            <AbsValue val="0.5"/>
-          </EdgeSize>
-          <Color r="1" g="1" b="1" a="0" />
-          <BorderColor r="255" g="255" b="255" a="0" />
-        </Backdrop>
-        <ScrollChild>
-          <Frame name="$parent_DescriptionHolder">
-            <Size>
-              <AbsDimension x="280" y="250" />
-            </Size>
-            <Anchors>
-              <Anchor point="TOPLEFT">
-                <Offset>
-                  <AbsDimension x="0" y="-30" />
-                </Offset>
-              </Anchor>
-            </Anchors>
-            <Frames>
-              <SimpleHTML name="$parent_DescriptionHTML">
-                <Size>
-                  <AbsDimension x="280" y="250" />
-                </Size>
-                <Anchors>
-                  <Anchor point="TOPLEFT">
-                    <Offset>
-                      <AbsDimension x="0" y="0" />
-                    </Offset>
-                  </Anchor>
-                </Anchors>
-                <FontStringHeader1 inherits="GameFontHighlightLarge" />
-                <FontStringHeader2 inherits="NumberFontNormalLarge" />
-                <FontStringHeader3 inherits="QuestTitleFont">
-                  <Color r="1" g="1" b="1"/>
-                </FontStringHeader3>
-                <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT">
-                  <Color r="255" g="255" b="255" />
-                </FontString>
-                <Layers>
-            			<Layer level="OVERLAY">
-                    <FontString name="$parent_TargetDescription" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyH="LEFT" justifyV="TOP">
-                      <Size>
-                        <AbsDimension x="280" />
-                      </Size>
-                      <Anchors>
-                        <Anchor point="TOPLEFT">
-                          <Offset>
-                            <AbsDimension x="0" y="-10" />
-                          </Offset>
-                        </Anchor>
-                      </Anchors>
-                      <FontHeight>
-                        <AbsValue val="12" />
-                      </FontHeight>
-                      <Color r="255" g="255" b="255" />
-                    </FontString>
-                  </Layer>
-                </Layers>
-              </SimpleHTML>
-            </Frames>
-          </Frame>
-        </ScrollChild>
-      </ScrollFrame>
-    </Frames>
-  </Frame>
-
-  <Frame name="TurtleRP_Tooltip_Icon" hidden="true">
-    <Size>
-      <AbsDimension x="100" y="100" />
-    </Size>
-    <Anchors>
-      <Anchor point="CENTER">
-        <Offset>
-          <AbsDimension x="0" y="0" />
-        </Offset>
-      </Anchor>
-    </Anchors>
-    <Layers>
-      <Layer level="BACKGROUND">
-        <Texture name="$parent_Icon" file="Interface\Icons\Ability_Ambush">
-          <Size x="25" y="25"/>
-          <Anchors>
-            <Anchor point="TOPLEFT">
-              <Offset x="1" y="-1"/>
-            </Anchor>
-          </Anchors>
-        </Texture>
-      </Layer>
-    </Layers>
+    <Scripts>
+      <OnMouseDown>
+        this:StartMoving()
+      </OnMouseDown>
+      <OnMouseUp>
+        this:StopMovingOrSizing()
+      </OnMouseUp>
+    </Scripts>
   </Frame>
 
   <Frame name="TurtleRP_IconSelector" hidden="true">
@@ -1778,6 +1580,16 @@
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnLoad>
+            TurtleRP_IconSelector_FilterButton:SetFont("Fonts\\FRIZQT__.ttf", 10)
+          </OnLoad>
+          <OnClick>
+            local currentText = TurtleRP_IconSelector_FilterSearchInput:GetText()
+            TurtleRP.iconSelectorFilter = currentText
+            TurtleRP.renderIcons(0)
+          </OnClick>
+        </Scripts>
       </Button>
       <ScrollFrame name="$parent_ScrollBox" inherits="FauxScrollFrameTemplate">
         <Size>
@@ -1811,52 +1623,6 @@
           <BorderColor r="255" g="255" b="255" a="0" />
         </Backdrop>
       </ScrollFrame>
-    </Frames>
-  </Frame>
-
-  <Frame name="TurtleRP_MinimapIcon" movable="true" toplevel="true" enableMouse="true">
-    <Size>
-      <AbsDimension x="25" y="25" />
-    </Size>
-    <Anchors>
-      <Anchor point="CENTER" relativeTo="MinimapCluster" relativePoint="CENTER">
-        <Offset>
-          <AbsDimension x="-40" y="0" />
-        </Offset>
-      </Anchor>
-    </Anchors>
-    <Frames>
-      <Button name="$parent_OpenAdmin" enableMouse="true">
-        <Size x="25" y="25"/>
-        <Anchors>
-          <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
-            <Offset>
-              <AbsDimension x="-1" y="25" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Layers>
-          <Layer level="BACKGROUND">
-            <Texture name="$parentEye" file="Interface\Addons\TurtleRP\images\wizard-hat">
-              <Size x="13" y="13"/>
-              <Anchors>
-                <Anchor point="CENTER">
-                  <Offset x="-2" y="2"/>
-                </Anchor>
-              </Anchors>
-            </Texture>
-          </Layer>
-          <Layer level="OVERLAY">
-            <Texture file="Interface\Minimap\MiniMap-TrackingBorder">
-              <Size x="37" y="37"/>
-              <Anchors>
-                <Anchor point="TOPLEFT"/>
-              </Anchors>
-            </Texture>
-          </Layer>
-        </Layers>
-        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
-      </Button>
     </Frames>
   </Frame>
 

@@ -23,7 +23,6 @@ Bugs
 
 Next Up
 
-- "RP Mode" like IRP, turning off all frames except chat
 - Allowing custom class text and custom class color
  - This requires some rethinking of how tooltip is sent, as we're nearing 255 char limit (see Class Constants for char limits). Do we split the tooltip into parts, like description? Or enforce other limits?
 
@@ -33,6 +32,8 @@ Feature List
 
 Recently Done
 
+- // Refactor into components and scripts, using XML more effectively
+- // "RP Mode" like IRP, turning off all frames except chat
 - // 1000+ character descriptions getting cut off in scrollbar
 - // Fix with wrong icons being selected when filtering
 - // Refactoring tooltip generation to be robust
