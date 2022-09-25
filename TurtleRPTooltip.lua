@@ -34,26 +34,26 @@ function printICandOOC(info, headerText, blankLine, l)
   local n = l
   if info ~= nil and info ~= "" then
     n = n + 1
-    if getglobal("GameTooltipTextLeft"..l):GetText() == nil then
+    if getglobal("GameTooltipTextLeft"..n):GetText() == nil then
       GameTooltip:AddLine(blankLine)
     else
-      getglobal("GameTooltipTextLeft"..l):SetText(blankLine)
+      getglobal("GameTooltipTextLeft"..n):SetText(blankLine)
     end
 
     n = n + 1
-    if getglobal("GameTooltipTextLeft"..l):GetText() == nil then
+    if getglobal("GameTooltipTextLeft"..n):GetText() == nil then
       GameTooltip:AddLine(headerText, 1, 0.6, 0, true)
     else
-      getglobal("GameTooltipTextLeft"..l):SetText(headerText)
+      getglobal("GameTooltipTextLeft"..n):SetText(headerText)
     end
 
     n = n + 1
-    if getglobal("GameTooltipTextLeft"..l):GetText() == nil then
+    if getglobal("GameTooltipTextLeft"..n):GetText() == nil then
       GameTooltip:AddLine(info, 0.8, 0.8, 0.8, true)
     else
-      getglobal("GameTooltipTextLeft"..l):SetText(ic_info)
+      getglobal("GameTooltipTextLeft"..n):SetText(info)
     end
-    getglobal("GameTooltipTextLeft"..l):SetFont("Fonts\\FRIZQT__.ttf", 10)
+    getglobal("GameTooltipTextLeft"..n):SetFont("Fonts\\FRIZQT__.ttf", 10)
   end
   return n
 end
@@ -96,7 +96,7 @@ function buildTooltip(playerName, targetType)
   local levelAndStatusText  = "Level " .. level .. statusText
   local raceAndClassText    = race .. " " .. thisClassColor .. class
   local ICandPronounsText   = "IC Info" .. getPronounsText(ic_pronouns, pronounColor)
-  local OOCandPronounsText  = "OOC Info" .. getPronounsText(ic_pronouns, pronounColor)
+  local OOCandPronounsText  = "OOC Info" .. getPronounsText(ooc_pronouns, pronounColor)
 
   -- Modify tooltip
   local l = 1
