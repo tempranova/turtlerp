@@ -182,7 +182,7 @@ function TurtleRP.dataKeys(dataPrefix)
     dataKeys = { "keyM", "icon", "title", "first_name", "last_name", "ooc_info", "ic_info", "currently_ic", "ooc_pronouns", "ic_pronouns" }
   end
   if dataPrefix == "T" or dataPrefix == "TR" then
-    dataKeys = { "keyT", "atAGlance1", "atAGlance1Icon", "atAGlance2", "atAGlance2Icon", "atAGlance3", "atAGlance3Icon" }
+    dataKeys = { "keyT", "atAGlance1", "atAGlance1Title", "atAGlance1Icon", "atAGlance2", "atAGlance2Title", "atAGlance2Icon", "atAGlance3", "atAGlance3Title", "atAGlance3Icon" }
   end
   return dataKeys
 end
