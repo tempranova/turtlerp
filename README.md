@@ -10,6 +10,7 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 Tests
 
+- Testing chat messages for causing global errors to players by mean players. Simulating data responses, etc. How much does this need to be watched?
 - // Need to test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE (tested `~!@#$%^&*()-_=+[]\{}|;':",./<>?`)
 - More comprehensive tests are worthwhile on bad characters
 - Testing tooltips across different game situations (in raids, parties, bgs, etc)
@@ -32,6 +33,9 @@ Feature List
 
 Recently Done
 
+- // Some more validation on chat messages
+- // 30s ping and announcement system to prevent chat spam
+- // Proper chat throttling via ChatThrottleLib
 - // Refactor into components and scripts, using XML more effectively
 - // "RP Mode" like IRP, turning off all frames except chat
 - // 1000+ character descriptions getting cut off in scrollbar

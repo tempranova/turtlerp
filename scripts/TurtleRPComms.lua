@@ -85,7 +85,6 @@ end
 
 function TurtleRP.checkTTRPChannel()
   if channelJoined == nil then
-    TurtleRP.log("running check TTRP function")
     local lastVal = 0
     local chanList = { GetChannelList() }
     for _, value in next, chanList do
