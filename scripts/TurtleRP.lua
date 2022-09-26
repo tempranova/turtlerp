@@ -71,6 +71,9 @@ function TurtleRP:OnEvent()
       TurtleRPSettings = {}
       TurtleRPSettings["bgs"] = "off"
     end
+    if TurtleRPQueryablePlayers == nil then
+      TurtleRPQueryablePlayers = {}
+    end
 
     -- For adding additional fields after plugin is in use
     if TurtleRPCharacterInfo ~= nil then
@@ -106,6 +109,7 @@ function TurtleRP:OnEvent()
       TurtleRP_Admin:Show()
       TurtleRP_Description:Hide()
     end
+
   end
 end
 

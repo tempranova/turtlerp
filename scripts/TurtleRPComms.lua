@@ -35,9 +35,12 @@ local lastRequestType = nil
 local lastPlayerName = nil
 local timeOfLastSend = time()
 local channelIndex = 0
+local timeBetweenPings = 30
 
 -- This function often runs too early
 function TurtleRP.communication_prep()
+  TurtleRP.ttrpChatSend("A")
+
   local TurtleRPChannelJoinDelay = CreateFrame("Frame")
   TurtleRPChannelJoinDelay:Hide()
   TurtleRPChannelJoinDelay:SetScript("OnShow", function()
@@ -55,10 +58,34 @@ function TurtleRP.communication_prep()
     end
   end)
   TurtleRPChannelJoinDelay:Show()
+
+end
+
+function TurtleRP.sendPingMessage()
+  local TurtleRPChannelJoinDelay = CreateFrame("Frame")
+  TurtleRPChannelJoinDelay:Hide()
+  TurtleRPChannelJoinDelay:SetScript("OnShow", function()
+      this.startTime = GetTime()
+  end)
+  TurtleRPChannelJoinDelay:SetScript("OnHide", function()
+      TurtleRPChannelJoinDelay:Show()
+  end)
+  TurtleRPChannelJoinDelay:SetScript("OnUpdate", function()
+    local plus = timeBetweenPings --seconds
+    local gt = GetTime() * 1000
+    local st = (this.startTime + plus) * 1000
+    if gt >= st then
+      TurtleRP.ttrpChatSend("P")
+      TurtleRPChannelJoinDelay:Hide()
+    end
+  end)
+  TurtleRPChannelJoinDelay:Show()
 end
 
 
 function TurtleRP.checkTTRPChannel()
+  if channelJoined == nil then
+    TurtleRP.log("running check TTRP function")
     local lastVal = 0
     local chanList = { GetChannelList() }
     for _, value in next, chanList do
@@ -69,8 +96,10 @@ function TurtleRP.checkTTRPChannel()
         lastVal = value
     end
     if channelIndex == 0 then
-        JoinChannelByName("TTRP")
+      JoinChannelByName("TTRP")
+      TurtleRP.ttrpChatSend("A")
     end
+  end
 end
 
 function TurtleRP.communication_events()
@@ -90,7 +119,7 @@ function TurtleRP.communication_events()
   CheckMessages:SetScript("OnEvent", function()
     if event == "CHAT_MSG_CHANNEL" then
       if arg4 == GetChannelName("TTRP") .. ". Ttrp" then
-        TurtleRP.checkChatMessage(arg1)
+        TurtleRP.checkChatMessage(arg1, arg2)
       end
     end
   end)
@@ -98,38 +127,63 @@ function TurtleRP.communication_events()
 end
 
 function TurtleRP.sendRequestForData(requestType, playerName)
-  if timeOfLastSend ~= time() or lastRequestType ~= requestType or lastPlayerName ~= playerName then
+  if timeOfLastSend < (time() - 2) or lastRequestType ~= requestType then
     timeOfLastSend = time()
     lastRequestType = requestType
     lastPlayerName = playerName
-    if TurtleRPCharacters[playerName] ~= nil and TurtleRPCharacters[playerName]['key' .. requestType] ~= nil then
-      local currentKey = TurtleRPCharacters[playerName]['key' .. requestType]
-      TurtleRP.ttrpChatSend(requestType .. ':' .. playerName .. '&&' .. currentKey)
-      TurtleRP.displayData(requestType, playerName)
-    else
-      TurtleRP.ttrpChatSend(requestType .. ':' .. playerName .. '&&NO_KEY')
+    if TurtleRPQueryablePlayers[playerName] or TurtleRPCharacters[playerName] then
+      if TurtleRPCharacters[playerName] ~= nil and TurtleRPCharacters[playerName]['key' .. requestType] ~= nil then
+        local currentKey = TurtleRPCharacters[playerName]['key' .. requestType]
+        TurtleRP.ttrpChatSend(requestType .. ':' .. playerName .. '&&' .. currentKey)
+        TurtleRP.displayData(requestType, playerName)
+      else
+        TurtleRP.ttrpChatSend(requestType .. ':' .. playerName .. '&&NO_KEY')
+      end
     end
   end
 end
 
-function TurtleRP.checkChatMessage(msg)
+function TurtleRP.checkChatMessage(msg, playerName)
   -- If it's requesting data from me
-  local colonStart, colonEnd = string.find(msg, ':')
-  local dataPrefix = string.sub(msg, 1, colonEnd - 1)
-  local ampersandStart, ampersandEnd = string.find(msg, '&&')
-  local playerName = string.sub(msg, colonEnd + 1, ampersandEnd - 2)
-  if playerName == UnitName("player") then
-    if TurtleRP.checkUniqueKey(dataPrefix, msg) ~= true then
-      TurtleRP.sendData(dataPrefix)
+  if msg == "A" then
+    if playerName == UnitName("player") then
+      channelJoined = true
+      TurtleRPQueryablePlayers[playerName] = true
+      TurtleRP.sendPingMessage()
+    else
+      if TurtleRPQueryablePlayers[playerName] == nil then
+        TurtleRPQueryablePlayers[playerName] = true
+      end
+    end
+  end
+  if msg == "P" then
+    if playerName ~= UnitName("player") then
+      if TurtleRPQueryablePlayers[playerName] == nil then
+        TurtleRPQueryablePlayers[playerName] = true
+      end
+    end
+  end
+  if(string.find(msg, ':')) then
+    local colonStart, colonEnd = string.find(msg, ':')
+    local dataPrefix = string.sub(msg, 1, colonEnd - 1)
+    local ampersandStart, ampersandEnd = string.find(msg, '&&')
+    if ampersandStart then
+      local playerName = string.sub(msg, colonEnd + 1, ampersandEnd - 2)
+      if playerName == UnitName("player") then
+        if TurtleRP.checkUniqueKey(dataPrefix, msg) ~= true then
+          TurtleRP.sendData(dataPrefix)
+        end
+      else
+        TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
+      end
     end
   else
-    TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
-  end
+end
 end
 
 function TurtleRP.checkUniqueKey(dataPrefix, msg)
   local keyValid = false
-  local dataFromString = getDataFromString(msg)
+  local dataFromString = TurtleRP.getDataFromString(msg)
   local keyData = dataFromString[2]
   if keyData ~= "NO_KEY" then
     if keyData == TurtleRPCharacterInfo["key" .. dataPrefix] then
@@ -223,5 +277,5 @@ function TurtleRP.displayData(dataPrefix, playerName)
 end
 
 function TurtleRP.ttrpChatSend(message)
-  SendChatMessage(message, "CHANNEL", nil, GetChannelName("TTRP"))
+  ChatThrottleLib:SendChatMessage("NORMAL", "TTRP", message, "CHANNEL", nil, GetChannelName("TTRP"))
 end

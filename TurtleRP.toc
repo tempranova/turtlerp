@@ -3,7 +3,7 @@
 ## Author: tempranova / Drixi / Vee
 ## Version: 0.0.3
 ## Notes: RP Addon custom made for Turtle WoW
-## SavedVariables: TurtleRPSettings, TurtleRPCharacters
+## SavedVariables: TurtleRPSettings, TurtleRPCharacters, TurtleRPQueryablePlayers
 ## SavedVariablesPerCharacter: TurtleRPCharacterInfo
 
 ChatThrottleLib\ChatThrottleLib.lua
