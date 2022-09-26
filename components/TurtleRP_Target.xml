@@ -72,8 +72,8 @@
         </Anchors>
         <Layers>
           <Layer level="BACKGROUND">
-            <Texture name="$parent_Icon" file="Interface\Addons\TurtleRP\Images\TurtleRP_Icon">
-              <Size x="18" y="18"/>
+            <Texture name="$parent_Icon">
+              <Size x="19" y="19"/>
               <Anchors>
                 <Anchor point="CENTER">
                   <Offset x="0" y="0"/>
@@ -161,8 +161,8 @@
         </Anchors>
         <Layers>
           <Layer level="BACKGROUND">
-            <Texture name="$parent_Icon" file="Interface\Addons\LFT\images\eye\battlenetworking0">
-              <Size x="18" y="18"/>
+            <Texture name="$parent_Icon">
+              <Size x="19" y="19"/>
               <Anchors>
                 <Anchor point="CENTER">
                   <Offset x="0" y="0"/>
@@ -250,8 +250,8 @@
         </Anchors>
         <Layers>
           <Layer level="BACKGROUND">
-            <Texture name="$parent_Icon" file="Interface\Addons\LFT\images\eye\battlenetworking0">
-              <Size x="18" y="18"/>
+            <Texture name="$parent_Icon">
+              <Size x="19" y="19"/>
               <Anchors>
                 <Anchor point="CENTER">
                   <Offset x="0" y="0"/>

@@ -16,12 +16,19 @@ function TurtleRP.tooltip_events()
       TurtleRP.buildTooltip(UnitName("mouseover"), "mouseover")
     end
   end)
+  local defaultTooltipScript = GameTooltip:GetScript("OnHide")
   GameTooltip:SetScript("OnHide", function()
+    defaultTooltipScript()
     TurtleRP_Tooltip_Icon:Hide()
-    if TurtleRPStatusBarFrame ~= nil then
-      TurtleRPStatusBarFrame:Hide()
-    end
     getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 15)
+    getglobal("GameTooltipTextLeft2"):SetFont("Fonts\\FRIZQT__.ttf", 12)
+    getglobal("GameTooltipTextLeft3"):SetFont("Fonts\\FRIZQT__.ttf", 12)
+    getglobal("GameTooltipTextLeft4"):SetFont("Fonts\\FRIZQT__.ttf", 12)
+    getglobal("GameTooltipTextLeft5"):SetFont("Fonts\\FRIZQT__.ttf", 12)
+    getglobal("GameTooltipTextLeft6"):SetFont("Fonts\\FRIZQT__.ttf", 12)
+    getglobal("GameTooltipTextLeft7"):SetFont("Fonts\\FRIZQT__.ttf", 12)
+    getglobal("GameTooltipTextLeft8"):SetFont("Fonts\\FRIZQT__.ttf", 12)
+    getglobal("GameTooltipTextLeft9"):SetFont("Fonts\\FRIZQT__.ttf", 12)
   end)
 end
 

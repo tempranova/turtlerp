@@ -1479,7 +1479,7 @@
               <Anchors>
                 <Anchor point="TOPLEFT">
                   <Offset>
-                    <AbsDimension x="10" y="-100" />
+                    <AbsDimension x="10" y="-70" />
                   </Offset>
                 </Anchor>
               </Anchors>
@@ -1490,28 +1490,28 @@
             </FontString>
             <!-- About Text -->
             <FontString name="$parent_AboutText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyV="top" justifyH="left"
-              text="TurtleRP was developed by Drixi, with collaboration and help in funding from Ashkir. Many more features are planned:  &#xA;&#xA;Guild functionality&#xA;Additional description formatting&#xA;Map locator&#xA;&#xA;Get in touch and find out more here: |ccf8A8AFFhttps://tempranova.github.io/turtlerp/">
+              text="TurtleRP was developed by Drixi, with collaboration and help in funding from Ashkir. Many more features are planned:  &#xA;&#xA;- Guild functionality&#xA;- Additional description formatting&#xA;- Map locator&#xA;&#xA;Get in touch and find out more here: |ccf8A8AFFhttps://tempranova.github.io/turtlerp/|ccfFFFFFF, or join us on Discord at |ccf8A8AFFhttps://discord.gg/Z5w9DqDE96">
               <Size>
                 <AbsDimension x="450" y="100" />
               </Size>
               <Anchors>
                 <Anchor point="TOPLEFT">
                   <Offset>
-                    <AbsDimension x="10" y="-120" />
+                    <AbsDimension x="10" y="-90" />
                   </Offset>
                 </Anchor>
               </Anchors>
               <FontHeight>
                 <AbsValue val="10" />
               </FontHeight>
-              <Color r="255" g="255" b="255" />
+              <Color r="1" g="1" b="1" a="0.8" />
             </FontString>
             <!-- Issues Title -->
             <FontString name="$parent_IssuesTitle" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Issues">
               <Anchors>
                 <Anchor point="TOPLEFT">
                   <Offset>
-                    <AbsDimension x="10" y="-220" />
+                    <AbsDimension x="10" y="-200" />
                   </Offset>
                 </Anchor>
               </Anchors>
@@ -1521,21 +1521,21 @@
               <Color r="255" g="255" b="255" />
             </FontString>
             <!-- Issues Text -->
-            <FontString name="$parent_AboutText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyV="top" justifyH="left" text="Not seeing profiles? Double-check if you are in the TTRP channel (/join ttrp).&#xA;&#xA;Due to chat restrictions, on the Turtle WoW server players under level 5 cannot see other profiles and others cannot see theirs. Level up already!">
+            <FontString name="$parent_AboutText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyV="top" justifyH="left" text="Not seeing profiles? Make sure you are in the TTRP channel (|ccf8A8AFF/join ttrp|ccfFFFFFF, then |ccf8A8AFF/console reloadui|ccfFFFFFF).&#xA;&#xA;Due to chat restrictions, on the Turtle WoW server players under level 5 cannot see other profiles and others cannot see theirs. Level up already!">
               <Size>
-                <AbsDimension x="450" y="50" />
+                <AbsDimension x="450" y="70" />
               </Size>
               <Anchors>
                 <Anchor point="TOPLEFT">
                   <Offset>
-                    <AbsDimension x="10" y="-240" />
+                    <AbsDimension x="10" y="-220" />
                   </Offset>
                 </Anchor>
               </Anchors>
               <FontHeight>
                 <AbsValue val="10" />
               </FontHeight>
-              <Color r="255" g="255" b="255" />
+              <Color r="1" g="1" b="1" a="0.8" />
             </FontString>
           </Layer>
         </Layers>
@@ -1562,6 +1562,75 @@
               </OnClick>
             </Scripts>
           </CheckButton>
+          <!-- Issues Reload Button -->
+          <Button name="$parent_ReloadButton" inherits="UIPanelButtonGrayTemplate" text="Rejoin / Reload">
+            <Size>
+              <AbsDimension x="100" y="25" />
+            </Size>
+            <Anchors>
+              <Anchor point="BOTTOMLEFT" relativeTo="$parent_IssuesTitle" relativePoint="BOTTOMLEFT">
+                <Offset>
+                  <AbsDimension x="0" y="-90"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+              <OnClick>
+                JoinChannelByName("TTRP")
+                ConsoleExec("reloadui")
+              </OnClick>
+            </Scripts>
+          </Button>
+          <!-- Clear Directory -->
+          <Button name="$parent_ClearDirectoryButton" inherits="UIPanelButtonGrayTemplate" text="Clear Player Directory">
+            <Size>
+              <AbsDimension x="140" y="25" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" relativeTo="$parent_ReloadButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="20" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+              <OnClick>
+                TurtleRPCharacters = {}
+                TurtleRPQueryablePlayers = {}
+                ConsoleExec("reloadui")
+              </OnClick>
+            </Scripts>
+          </Button>
+          <!-- Clear Everything -->
+          <Button name="$parent_ClearAllDataButton" inherits="UIPanelButtonGrayTemplate" text="Clear All Data">
+            <Size>
+              <AbsDimension x="100" y="25" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" relativeTo="$parent_ClearDirectoryButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="20" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+              <OnClick>
+                TurtleRPCharacterInfo = {}
+                TurtleRPCharacters = {}
+                TurtleRPQueryablePlayers = {}
+                ConsoleExec("reloadui")
+              </OnClick>
+            </Scripts>
+          </Button>
         </Frames>
       </Frame>
     </Frames>

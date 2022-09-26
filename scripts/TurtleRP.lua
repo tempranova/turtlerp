@@ -373,7 +373,7 @@ function TurtleRP.create_icon_selector()
 end
 
 function MyModScrollBar_Update()
-  FauxScrollFrame_Update(TurtleRP_IconSelector_ScrollBox, 500, 250, 25)
+  FauxScrollFrame_Update(TurtleRP_IconSelector_ScrollBox, 450, 250, 25)
   local currentLine = FauxScrollFrame_GetOffset(TurtleRP_IconSelector_ScrollBox)
   TurtleRP.renderIcons((currentLine * 5))
 end
@@ -425,7 +425,7 @@ function TurtleRP.renderIcons(iconOffset)
       end
     end
     for i, iconFrame in ipairs(TurtleRP.iconFrames) do
-      if filteredIcons[i + iconOffset] ~= nil then
+      if filteredIcons[i + iconOffset] ~= nil and TurtleRPIcons[filteredIcons[i + iconOffset]] ~= nil then
         iconFrame:SetText(filteredIcons[i + iconOffset])
         iconFrame:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[filteredIcons[i + iconOffset]] })
       else

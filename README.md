@@ -12,20 +12,24 @@ Tests
 
 - Testing chat messages for causing global errors to players by mean players. Simulating data responses, etc. How much does this need to be watched?
 - // Need to test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE (tested `~!@#$%^&*()-_=+[]\{}|;':",./<>?`)
-- More comprehensive tests are worthwhile on bad characters
+- More comprehensive tests are worthwhile on bad text characters
 - Testing tooltips across different game situations (in raids, parties, bgs, etc)
 - Test when drunk (SLURRED_SPEECH)
+- Framerate issues when opening tooltips? reported 2s lag
 
 Bugs
 
-- Difficult to replicate bug with tooltip "getting stuck" from an item
-- Framerate issues when opening tooltips? reported 2s lag
-- Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
+CLEAR!
 
 Next Up
 
+- Allowing a manual query?
+
+After beta
+
 - Allowing custom class text and custom class color
  - This requires some rethinking of how tooltip is sent, as we're nearing 255 char limit (see Class Constants for char limits). Do we split the tooltip into parts, like description? Or enforce other limits?
+- Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
 
 Feature List
 
@@ -33,6 +37,12 @@ Feature List
 
 Recently Done
 
+- // Adding discord link to the About section
+- // Having a "clear cache" button or something
+- // Manually rejoining channel issue
+- // Filter icon bug when scrolled fast to end
+- // Tooltip ALL lines need resetting (ie, lines 4-5-6)
+- // Tooltip "already equipped" issue of not disappearing
 - // Some more validation on chat messages
 - // 30s ping and announcement system to prevent chat spam
 - // Proper chat throttling via ChatThrottleLib
