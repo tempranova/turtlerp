@@ -130,6 +130,7 @@ function TurtleRP.mouseover_and_target_events()
           if UnitName("target") == UnitName("player") then
             TurtleRP.buildTargetFrame(UnitName("player"))
           else
+            TurtleRP_Target:Hide()
             TurtleRP.sendRequestForData("T", UnitName("target"))
           end
         else
