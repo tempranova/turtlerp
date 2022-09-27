@@ -721,7 +721,7 @@
                 this:SetFont("Fonts\\FRIZQT__.ttf", 10)
               </OnLoad>
               <OnClick>
-                TurtleRP.save_general()
+                TurtleRP.save_at_a_glance()
               </OnClick>
             </Scripts>
           </Button>
@@ -745,7 +745,7 @@
             </Scripts>
           </EditBox>
           <!-- AAG1 Icon Button -->
-          <Button name="$parent_AAG1IconButton">
+          <Button name="$parent_AAG1IconButton" enableMouse="true" >
             <Size>
               <AbsDimension x="25" y="25" />
             </Size>
@@ -1833,7 +1833,7 @@
       <AbsDimension x="165" y="150" />
     </Size>
     <Anchors>
-      <Anchor point="CENTER" relativeTo="TurtleRP_Admin" relativePoint="CENTER">
+      <Anchor point="CENTER" relativeTo="TurtleRP_AdminSB" relativePoint="CENTER">
         <Offset>
           <AbsDimension x="0" y="0" />
         </Offset>

@@ -18,7 +18,7 @@ Tests
 
 Bugs
 
-CLEAR!
+- When a player is ??, tooltip shows -1
 
 Next Up
 
@@ -37,6 +37,8 @@ Feature List
 
 Recently Done
 
+- // Target removed when targetting a player after targetting self
+- // New Spellbook UI
 - // Implementing a Test channel for future dev changes
 - // Not allowing "&&" characters in any saved text
 - // Better validation on recieving data
