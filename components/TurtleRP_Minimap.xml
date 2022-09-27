@@ -44,7 +44,7 @@
         <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
         <Scripts>
           <OnClick>
-            TurtleRP_Admin:Show()
+            TurtleRP.OpenAdmin()
           </OnClick>
           <OnMouseDown>
             TurtleRP_MinimapIcon:StartMoving()

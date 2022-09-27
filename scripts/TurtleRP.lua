@@ -107,8 +107,7 @@ function TurtleRP:OnEvent()
     -- SLash commands
     SLASH_TURTLERP1 = "/ttrp";
     function SlashCmdList.TURTLERP(msg)
-      TurtleRP_Admin:Show()
-      TurtleRP_Description:Hide()
+      TurtleRP.OpenAdmin()
     end
 
   end
@@ -239,55 +238,55 @@ end
 -- Populate data
 -----
 function TurtleRP.populate_interface_user_data()
-  TurtleRP_Admin_General_TitleInput:SetText(TurtleRPCharacterInfo["title"])
-  TurtleRP_Admin_General_FirstNameInput:SetText(TurtleRPCharacterInfo["first_name"])
-  TurtleRP_Admin_General_LastNameInput:SetText(TurtleRPCharacterInfo["last_name"])
-  TurtleRP_Admin_General_ICScrollBox_ICInfoInput:SetText(TurtleRPCharacterInfo["ic_info"])
-  TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:SetText(TurtleRPCharacterInfo["ooc_info"])
-  TurtleRP_Admin_General_ICPronounsInput:SetText(TurtleRPCharacterInfo["ic_pronouns"])
-  TurtleRP_Admin_General_OOCPronounsInput:SetText(TurtleRPCharacterInfo["ooc_pronouns"])
+  TurtleRP_AdminSB_Content1_TitleInput:SetText(TurtleRPCharacterInfo["title"])
+  TurtleRP_AdminSB_Content1_FirstNameInput:SetText(TurtleRPCharacterInfo["first_name"])
+  TurtleRP_AdminSB_Content1_LastNameInput:SetText(TurtleRPCharacterInfo["last_name"])
+  TurtleRP_AdminSB_Content1_ICScrollBox_ICInfoInput:SetText(TurtleRPCharacterInfo["ic_info"])
+  TurtleRP_AdminSB_Content1_OOCScrollBox_OOCInfoInput:SetText(TurtleRPCharacterInfo["ooc_info"])
+  TurtleRP_AdminSB_Content1_ICPronounsInput:SetText(TurtleRPCharacterInfo["ic_pronouns"])
+  TurtleRP_AdminSB_Content1_OOCPronounsInput:SetText(TurtleRPCharacterInfo["ooc_pronouns"])
   TurtleRP.setCharacterIcon()
-  TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:SetText(TurtleRPCharacterInfo["atAGlance1"])
-  TurtleRP_Admin_AtAGlance_AAG1TitleInput:SetText(TurtleRPCharacterInfo["atAGlance1Title"])
-  TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:SetText(TurtleRPCharacterInfo["atAGlance2"])
-  TurtleRP_Admin_AtAGlance_AAG2TitleInput:SetText(TurtleRPCharacterInfo["atAGlance2Title"])
-  TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:SetText(TurtleRPCharacterInfo["atAGlance3"])
-  TurtleRP_Admin_AtAGlance_AAG3TitleInput:SetText(TurtleRPCharacterInfo["atAGlance3Title"])
+  TurtleRP_AdminSB_Content2_AtAGlance1ScrollBox_AAG1Input:SetText(TurtleRPCharacterInfo["atAGlance1"])
+  TurtleRP_AdminSB_Content2_AAG1TitleInput:SetText(TurtleRPCharacterInfo["atAGlance1Title"])
+  TurtleRP_AdminSB_Content2_AtAGlance2ScrollBox_AAG2Input:SetText(TurtleRPCharacterInfo["atAGlance2"])
+  TurtleRP_AdminSB_Content2_AAG2TitleInput:SetText(TurtleRPCharacterInfo["atAGlance2Title"])
+  TurtleRP_AdminSB_Content2_AtAGlance3ScrollBox_AAG3Input:SetText(TurtleRPCharacterInfo["atAGlance3"])
+  TurtleRP_AdminSB_Content2_AAG3TitleInput:SetText(TurtleRPCharacterInfo["atAGlance3Title"])
   TurtleRP.setAtAGlanceIcons()
-  TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:SetText(TurtleRPCharacterInfo["description"])
-  TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:SetText(TurtleRPCharacterInfo["notes"])
+  TurtleRP_AdminSB_Content3_DescriptionScrollBox_DescriptionInput:SetText(TurtleRPCharacterInfo["description"])
+  TurtleRP_AdminSB_Content4_NotesScrollBox_NotesInput:SetText(TurtleRPCharacterInfo["notes"])
 
-  TurtleRP_Admin_Settings_PVPButton:SetChecked(TurtleRPSettings["bgs"] == "on" and true or false)
-  TurtleRP_Admin_General_ICButton:SetChecked(TurtleRPCharacterInfo["currently_ic"] == "on" and true or false)
+  TurtleRP_AdminSB_Content5_PVPButton:SetChecked(TurtleRPSettings["bgs"] == "on" and true or false)
+  TurtleRP_AdminSB_Content1_ICButton:SetChecked(TurtleRPCharacterInfo["currently_ic"] == "on" and true or false)
 end
 
 function TurtleRP.setCharacterIcon()
   if TurtleRPCharacterInfo["icon"] ~= "" then
     local iconIndex = TurtleRPCharacterInfo["icon"]
-    TurtleRP_Admin_General_IconButton:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)] })
+    TurtleRP_AdminSB_Content1_IconButton:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)] })
   else
-    TurtleRP_Admin_General_IconButton:SetBackdrop({ bgFile = "Interface\\Buttons\\UI-EmptySlot-White" })
+    TurtleRP_AdminSB_Content1_IconButton:SetBackdrop({ bgFile = "Interface\\Buttons\\UI-EmptySlot-White" })
   end
 end
 
 function TurtleRP.setAtAGlanceIcons()
   if TurtleRPCharacters[UnitName("player")]["atAGlance1Icon"] ~= "" then
     local iconIndex = TurtleRPCharacters[UnitName("player")]["atAGlance1Icon"]
-    TurtleRP_Admin_AtAGlance_AAG1IconButton:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)] })
+    TurtleRP_AdminSB_Content2_AAG1IconButton:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)] })
   else
-    TurtleRP_Admin_AtAGlance_AAG1IconButton:SetBackdrop({ bgFile = "Interface\\Buttons\\UI-EmptySlot-White" })
+    TurtleRP_AdminSB_Content2_AAG1IconButton:SetBackdrop({ bgFile = "Interface\\Buttons\\UI-EmptySlot-White" })
   end
   if TurtleRPCharacters[UnitName("player")]["atAGlance2Icon"] ~= "" then
     local iconIndex = TurtleRPCharacters[UnitName("player")]["atAGlance2Icon"]
-    TurtleRP_Admin_AtAGlance_AAG2IconButton:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)] })
+    TurtleRP_AdminSB_Content2_AAG2IconButton:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)] })
   else
-    TurtleRP_Admin_AtAGlance_AAG2IconButton:SetBackdrop({ bgFile = "Interface\\Buttons\\UI-EmptySlot-White" })
+    TurtleRP_AdminSB_Content2_AAG2IconButton:SetBackdrop({ bgFile = "Interface\\Buttons\\UI-EmptySlot-White" })
   end
   if TurtleRPCharacters[UnitName("player")]["atAGlance3Icon"] ~= "" then
     local iconIndex = TurtleRPCharacters[UnitName("player")]["atAGlance3Icon"]
-    TurtleRP_Admin_AtAGlance_AAG3IconButton:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)] })
+    TurtleRP_AdminSB_Content2_AAG3IconButton:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)] })
   else
-    TurtleRP_Admin_AtAGlance_AAG3IconButton:SetBackdrop({ bgFile = "Interface\\Buttons\\UI-EmptySlot-White" })
+    TurtleRP_AdminSB_Content2_AAG3IconButton:SetBackdrop({ bgFile = "Interface\\Buttons\\UI-EmptySlot-White" })
   end
 end
 
@@ -296,63 +295,63 @@ end
 -----
 function TurtleRP.save_general()
   TurtleRPCharacterInfo['keyM'] = TurtleRP.randomchars()
-  local title = TurtleRP_Admin_General_TitleInput:GetText()
-  TurtleRP_Admin_General_TitleInput:ClearFocus()
+  local title = TurtleRP_AdminSB_Content1_TitleInput:GetText()
+  TurtleRP_AdminSB_Content1_TitleInput:ClearFocus()
   TurtleRPCharacterInfo["title"] = TurtleRP.validateBeforeSaving(title)
-  local first_name = TurtleRP_Admin_General_FirstNameInput:GetText()
-  TurtleRP_Admin_General_FirstNameInput:ClearFocus()
+  local first_name = TurtleRP_AdminSB_Content1_FirstNameInput:GetText()
+  TurtleRP_AdminSB_Content1_FirstNameInput:ClearFocus()
   TurtleRPCharacterInfo["first_name"] = TurtleRP.validateBeforeSaving(first_name)
-  local last_name = TurtleRP_Admin_General_LastNameInput:GetText()
-  TurtleRP_Admin_General_LastNameInput:ClearFocus()
+  local last_name = TurtleRP_AdminSB_Content1_LastNameInput:GetText()
+  TurtleRP_AdminSB_Content1_LastNameInput:ClearFocus()
   TurtleRPCharacterInfo["last_name"] = TurtleRP.validateBeforeSaving(last_name)
-  local ic_info = TurtleRP_Admin_General_ICScrollBox_ICInfoInput:GetText()
-  TurtleRP_Admin_General_ICScrollBox_ICInfoInput:ClearFocus()
+  local ic_info = TurtleRP_AdminSB_Content1_ICScrollBox_ICInfoInput:GetText()
+  TurtleRP_AdminSB_Content1_ICScrollBox_ICInfoInput:ClearFocus()
   TurtleRPCharacterInfo["ic_info"] = TurtleRP.validateBeforeSaving(ic_info)
-  local ooc_info = TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:GetText()
-  TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:ClearFocus()
+  local ooc_info = TurtleRP_AdminSB_Content1_OOCScrollBox_OOCInfoInput:GetText()
+  TurtleRP_AdminSB_Content1_OOCScrollBox_OOCInfoInput:ClearFocus()
   TurtleRPCharacterInfo["ooc_info"] = TurtleRP.validateBeforeSaving(ooc_info)
-  local ic_pronouns = TurtleRP_Admin_General_ICPronounsInput:GetText()
-  TurtleRP_Admin_General_ICPronounsInput:ClearFocus()
+  local ic_pronouns = TurtleRP_AdminSB_Content1_ICPronounsInput:GetText()
+  TurtleRP_AdminSB_Content1_ICPronounsInput:ClearFocus()
   TurtleRPCharacterInfo["ic_pronouns"] = TurtleRP.validateBeforeSaving(ic_pronouns)
-  local ooc_pronouns = TurtleRP_Admin_General_OOCPronounsInput:GetText()
-  TurtleRP_Admin_General_OOCPronounsInput:ClearFocus()
+  local ooc_pronouns = TurtleRP_AdminSB_Content1_OOCPronounsInput:GetText()
+  TurtleRP_AdminSB_Content1_OOCPronounsInput:ClearFocus()
   TurtleRPCharacterInfo["ooc_pronouns"] = TurtleRP.validateBeforeSaving(ooc_pronouns)
   TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
   TurtleRP.setCharacterIcon()
 end
 function TurtleRP.save_at_a_glance()
   TurtleRPCharacterInfo['keyT'] = TurtleRP.randomchars()
-  local aag1Text = TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:GetText()
-  TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:ClearFocus()
+  local aag1Text = TurtleRP_AdminSB_Content2_AtAGlance1ScrollBox_AAG1Input:GetText()
+  TurtleRP_AdminSB_Content2_AtAGlance1ScrollBox_AAG1Input:ClearFocus()
   TurtleRPCharacterInfo["atAGlance1"] = TurtleRP.validateBeforeSaving(aag1Text)
-  local aag1TitleText = TurtleRP_Admin_AtAGlance_AAG1TitleInput:GetText()
-  TurtleRP_Admin_AtAGlance_AAG1TitleInput:ClearFocus()
+  local aag1TitleText = TurtleRP_AdminSB_Content2_AAG1TitleInput:GetText()
+  TurtleRP_AdminSB_Content2_AAG1TitleInput:ClearFocus()
   TurtleRPCharacterInfo["atAGlance1Title"] = TurtleRP.validateBeforeSaving(aag1TitleText)
-  local aag2Text = TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:GetText()
-  TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:ClearFocus()
+  local aag2Text = TurtleRP_AdminSB_Content2_AtAGlance2ScrollBox_AAG2Input:GetText()
+  TurtleRP_AdminSB_Content2_AtAGlance2ScrollBox_AAG2Input:ClearFocus()
   TurtleRPCharacterInfo["atAGlance2"] = TurtleRP.validateBeforeSaving(aag2Text)
-  local aag2TitleText = TurtleRP_Admin_AtAGlance_AAG2TitleInput:GetText()
-  TurtleRP_Admin_AtAGlance_AAG2TitleInput:ClearFocus()
+  local aag2TitleText = TurtleRP_AdminSB_Content2_AAG2TitleInput:GetText()
+  TurtleRP_AdminSB_Content2_AAG2TitleInput:ClearFocus()
   TurtleRPCharacterInfo["atAGlance2Title"] = TurtleRP.validateBeforeSaving(aag2TitleText)
-  local aag3Text = TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:GetText()
-  TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:ClearFocus()
+  local aag3Text = TurtleRP_AdminSB_Content2_AtAGlance3ScrollBox_AAG3Input:GetText()
+  TurtleRP_AdminSB_Content2_AtAGlance3ScrollBox_AAG3Input:ClearFocus()
   TurtleRPCharacterInfo["atAGlance3"] = TurtleRP.validateBeforeSaving(aag3Text)
-  local aag3TitleText = TurtleRP_Admin_AtAGlance_AAG3TitleInput:GetText()
-  TurtleRP_Admin_AtAGlance_AAG3TitleInput:ClearFocus()
+  local aag3TitleText = TurtleRP_AdminSB_Content2_AAG3TitleInput:GetText()
+  TurtleRP_AdminSB_Content2_AAG3TitleInput:ClearFocus()
   TurtleRPCharacterInfo["atAGlance3Title"] = TurtleRP.validateBeforeSaving(aag3TitleText)
   TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
   TurtleRP.setAtAGlanceIcons()
 end
 function TurtleRP.save_description()
   TurtleRPCharacterInfo['keyD'] = TurtleRP.randomchars()
-  local description = TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:GetText()
-  TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:ClearFocus()
+  local description = TurtleRP_AdminSB_Content3_DescriptionScrollBox_DescriptionInput:GetText()
+  TurtleRP_AdminSB_Content3_DescriptionScrollBox_DescriptionInput:ClearFocus()
   TurtleRPCharacterInfo["description"] = TurtleRP.validateBeforeSaving(description)
   TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
 end
 function TurtleRP.save_notes()
-  local notes = TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:GetText()
-  TurtleRP_Admin_Notes_NotesScrollBox_NotesInput:ClearFocus()
+  local notes = TurtleRP_AdminSB_Content4_NotesScrollBox_NotesInput:GetText()
+  TurtleRP_AdminSB_Content4_NotesScrollBox_NotesInput:ClearFocus()
   TurtleRPCharacterInfo["notes"] = notes
 end
 
@@ -502,13 +501,48 @@ function TurtleRP.DisableRPMode()
 	UIParent:Show();
 end
 
-function TurtleRP.showHidePanels(panelName)
-  TurtleRP_Admin_General:Hide()
-  TurtleRP_Admin_AtAGlance:Hide()
-  TurtleRP_Admin_Description:Hide()
-  TurtleRP_Admin_Notes:Hide()
-  TurtleRP_Admin_Settings:Hide()
-  panelName:Show()
+function TurtleRP.OpenAdmin()
+  UIPanelWindows["TurtleRP_AdminSB"] = { area = "left", pushable = 0 }
+
+  ShowUIPanel(TurtleRP_AdminSB)
+
+  TurtleRP_AdminSB_Tab1:SetNormalTexture("Interface\\Icons\\Spell_Nature_MoonGlow")
+  TurtleRP_AdminSB_Tab1.tooltip = "Profile"
+  TurtleRP_AdminSB_Tab1:Show()
+
+  TurtleRP_AdminSB_Tab2:SetNormalTexture("Interface\\Icons\\INV_Misc_Head_Human_02")
+  TurtleRP_AdminSB_Tab2.tooltip = "At A Glance"
+  TurtleRP_AdminSB_Tab2:Show()
+
+  TurtleRP_AdminSB_Tab3:SetNormalTexture("Interface\\Icons\\INV_Misc_StoneTablet_11")
+  TurtleRP_AdminSB_Tab3.tooltip = "Description"
+  TurtleRP_AdminSB_Tab3:Show()
+
+  TurtleRP_AdminSB_Tab4:SetNormalTexture("Interface\\Icons\\INV_Letter_03")
+  TurtleRP_AdminSB_Tab4.tooltip = "Notes"
+  TurtleRP_AdminSB_Tab4:Show()
+
+  TurtleRP_AdminSB_Tab5:SetNormalTexture("Interface\\Icons\\Trade_Engineering")
+  TurtleRP_AdminSB_Tab5.tooltip = "Settings"
+  TurtleRP_AdminSB_Tab5:Show()
+
+  TurtleRP_AdminSB_Tab6:SetNormalTexture("Interface\\Icons\\INV_Misc_QuestionMark")
+  TurtleRP_AdminSB_Tab6.tooltip = "About / Help"
+  TurtleRP_AdminSB_Tab6:Show()
+
+  TurtleRP_AdminSB_Tab1:SetChecked(1)
+end
+
+function TurtleRP.OnAdminTabClick(id)
+  for i=1, 6 do
+    if i ~= id then
+      getglobal("TurtleRP_AdminSB_Tab"..i):SetChecked(0)
+      getglobal("TurtleRP_AdminSB_Content"..i):Hide()
+    else
+      getglobal("TurtleRP_AdminSB_Tab"..i):SetChecked(1)
+      getglobal("TurtleRP_AdminSB_Content"..i):Show()
+    end
+  end
 end
 
 -----

@@ -11,11 +11,10 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 Tests
 
 - Testing chat messages for causing global errors to players by mean players. Simulating data responses, etc. How much does this need to be watched?
-- // Need to test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE (tested `~!@#$%^&*()-_=+[]\{}|;':",./<>?`)
-- More comprehensive tests are worthwhile on bad text characters
+- Test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE (tested `~!@#$%^&*()-_=+[]\{}|;':",./<>?`)
 - Testing tooltips across different game situations (in raids, parties, bgs, etc)
 - Test when drunk (SLURRED_SPEECH)
-- Framerate issues when opening tooltips? reported 2s lag
+- // Framerate issues when opening tooltips? reported 2s lag
 
 Bugs
 
@@ -38,6 +37,7 @@ Feature List
 
 Recently Done
 
+- // Implementing a Test channel for future dev changes
 - // Not allowing "&&" characters in any saved text
 - // Better validation on recieving data
 - // Adding discord link to the About section
