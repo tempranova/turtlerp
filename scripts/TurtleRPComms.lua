@@ -111,7 +111,6 @@ function TurtleRP.communication_events()
       TurtleRP.sendRequestForData("D", UnitName("target"))
     end
     TurtleRP_Description:Show()
-    TurtleRP_Admin:Hide()
   end)
 
   local CheckMessages = CreateFrame("Frame")
