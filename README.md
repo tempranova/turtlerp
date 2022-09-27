@@ -23,6 +23,7 @@ CLEAR!
 
 Next Up
 
+- Adding someone as queryable if they query you?
 - Allowing a manual query?
 
 After beta
@@ -37,6 +38,8 @@ Feature List
 
 Recently Done
 
+- // Not allowing "&&" characters in any saved text
+- // Better validation on recieving data
 - // Adding discord link to the About section
 - // Having a "clear cache" button or something
 - // Manually rejoining channel issue

@@ -36,6 +36,7 @@ local lastPlayerName = nil
 local timeOfLastSend = time()
 local channelIndex = 0
 local timeBetweenPings = 30
+local channelName = TurtleRP.TestMode == 0 and "TTRP" or "TTRPTEST"
 
 -- This function often runs too early
 function TurtleRP.communication_prep()
@@ -88,14 +89,14 @@ function TurtleRP.checkTTRPChannel()
     local lastVal = 0
     local chanList = { GetChannelList() }
     for _, value in next, chanList do
-        if value == "TTRP" then
+        if value == channelName then
             channelIndex = lastVal
             break
         end
         lastVal = value
     end
     if channelIndex == 0 then
-      JoinChannelByName("TTRP")
+      JoinChannelByName(channelName)
       TurtleRP.ttrpChatSend("A")
     end
   end
@@ -117,7 +118,7 @@ function TurtleRP.communication_events()
   CheckMessages:RegisterEvent("CHAT_MSG_CHANNEL")
   CheckMessages:SetScript("OnEvent", function()
     if event == "CHAT_MSG_CHANNEL" then
-      if arg4 == GetChannelName("TTRP") .. ". Ttrp" then
+      if arg9 == channelName then
         TurtleRP.checkChatMessage(arg1, arg2)
       end
     end
@@ -162,7 +163,7 @@ function TurtleRP.checkChatMessage(msg, playerName)
       end
     end
   end
-  if(string.find(msg, ':')) then
+  if string.find(msg, ':') then
     local colonStart, colonEnd = string.find(msg, ':')
     local dataPrefix = string.sub(msg, 1, colonEnd - 1)
     local ampersandStart, ampersandEnd = string.find(msg, '&&')
@@ -248,7 +249,11 @@ function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
   if dataPrefix == "MR" or dataPrefix == "TR" then
     local dataToSave = TurtleRP.dataKeys(dataPrefix)
     for i, dataRef in ipairs(dataToSave) do
-      TurtleRPCharacters[playerName][dataRef] = stringData[i + 1]
+      if stringData[i + 1] ~= nil then
+        TurtleRPCharacters[playerName][dataRef] = stringData[i + 1]
+      else
+        TurtleRPCharacters[playerName][dataRef] = ""
+      end
     end
   end
   if dataPrefix == "DR" then
@@ -256,9 +261,13 @@ function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
       TurtleRPCharacters[playerName]["description"] = ""
     end
     local dataToSave = TurtleRP.getDataFromString(msg)
-    TurtleRPCharacters[playerName]["keyD"] = dataToSave[2]
-    local replacedStringForLineBreaks = gsub(dataToSave[4], "@N", "%\n")
-    TurtleRPCharacters[playerName]["description"] = TurtleRPCharacters[playerName]["description"] .. replacedStringForLineBreaks
+    if dataToSave[2] ~= nil then
+      TurtleRPCharacters[playerName]["keyD"] = dataToSave[2]
+    end
+    if dataToSave[4] ~= nil then
+      local replacedStringForLineBreaks = gsub(dataToSave[4], "@N", "%\n")
+      TurtleRPCharacters[playerName]["description"] = TurtleRPCharacters[playerName]["description"] .. replacedStringForLineBreaks
+    end
   end
   TurtleRP.displayData(dataPrefix, playerName)
 end
@@ -276,5 +285,5 @@ function TurtleRP.displayData(dataPrefix, playerName)
 end
 
 function TurtleRP.ttrpChatSend(message)
-  ChatThrottleLib:SendChatMessage("NORMAL", "TTRP", message, "CHANNEL", nil, GetChannelName("TTRP"))
+  ChatThrottleLib:SendChatMessage("NORMAL", channelName, message, "CHANNEL", nil, GetChannelName(channelName))
 end

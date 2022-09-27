@@ -29,6 +29,8 @@ function TurtleRP.tooltip_events()
     getglobal("GameTooltipTextLeft7"):SetFont("Fonts\\FRIZQT__.ttf", 12)
     getglobal("GameTooltipTextLeft8"):SetFont("Fonts\\FRIZQT__.ttf", 12)
     getglobal("GameTooltipTextLeft9"):SetFont("Fonts\\FRIZQT__.ttf", 12)
+    getglobal("GameTooltipTextLeft10"):SetFont("Fonts\\FRIZQT__.ttf", 12)
+    getglobal("GameTooltipTextLeft11"):SetFont("Fonts\\FRIZQT__.ttf", 12)
   end)
 end
 

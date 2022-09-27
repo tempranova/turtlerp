@@ -13,6 +13,7 @@ TurtleRP.iconSelectorCreated = nil
 TurtleRP.currentIconSelector = nil
 TurtleRP.iconSelectorFilter = ""
 TurtleRP.RPMode = 0
+TurtleRP.TestMode = 0
 
 -----
 -- Addon load event
@@ -297,25 +298,25 @@ function TurtleRP.save_general()
   TurtleRPCharacterInfo['keyM'] = TurtleRP.randomchars()
   local title = TurtleRP_Admin_General_TitleInput:GetText()
   TurtleRP_Admin_General_TitleInput:ClearFocus()
-  TurtleRPCharacterInfo["title"] = title
+  TurtleRPCharacterInfo["title"] = TurtleRP.validateBeforeSaving(title)
   local first_name = TurtleRP_Admin_General_FirstNameInput:GetText()
   TurtleRP_Admin_General_FirstNameInput:ClearFocus()
-  TurtleRPCharacterInfo["first_name"] = first_name
+  TurtleRPCharacterInfo["first_name"] = TurtleRP.validateBeforeSaving(first_name)
   local last_name = TurtleRP_Admin_General_LastNameInput:GetText()
   TurtleRP_Admin_General_LastNameInput:ClearFocus()
-  TurtleRPCharacterInfo["last_name"] = last_name
+  TurtleRPCharacterInfo["last_name"] = TurtleRP.validateBeforeSaving(last_name)
   local ic_info = TurtleRP_Admin_General_ICScrollBox_ICInfoInput:GetText()
   TurtleRP_Admin_General_ICScrollBox_ICInfoInput:ClearFocus()
-  TurtleRPCharacterInfo["ic_info"] = ic_info
+  TurtleRPCharacterInfo["ic_info"] = TurtleRP.validateBeforeSaving(ic_info)
   local ooc_info = TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:GetText()
   TurtleRP_Admin_General_OOCScrollBox_OOCInfoInput:ClearFocus()
-  TurtleRPCharacterInfo["ooc_info"] = ooc_info
+  TurtleRPCharacterInfo["ooc_info"] = TurtleRP.validateBeforeSaving(ooc_info)
   local ic_pronouns = TurtleRP_Admin_General_ICPronounsInput:GetText()
   TurtleRP_Admin_General_ICPronounsInput:ClearFocus()
-  TurtleRPCharacterInfo["ic_pronouns"] = ic_pronouns
+  TurtleRPCharacterInfo["ic_pronouns"] = TurtleRP.validateBeforeSaving(ic_pronouns)
   local ooc_pronouns = TurtleRP_Admin_General_OOCPronounsInput:GetText()
   TurtleRP_Admin_General_OOCPronounsInput:ClearFocus()
-  TurtleRPCharacterInfo["ooc_pronouns"] = ooc_pronouns
+  TurtleRPCharacterInfo["ooc_pronouns"] = TurtleRP.validateBeforeSaving(ooc_pronouns)
   TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
   TurtleRP.setCharacterIcon()
 end
@@ -323,22 +324,22 @@ function TurtleRP.save_at_a_glance()
   TurtleRPCharacterInfo['keyT'] = TurtleRP.randomchars()
   local aag1Text = TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:GetText()
   TurtleRP_Admin_AtAGlance_AtAGlance1ScrollBox_AAG1Input:ClearFocus()
-  TurtleRPCharacterInfo["atAGlance1"] = aag1Text
+  TurtleRPCharacterInfo["atAGlance1"] = TurtleRP.validateBeforeSaving(aag1Text)
   local aag1TitleText = TurtleRP_Admin_AtAGlance_AAG1TitleInput:GetText()
   TurtleRP_Admin_AtAGlance_AAG1TitleInput:ClearFocus()
-  TurtleRPCharacterInfo["atAGlance1Title"] = aag1TitleText
+  TurtleRPCharacterInfo["atAGlance1Title"] = TurtleRP.validateBeforeSaving(aag1TitleText)
   local aag2Text = TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:GetText()
   TurtleRP_Admin_AtAGlance_AtAGlance2ScrollBox_AAG2Input:ClearFocus()
+  TurtleRPCharacterInfo["atAGlance2"] = TurtleRP.validateBeforeSaving(aag2Text)
   local aag2TitleText = TurtleRP_Admin_AtAGlance_AAG2TitleInput:GetText()
   TurtleRP_Admin_AtAGlance_AAG2TitleInput:ClearFocus()
-  TurtleRPCharacterInfo["atAGlance2Title"] = aag2TitleText
-  TurtleRPCharacterInfo["atAGlance2"] = aag2Text
+  TurtleRPCharacterInfo["atAGlance2Title"] = TurtleRP.validateBeforeSaving(aag2TitleText)
   local aag3Text = TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:GetText()
   TurtleRP_Admin_AtAGlance_AtAGlance3ScrollBox_AAG3Input:ClearFocus()
-  TurtleRPCharacterInfo["atAGlance3"] = aag3Text
+  TurtleRPCharacterInfo["atAGlance3"] = TurtleRP.validateBeforeSaving(aag3Text)
   local aag3TitleText = TurtleRP_Admin_AtAGlance_AAG3TitleInput:GetText()
   TurtleRP_Admin_AtAGlance_AAG3TitleInput:ClearFocus()
-  TurtleRPCharacterInfo["atAGlance3Title"] = aag3TitleText
+  TurtleRPCharacterInfo["atAGlance3Title"] = TurtleRP.validateBeforeSaving(aag3TitleText)
   TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
   TurtleRP.setAtAGlanceIcons()
 end
@@ -346,7 +347,7 @@ function TurtleRP.save_description()
   TurtleRPCharacterInfo['keyD'] = TurtleRP.randomchars()
   local description = TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:GetText()
   TurtleRP_Admin_Description_DescriptionScrollBox_DescriptionInput:ClearFocus()
-  TurtleRPCharacterInfo["description"] = description
+  TurtleRPCharacterInfo["description"] = TurtleRP.validateBeforeSaving(description)
   TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
 end
 function TurtleRP.save_notes()
@@ -556,6 +557,14 @@ function TurtleRP.randomchars()
 		res = res .. string.char(math.random(97, 122))
 	end
 	return res
+end
+
+function TurtleRP.validateBeforeSaving(data)
+  if string.find(data, '&&') then
+    _ERRORMESSAGE('Please do not use the characters "&&" together in your text. Thanks!')
+  else
+    return data
+  end
 end
 
 function TurtleRP.log(msg)
