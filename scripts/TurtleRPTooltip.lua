@@ -11,26 +11,33 @@
 --]]
 
 function TurtleRP.tooltip_events()
-  GameTooltip:SetScript("OnShow", function()
+  -- Get defaults
+  local tooltipDefaults = {}
+	for i = 1, 11 do
+    local lfontName, lfontHeight, lflag = getglobal("GameTooltipTextLeft" .. i):GetFont()
+    tooltipDefaults["tooltipFontLeft" .. i .. "Name"] = lfontName
+    tooltipDefaults["tooltipFontLeft" .. i .. "Height"] = lfontHeight
+    tooltipDefaults["tooltipFontLeft" .. i .. "Flag"] = lflag
+    local rfontName, rfontHeight, rflag = getglobal("GameTooltipTextRight" .. i):GetFont()
+    tooltipDefaults["tooltipFontRight" .. i .. "Name"] = rfontName
+    tooltipDefaults["tooltipFontRight" .. i .. "Height"] = rfontHeight
+    tooltipDefaults["tooltipFontRight" .. i .. "Flag"] = rflag
+  end
+  -- Custom scripts
+  TurtleRP.gameTooltip:SetScript("OnShow", function()
     if UnitIsPlayer("mouseover") then
       TurtleRP.buildTooltip(UnitName("mouseover"), "mouseover")
     end
   end)
-  local defaultTooltipScript = GameTooltip:GetScript("OnHide")
-  GameTooltip:SetScript("OnHide", function()
+  local defaultTooltipScript = TurtleRP.gameTooltip:GetScript("OnHide")
+  TurtleRP.gameTooltip:SetScript("OnHide", function()
+    -- Set defaults
+    for i = 1, 11 do
+      getglobal("GameTooltipTextLeft" .. i):SetFont(tooltipDefaults["tooltipFontLeft" .. i .. "Name"], tooltipDefaults["tooltipFontLeft" .. i .. "Height"], tooltipDefaults["tooltipFontLeft" .. i .. "Flag"])
+      getglobal("GameTooltipTextRight" .. i):SetFont(tooltipDefaults["tooltipFontRight" .. i .. "Name"], tooltipDefaults["tooltipFontRight" .. i .. "Height"], tooltipDefaults["tooltipFontRight" .. i .. "Flag"])
+    end
     defaultTooltipScript()
     TurtleRP_Tooltip_Icon:Hide()
-    getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 15)
-    getglobal("GameTooltipTextLeft2"):SetFont("Fonts\\FRIZQT__.ttf", 12)
-    getglobal("GameTooltipTextLeft3"):SetFont("Fonts\\FRIZQT__.ttf", 12)
-    getglobal("GameTooltipTextLeft4"):SetFont("Fonts\\FRIZQT__.ttf", 12)
-    getglobal("GameTooltipTextLeft5"):SetFont("Fonts\\FRIZQT__.ttf", 12)
-    getglobal("GameTooltipTextLeft6"):SetFont("Fonts\\FRIZQT__.ttf", 12)
-    getglobal("GameTooltipTextLeft7"):SetFont("Fonts\\FRIZQT__.ttf", 12)
-    getglobal("GameTooltipTextLeft8"):SetFont("Fonts\\FRIZQT__.ttf", 12)
-    getglobal("GameTooltipTextLeft9"):SetFont("Fonts\\FRIZQT__.ttf", 12)
-    getglobal("GameTooltipTextLeft10"):SetFont("Fonts\\FRIZQT__.ttf", 12)
-    getglobal("GameTooltipTextLeft11"):SetFont("Fonts\\FRIZQT__.ttf", 12)
   end)
 end
 
@@ -59,21 +66,21 @@ function TurtleRP.printICandOOC(info, headerText, blankLine, l)
   if info ~= nil and info ~= "" then
     n = n + 1
     if getglobal("GameTooltipTextLeft"..n):GetText() == nil then
-      GameTooltip:AddLine(blankLine)
+      TurtleRP.gameTooltip:AddLine(blankLine)
     else
       getglobal("GameTooltipTextLeft"..n):SetText(blankLine)
     end
 
     n = n + 1
     if getglobal("GameTooltipTextLeft"..n):GetText() == nil then
-      GameTooltip:AddLine(headerText, 1, 0.6, 0, true)
+      TurtleRP.gameTooltip:AddLine(headerText, 1, 0.6, 0, true)
     else
       getglobal("GameTooltipTextLeft"..n):SetText(headerText)
     end
 
     n = n + 1
     if getglobal("GameTooltipTextLeft"..n):GetText() == nil then
-      GameTooltip:AddLine(info, 0.8, 0.8, 0.8, true)
+      TurtleRP.gameTooltip:AddLine(info, 0.8, 0.8, 0.8, true)
     else
       getglobal("GameTooltipTextLeft"..n):SetText(info)
     end
@@ -94,8 +101,9 @@ function TurtleRP.buildTooltip(playerName, targetType)
   local fullName        = locallyRetrievable and TurtleRP.getFullName(characterInfo['title'], characterInfo['first_name'], characterInfo['last_name']) or UnitName(targetType)
   local race            = UnitRace(targetType)
   local class           = UnitClass(targetType)
-  local guildName       = GetGuildInfo(targetType)
-  local level           = UnitLevel(targetType)
+  local guildName, guildRank
+                        = GetGuildInfo(targetType)
+  local queriedLevel    = UnitLevel(targetType)
   local icon            = locallyRetrievable and characterInfo['icon'] or nil
   local currently_ic    = locallyRetrievable and characterInfo['currently_ic'] or nil
   local ic_info         = locallyRetrievable and characterInfo['ic_info'] or nil
@@ -115,10 +123,14 @@ function TurtleRP.buildTooltip(playerName, targetType)
   -- Formatting variables
   local titleExtraSpaces    = (icon ~= nil and icon ~= "") and "         " or ""
   local guildExtraSpaces    = (icon ~= nil and icon ~= "") and "           " or ""
+  if TurtleRP.shaguEnabled then
+    guildExtraSpaces        = (icon ~= nil and icon ~= "") and "               " or ""
+  end
   local blankLine           = " "
   local statusText          = TurtleRP.getStatusText(currently_ic, ICOn, ICOff, whiteColor)
+  local level               = queriedLevel == -1 and "??" or queriedLevel
   local levelAndStatusText  = "Level " .. level .. statusText
-  local raceAndClassText    = race .. " " .. thisClassColor .. class
+  local raceAndClassText    = whiteColor .. race .. " " .. thisClassColor .. class
   local ICandPronounsText   = "IC Info" .. TurtleRP.getPronounsText(ic_pronouns, pronounColor)
   local OOCandPronounsText  = "OOC Info" .. TurtleRP.getPronounsText(ooc_pronouns, pronounColor)
 
@@ -129,23 +141,29 @@ function TurtleRP.buildTooltip(playerName, targetType)
 
   l = l + 1
   if guildName then
-    getglobal("GameTooltipTextLeft"..l):SetText(guildColor .. guildExtraSpaces .. "<" .. guildName .. ">")
+    getglobal("GameTooltipTextLeft"..l):SetText(guildColor .. guildExtraSpaces .. "<" .. guildRank .. " of " .. guildName .. ">")
     l = l + 1
   else
     getglobal("GameTooltipTextLeft"..l):SetText(blankLine)
     if guildExtraSpaces ~= "" then -- if there is an icon, but no guild, add another line
       l = l + 1
-      GameTooltip:AddLine(blankLine)
+      TurtleRP.gameTooltip:AddLine(blankLine)
     end
   end
 
   if getglobal("GameTooltipTextLeft3"):GetText() == nil then
-    GameTooltip:AddLine(blankLine)
+    TurtleRP.gameTooltip:AddLine(blankLine)
+  else
+    if guildName ~= nil then
+      if string.find(getglobal("GameTooltipTextLeft3"):GetText(), guildName) then
+        getglobal("GameTooltipTextLeft3"):SetText("")
+      end
+    end
   end
 
   l = l + 1
   if getglobal("GameTooltipTextLeft"..l):GetText() == nil then
-    GameTooltip:AddDoubleLine(raceAndClassText, levelAndStatusText)
+    TurtleRP.gameTooltip:AddDoubleLine(raceAndClassText, levelAndStatusText)
   else
     getglobal("GameTooltipTextLeft"..l):SetText(raceAndClassText)
     getglobal("GameTooltipTextRight"..l):Show()
@@ -171,6 +189,6 @@ function TurtleRP.buildTooltip(playerName, targetType)
   end
 
   -- Resizes tooltip to fit
-  GameTooltip:Show()
+  TurtleRP.gameTooltip:Show()
 
 end

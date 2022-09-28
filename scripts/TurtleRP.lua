@@ -6,14 +6,29 @@
 -----
 -- Global storage (not saved)
 -----
-TurtleRP = {}
+TurtleRP.TestMode = 0
+
+-- Dev
+TurtleRP.currentVersion = "0.1.2"
+-- Chat
+TurtleRP.channelName = "TTRP"
+TurtleRP.channelIndex = 0
+TurtleRP.timeBetweenPings = 30
 TurtleRP.currentlyRequestedData = nil
+-- Interface
 TurtleRP.iconFrames = nil
 TurtleRP.iconSelectorCreated = nil
 TurtleRP.currentIconSelector = nil
 TurtleRP.iconSelectorFilter = ""
 TurtleRP.RPMode = 0
-TurtleRP.TestMode = 0
+TurtleRP.targetFrame = TargetFrame
+TurtleRP.gameTooltip = GameTooltip
+TurtleRP.shaguEnabled = nil
+-- Accounting for PFUI, Go Shagu Go
+if pfUI ~= nil and pfUI.uf.target ~= nil then
+  TurtleRP.targetFrame = pfUI.uf.target
+  TurtleRP.shaguEnabled = true
+end
 
 -----
 -- Addon load event
@@ -24,6 +39,8 @@ TurtleRP_Parent:RegisterEvent("PLAYER_LOGOUT")
 
 function TurtleRP:OnEvent()
   if event == "ADDON_LOADED" and arg1 == "TurtleRP" then
+
+    TurtleRP.log("ADDON LOADED!")
 
     -- Reset for testing
     -- TurtleRPCharacterInfo = nil
@@ -94,20 +111,32 @@ function TurtleRP:OnEvent()
       TurtleRP.log("|ccfFF0000Sorry, but due to Turtle WoW restrictions you can't access other player's TurtleRP profiles until level 5.")
     end
 
+    TurtleRP.log("STARTING COMMS FUNCTION")
     TurtleRP.communication_prep()
+    TurtleRP.log("STARTING PING FUNCTION")
+    TurtleRP.send_ping_message()
 
+    TurtleRP.log("POPULATE DATA")
     TurtleRP.populate_interface_user_data()
 
     TurtleRP.tooltip_events()
     TurtleRP.mouseover_and_target_events()
     TurtleRP.communication_events()
 
-    -- TurtleRP_HTML_Renderer:SetText('<html><body><h1>Heading1</h1><h2>Heading2</h2><h3>Heading3</h3><p>A paragraph</p></body></html>')
+    TurtleRP.emote_events()
+
+    -- Set Version number
+    TurtleRP_AdminSB_Content6_VersionText:SetText(TurtleRP.currentVersion)
 
     -- SLash commands
     SLASH_TURTLERP1 = "/ttrp";
     function SlashCmdList.TURTLERP(msg)
       TurtleRP.OpenAdmin()
+    end
+
+    for i, v in SlashCmdList do
+      TurtleRP.log(i)
+      TurtleRP.log(v)
     end
 
   end
@@ -146,28 +175,50 @@ function TurtleRP.mouseover_and_target_events()
   TurtleRPMouseoverFrame:RegisterEvent("CURSOR_UPDATE")
   TurtleRPMouseoverFrame:SetScript("OnEvent",function(self, event)
       -- Ensuring defaults are in place
-      getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 15)
       if (IsInInstance() == "pvp" and TurtleRPSettings["bgs"] == "off") or IsInInstance() ~= "pvp" then
         if (UnitIsPlayer("mouseover")) then
-          getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 18)
           TurtleRP.sendRequestForData("M", UnitName("mouseover"))
         end
       end
   end)
 
   -- Self target mouseover frame (preview of self mouseover)
-  TargetFrame:EnableMouse()
-  local defaultTargetFrameFunction = TargetFrame:GetScript("OnEnter")
-  TargetFrame:SetScript("OnEnter",
+  TurtleRP.targetFrame:EnableMouse()
+  local defaultTargetFrameFunction = TurtleRP.targetFrame:GetScript("OnEnter")
+  TurtleRP.targetFrame:SetScript("OnEnter",
     function()
       defaultTargetFrameFunction()
       if (IsInInstance() == "pvp" and TurtleRPSettings["bgs"] == "off") or IsInInstance() ~= "pvp" then
         if(UnitName("target") == UnitName("player")) then
+          TurtleRP.log("self over")
           TurtleRP.buildTooltip(UnitName("player"), "target")
         end
       end
     end
   )
+end
+
+-----
+-- Handling custom emotes
+-----
+function TurtleRP.emote_events()
+  local TurtleRPMouseoverFrame = CreateFrame("Frame")
+  TurtleRPMouseoverFrame:RegisterEvent("CHAT_MSG_EMOTE")
+  TurtleRPMouseoverFrame:SetScript("OnEvent", function()
+    TurtleRP.log(arg1)
+    TurtleRP.log(arg2)
+    TurtleRP.log(arg11)
+    -- SendChatMessage("hi", "emote")
+  end)
+
+  ChangeChatColor("EMOTE", 0, 0, 0)
+
+  -- local function myChatFilter(self, event, msg, author, ...)
+  --   TurtleRP.log(msg)
+  -- end
+
+  -- DEFAULT_CHAT_FRAME:AddMessageEventFilter("CHAT_MSG_EMOTE", myChatFilter)
+
 end
 
 -----

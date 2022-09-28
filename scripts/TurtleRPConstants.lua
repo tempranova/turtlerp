@@ -40,6 +40,7 @@
   TurtleRPCharacters["PlayerName"]["description"] = // 1000 char limit
 
 --]]
+TurtleRP = {}
 
 TurtleRPClassData = {}
 TurtleRPClassData['Druid']    = {1, 0.49, 0.04, "FF7C0A"}

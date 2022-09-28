@@ -10,6 +10,8 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 Tests
 
+- GO TO CITY TO TEST FRAMES, random error popped tooltip
+
 - Testing chat messages for causing global errors to players by mean players. Simulating data responses, etc. How much does this need to be watched?
 - Test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE (tested `~!@#$%^&*()-_=+[]\{}|;':",./<>?`)
 - Testing tooltips across different game situations (in raids, parties, bgs, etc)
@@ -22,10 +24,14 @@ Bugs
 
 Next Up
 
-- Adding someone as queryable if they query you?
-- Allowing a manual query?
+- Minimap icon size options
+- Emote changes with emotes and white quotations, coloured names, etc
 
 After beta
+
+- Adding a directory of characters
+- Increasing lengths of tooltip notes and AAG notes
+- Adding relationships/status tab
 
 - Allowing custom class text and custom class color
  - This requires some rethinking of how tooltip is sent, as we're nearing 255 char limit (see Class Constants for char limits). Do we split the tooltip into parts, like description? Or enforce other limits?
@@ -37,6 +43,10 @@ Feature List
 
 Recently Done
 
+- // More legit resetting of font sizes in tooltip
+- // Integrated with Shagu darkmode
+- // Guild rank integrated into tooltip
+- // Tooltip layout integrated with PFUI
 - // Target removed when targetting a player after targetting self
 - // New Spellbook UI
 - // Implementing a Test channel for future dev changes

@@ -379,7 +379,7 @@
             </Anchors>
             <Scripts>
               <OnClick>
-                if TurtleRPCharacterInfo["currently_ic"] == "off" then
+                if TurtleRPCharacterInfo["currently_ic"] ~= "on" then
                   TurtleRPCharacterInfo["currently_ic"] = "on"
                 else
                   TurtleRPCharacterInfo["currently_ic"] = "off"
@@ -896,7 +896,7 @@
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
             <Scripts>
               <OnClick>
-                TurtleRP.currentIconSelector = 'atAGlance1Icon'
+                TurtleRP.currentIconSelector = 'atAGlance2Icon'
                 TurtleRP.create_icon_selector()
               </OnClick>
             </Scripts>
@@ -921,7 +921,7 @@
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\CancelButton-Highlight"/>
             <Scripts>
               <OnClick>
-                TurtleRPCharacterInfo['atAGlance1Icon'] = ""
+                TurtleRPCharacterInfo['atAGlance2Icon'] = ""
                 TurtleRP.save_at_a_glance()
               </OnClick>
             </Scripts>
@@ -957,7 +957,7 @@
             </Backdrop>
             <Scripts>
               <OnMouseDown>
-                TurtleRP_AdminSB_Content2_AtAGlance1ScrollBox_AAG2Input:SetFocus()
+                TurtleRP_AdminSB_Content2_AtAGlance2ScrollBox_AAG2Input:SetFocus()
               </OnMouseDown>
             </Scripts>
             <ScrollChild>
@@ -1028,7 +1028,7 @@
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
             <Scripts>
               <OnClick>
-                TurtleRP.currentIconSelector = 'atAGlance1Icon'
+                TurtleRP.currentIconSelector = 'atAGlance3Icon'
                 TurtleRP.create_icon_selector()
               </OnClick>
             </Scripts>
@@ -1053,7 +1053,7 @@
             <HighlightTexture alphaMode="ADD" file="Interface\Buttons\CancelButton-Highlight"/>
             <Scripts>
               <OnClick>
-                TurtleRPCharacterInfo['atAGlance1Icon'] = ""
+                TurtleRPCharacterInfo['atAGlance3Icon'] = ""
                 TurtleRP.save_at_a_glance()
               </OnClick>
             </Scripts>
@@ -1089,7 +1089,7 @@
             </Backdrop>
             <Scripts>
               <OnMouseDown>
-                TurtleRP_AdminSB_Content2_AtAGlance1ScrollBox_AAG3Input:SetFocus()
+                TurtleRP_AdminSB_Content2_AtAGlance3ScrollBox_AAG3Input:SetFocus()
               </OnMouseDown>
             </Scripts>
             <ScrollChild>
@@ -1536,6 +1536,23 @@
               </FontHeight>
               <Color r="0" g="0" b="0" a="0.8" />
             </FontString>
+            <!-- Version Text -->
+            <FontString name="$parent_VersionText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyV="top" justifyH="left">
+              <Size>
+                <AbsDimension x="50" y="15" />
+              </Size>
+              <Anchors>
+                <Anchor point="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="20" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" a="0.8" />
+            </FontString>
           </Layer>
         </Layers>
         <Frames>
@@ -1813,6 +1830,17 @@
       </CheckButton>
     </Frames>
     <Scripts>
+      <OnLoad>
+        if ShaguTweaks_config and ShaguTweaks_config["Darkened UI"] and ShaguTweaks_config["Darkened UI"] == 1 then
+          TurtleRP.log("Dark UI!")
+          this.Material = this.Material or this:CreateTexture(nil, "OVERLAY")
+          this.Material:SetTexture("Interface\\Stationery\\StationeryTest1")
+          this.Material:SetWidth(325)
+          this.Material:SetHeight(355)
+          this.Material:SetPoint("TOPLEFT", this, 17, -74)
+          this.Material:SetVertexColor(.8, .8, .8)
+        end
+      </OnLoad>
       <!-- <OnLoad>
         SpellBookFrame_OnLoad();
       </OnLoad>
