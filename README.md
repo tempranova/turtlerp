@@ -11,21 +11,20 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 Tests
 
 - GO TO CITY TO TEST FRAMES, random error popped tooltip
-
 - Testing chat messages for causing global errors to players by mean players. Simulating data responses, etc. How much does this need to be watched?
 - Test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE (tested `~!@#$%^&*()-_=+[]\{}|;':",./<>?`)
 - Testing tooltips across different game situations (in raids, parties, bgs, etc)
 - Test when drunk (SLURRED_SPEECH)
-- // Framerate issues when opening tooltips? reported 2s lag
 
 Bugs
 
-- When a player is ??, tooltip shows -1
+- A few blank lines are added on bottom of Shagu tooltips occasionally
 
 Next Up
 
+- Little box with RP mode, ability to open chat window, etc
+- Setting to change size of name
 - Minimap icon size options
-- Emote changes with emotes and white quotations, coloured names, etc
 
 After beta
 
@@ -37,17 +36,25 @@ After beta
  - This requires some rethinking of how tooltip is sent, as we're nearing 255 char limit (see Class Constants for char limits). Do we split the tooltip into parts, like description? Or enforce other limits?
 - Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
 
+- Showing class colors in /say (harder than it seems! Maybe just use Shagu instead)
+
 Feature List
 
 - More to come after beta testing and first release, based on community response
 
 Recently Done
 
+0.1.2
+- // Description box should no longer get cut off
+- // Emotes now show "Quotations in White"
+- // When a player is ??, tooltip shows -1
+- // Improved pinging system
 - // More legit resetting of font sizes in tooltip
 - // Integrated with Shagu darkmode
 - // Guild rank integrated into tooltip
 - // Tooltip layout integrated with PFUI
 - // Target removed when targetting a player after targetting self
+0.1.1
 - // New Spellbook UI
 - // Implementing a Test channel for future dev changes
 - // Not allowing "&&" characters in any saved text

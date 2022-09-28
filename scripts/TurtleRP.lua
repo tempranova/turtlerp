@@ -1,3 +1,5 @@
+local _G = _G or getfenv(0)
+local gfind = string.gmatch or string.gfind
 --[[
   Created by Vee (http://victortemprano.com), Drixi in-game
   See Github repo at https://github.com/tempranova/turtlerp
@@ -25,7 +27,7 @@ TurtleRP.targetFrame = TargetFrame
 TurtleRP.gameTooltip = GameTooltip
 TurtleRP.shaguEnabled = nil
 -- Accounting for PFUI, Go Shagu Go
-if pfUI ~= nil and pfUI.uf.target ~= nil then
+if pfUI ~= nil and pfUI.uf ~= nil and pfUI.uf.target ~= nil then
   TurtleRP.targetFrame = pfUI.uf.target
   TurtleRP.shaguEnabled = true
 end
@@ -39,8 +41,6 @@ TurtleRP_Parent:RegisterEvent("PLAYER_LOGOUT")
 
 function TurtleRP:OnEvent()
   if event == "ADDON_LOADED" and arg1 == "TurtleRP" then
-
-    TurtleRP.log("ADDON LOADED!")
 
     -- Reset for testing
     -- TurtleRPCharacterInfo = nil
@@ -111,12 +111,9 @@ function TurtleRP:OnEvent()
       TurtleRP.log("|ccfFF0000Sorry, but due to Turtle WoW restrictions you can't access other player's TurtleRP profiles until level 5.")
     end
 
-    TurtleRP.log("STARTING COMMS FUNCTION")
     TurtleRP.communication_prep()
-    TurtleRP.log("STARTING PING FUNCTION")
     TurtleRP.send_ping_message()
 
-    TurtleRP.log("POPULATE DATA")
     TurtleRP.populate_interface_user_data()
 
     TurtleRP.tooltip_events()
@@ -132,11 +129,6 @@ function TurtleRP:OnEvent()
     SLASH_TURTLERP1 = "/ttrp";
     function SlashCmdList.TURTLERP(msg)
       TurtleRP.OpenAdmin()
-    end
-
-    for i, v in SlashCmdList do
-      TurtleRP.log(i)
-      TurtleRP.log(v)
     end
 
   end
@@ -190,7 +182,6 @@ function TurtleRP.mouseover_and_target_events()
       defaultTargetFrameFunction()
       if (IsInInstance() == "pvp" and TurtleRPSettings["bgs"] == "off") or IsInInstance() ~= "pvp" then
         if(UnitName("target") == UnitName("player")) then
-          TurtleRP.log("self over")
           TurtleRP.buildTooltip(UnitName("player"), "target")
         end
       end
@@ -202,22 +193,39 @@ end
 -- Handling custom emotes
 -----
 function TurtleRP.emote_events()
-  local TurtleRPMouseoverFrame = CreateFrame("Frame")
-  TurtleRPMouseoverFrame:RegisterEvent("CHAT_MSG_EMOTE")
-  TurtleRPMouseoverFrame:SetScript("OnEvent", function()
-    TurtleRP.log(arg1)
-    TurtleRP.log(arg2)
-    TurtleRP.log(arg11)
-    -- SendChatMessage("hi", "emote")
-  end)
 
-  ChangeChatColor("EMOTE", 0, 0, 0)
-
-  -- local function myChatFilter(self, event, msg, author, ...)
-  --   TurtleRP.log(msg)
-  -- end
-
-  -- DEFAULT_CHAT_FRAME:AddMessageEventFilter("CHAT_MSG_EMOTE", myChatFilter)
+  local TurtleLastEmote = nil
+  local TurtleLastSender = nil
+  local oldChatFrame_OnEvent = ChatFrame_OnEvent
+  function ChatFrame_OnEvent(event)
+    local savedEvent = event
+    if ( strsub(event, 1, 8) == "CHAT_MSG" ) then
+      local type = strsub(event, 10);
+      if ( type == "EMOTE" ) then
+        if TurtleLastEmote ~= arg1 and TurtleLastSender ~= arg1 then
+          TurtleLastEmote = arg1
+          TurtleLastSender = arg2
+          savedEvent = "TURTLE_TAKEOVER"
+          local splitArray = string.split(arg1, '"')
+          local newString = splitArray[1]
+          if getn(splitArray) > 1 then
+            for i in splitArray do
+              if i ~= 1 then
+                if (i - math.floor(i/2)*2) == 0 then -- this is even
+                  newString = newString .. '|cffFFFFFF"' .. splitArray[i] .. '"|cffFF7E40'
+                else
+                  newString = newString .. splitArray[i]
+                end
+              end
+            end
+          end
+          local body = format(TEXT(getglobal("CHAT_"..type.."_GET")).. newString, "|cffFF7E40" .. arg2);
+          DEFAULT_CHAT_FRAME:AddMessage(body)
+        end
+      end
+    end
+    oldChatFrame_OnEvent(savedEvent)
+  end
 
 end
 

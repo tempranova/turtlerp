@@ -98,7 +98,7 @@
             <Frames>
               <SimpleHTML name="$parent_DescriptionHTML">
                 <Size>
-                  <AbsDimension x="280" y="250" />
+                  <AbsDimension x="280" y="550" />
                 </Size>
                 <Anchors>
                   <Anchor point="TOPLEFT">
@@ -119,7 +119,7 @@
             			<Layer level="OVERLAY">
                     <FontString name="$parent_TargetDescription" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyH="LEFT" justifyV="TOP">
                       <Size>
-                        <AbsDimension x="280" />
+                        <AbsDimension x="280" y="550" />
                       </Size>
                       <Anchors>
                         <Anchor point="TOPLEFT">

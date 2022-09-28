@@ -37,26 +37,21 @@ local timeOfLastSend = time()
 
 -- This function often runs too early
 function TurtleRP.communication_prep()
-  TurtleRP.log("CHANNEL JOIN FUNCTION START")
   TurtleRP.ttrpChatSend("A")
 
   local TurtleRPChannelJoinDelay = CreateFrame("Frame")
   TurtleRPChannelJoinDelay:Hide()
   TurtleRPChannelJoinDelay:SetScript("OnShow", function()
-      TurtleRP.log("CHANNEL JOIN ON SHOW")
       this.startTime = GetTime()
   end)
   TurtleRPChannelJoinDelay:SetScript("OnHide", function()
-      TurtleRP.log("CHANNEL JOIN ON HIDE")
       TurtleRP.checkTTRPChannel()
   end)
   TurtleRPChannelJoinDelay:SetScript("OnUpdate", function()
-    -- TurtleRP.log("CHANNEL JOIN ON UPDATE")
     local plus = 15 --seconds
     local gt = GetTime() * 1000
     local st = (this.startTime + plus) * 1000
     if gt >= st then
-        TurtleRP.log("CHANNEL JOIN DO HIDE")
         TurtleRPChannelJoinDelay:Hide()
     end
   end)
@@ -64,24 +59,21 @@ function TurtleRP.communication_prep()
 end
 
 function TurtleRP.send_ping_message()
-  TurtleRP.log("PING FUNCTION START")
+  TurtleRP.ttrpChatSend("P")
+
   local TurtleRPChannelPingDelay = CreateFrame("Frame")
   TurtleRPChannelPingDelay:Hide()
   TurtleRPChannelPingDelay:SetScript("OnShow", function()
-      TurtleRP.log("PING ON SHOW")
       this.startTime = GetTime()
   end)
   TurtleRPChannelPingDelay:SetScript("OnHide", function()
-      TurtleRP.log("PING ON HIDE")
       TurtleRPChannelPingDelay:Show()
   end)
   TurtleRPChannelPingDelay:SetScript("OnUpdate", function()
-    -- TurtleRP.log("PING ON UPDATE")
     local plus = TurtleRP.timeBetweenPings --seconds
     local gt = GetTime() * 1000
     local st = (this.startTime + plus) * 1000
     if gt >= st then
-      TurtleRP.log("PING SEND P")
       TurtleRP.ttrpChatSend("P")
       TurtleRPChannelPingDelay:Hide()
     end
