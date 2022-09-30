@@ -763,7 +763,7 @@ function TurtleRP.OpenAdmin()
 end
 
 function TurtleRP.OnAdminTabClick(id)
-  for i=1, 6 do
+  for i=1, 7 do
     if i ~= id then
       getglobal("TurtleRP_AdminSB_Tab"..i):SetChecked(0)
       getglobal("TurtleRP_AdminSB_Content"..i):Hide()
