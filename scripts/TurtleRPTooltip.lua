@@ -29,7 +29,9 @@ function TurtleRP.tooltip_events()
     if UnitIsPlayer("mouseover") then
       TurtleRP.buildTooltip(UnitName("mouseover"), "mouseover")
     end
-    defaultTooltipShowScript()
+    if defaultTooltipShowScript then
+      defaultTooltipShowScript()
+    end
   end)
   local defaultTooltipHideScript = TurtleRP.gameTooltip:GetScript("OnHide")
   TurtleRP.gameTooltip:SetScript("OnHide", function()
