@@ -1437,6 +1437,49 @@
         </Anchors>
         <Layers>
     			<Layer level="OVERLAY">
+          </Layer>
+        </Layers>
+        <Frames>
+          <ScrollFrame name="$parent_DirectoryScrollBox" inherits="FauxScrollFrameTemplate" enableMouse="true">
+            <Size>
+              <AbsDimension x="282" y="290" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="0" y="0" />
+                </Offset>
+              </Anchor>
+              <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
+                <Offset>
+                  <AbsDimension x="0" y="10" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnVerticalScroll>
+                FauxScrollFrame_OnVerticalScroll(25, TurtleRP.Directory_ScrollBar_Update);
+              </OnVerticalScroll>
+              <OnShow>
+                TurtleRP.Directory_ScrollBar_Update()
+              </OnShow>
+            </Scripts>
+          </ScrollFrame>
+        </Frames>
+      </Frame>
+      <Frame name="$parent_Content6" hidden="true">
+        <Size>
+          <AbsDimension x="320" y="352"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+            <Offset>
+              <AbsDimension x="30" y="-88" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+    			<Layer level="OVERLAY">
             <!-- PVP Setting Text -->
             <FontString name="$parent_PVPText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="On During Battlegrounds">
               <Anchors>
@@ -1483,6 +1526,20 @@
             <FontString name="$parent_MinimapText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Large Minimap Icon">
               <Anchors>
                 <Anchor point="TOPLEFT" relativeTo="$parent_NameText" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
+            <!-- Minimap Icon Hide Setting Text -->
+            <FontString name="$parent_MinimapHideText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Hide Minimap Icon">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_MinimapText" relativePoint="BOTTOMLEFT">
                   <Offset>
                     <AbsDimension x="0" y="-10" />
                   </Offset>
@@ -1564,7 +1621,7 @@
               </OnClick>
             </Scripts>
           </CheckButton>
-          <!-- Name Button -->
+          <!-- Minimap Button -->
           <CheckButton name="$parent_MinimapButton" inherits="UICheckButtonTemplate">
             <Size>
               <AbsDimension x="25" y="25" />
@@ -1588,9 +1645,34 @@
               </OnClick>
             </Scripts>
           </CheckButton>
+
+          <!-- Hide Minimap Button -->
+          <CheckButton name="$parent_HideMinimapButton" inherits="UICheckButtonTemplate">
+            <Size>
+              <AbsDimension x="25" y="25" />
+            </Size>
+            <Anchors>
+              <Anchor point="RIGHT" relativeTo="$parent_MinimapButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="0" y="-20"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnClick>
+                if TurtleRPSettings["hide_minimap_icon"] == "0" then
+                  TurtleRPSettings["hide_minimap_icon"] = "1"
+                  TurtleRP_MinimapIcon:Hide()
+                else
+                  TurtleRPSettings["hide_minimap_icon"] = "0"
+                  TurtleRP_MinimapIcon:Show()
+                end
+              </OnClick>
+            </Scripts>
+          </CheckButton>
         </Frames>
       </Frame>
-      <Frame name="$parent_Content6" hidden="true">
+      <Frame name="$parent_Content7" hidden="true">
         <Size>
           <AbsDimension x="320" y="352"/>
         </Size>
@@ -1945,7 +2027,7 @@
       </CheckButton>
       <CheckButton name="$parent_Tab6" inherits="TurtleRP_SBTabTemplate" id="6">
         <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="$parent_Tab5" relativePoint="BOTTOMLEFT">
+          <Anchor point="TOPLEFT" relativeTo="$parent_Tab4" relativePoint="BOTTOMLEFT">
             <Offset>
               <AbsDimension x="0" y="-17"/>
             </Offset>
@@ -1965,6 +2047,11 @@
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnClick>
+            TurtleRP.OnAdminTabClick(7);
+          </OnClick>
+        </Scripts>
       </CheckButton>
       <CheckButton name="$parent_Tab8" inherits="TurtleRP_SBTabTemplate" id="8">
         <Anchors>
@@ -2093,10 +2180,10 @@
         </Anchors>
         <Scripts>
           <OnVerticalScroll>
-            FauxScrollFrame_OnVerticalScroll(25, MyModScrollBar_Update);
+            FauxScrollFrame_OnVerticalScroll(25, TurtleRP.Icon_ScrollBar_Update);
           </OnVerticalScroll>
           <OnShow>
-            MyModScrollBar_Update()
+            TurtleRP.Icon_ScrollBar_Update()
           </OnShow>
         </Scripts>
         <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
@@ -2108,6 +2195,47 @@
         </Backdrop>
       </ScrollFrame>
     </Frames>
+  </Frame>
+
+  <Frame name="TurtleRP_Directory_Listing" virtual="true">
+    <Size>
+      <AbsDimension x="300" y="23"/>
+    </Size>
+    <Anchors>
+      <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+        <Offset>
+          <AbsDimension x="0" y="0" />
+        </Offset>
+      </Anchor>
+    </Anchors>
+    <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
+      <EdgeSize>
+        <AbsValue val="0.5"/>
+      </EdgeSize>
+      <Color r="0" g="0" b="0" a="0.4" />
+      <BorderColor r="255" g="255" b="255" a="0" />
+    </Backdrop>
+    <Layers>
+      <Layer level="OVERLAY">
+        <!-- Name Text -->
+        <FontString name="$parent_NameText" justifyV="TOP" justifyH="LEFT" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Player Name">
+          <Size>
+            <AbsDimension x="310" y="40"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+              <Offset>
+                <AbsDimension x="3" y="-3" />
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <FontHeight>
+            <AbsValue val="12" />
+          </FontHeight>
+          <Color r="1" g="1" b="1" />
+        </FontString>
+      </Layer>
+    </Layers>
   </Frame>
 
 </Ui>

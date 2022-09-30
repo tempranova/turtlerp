@@ -15,13 +15,14 @@ Tests
 
 Bugs
 
-
 - Tooltips with icons result in inconsistent spacing
 - A few blank lines are added on bottom of Shagu tooltips occasionally
 - Not recentering description properly on large name?
 
 Next Up
 
+- Prevent pinging when gone AFK
+- Doing a quick directory version with Descriptions
 
 After beta
 
@@ -37,7 +38,6 @@ Feature List
 Recently Done
 
 0.1.3
-- Prevent pinging when gone AFK
 - Name fields combined into one
 - Custom class color
 - Custom class
@@ -65,15 +65,23 @@ Recently Done
   - RP button on/off
   - IC button on/off
   - /c chatbox opener
+  - Admin button opener
 - Chatbox v1
   - click in box/out for focus management
   - Selection of Yell, Emote, Say
   - Emote never uses username
   - Quotation color retained on long form quotes broken by multiple lines
+  - Special emote chat now showing on all frames with SAY
+  - Text clears after sending
 - Setting to change size of name
 - Minimap icon size options
 - Open to show/hide tray
 - Fix icon placement on PFUI spellbook
+- Changing /c to dialog icon
+- Removed extra space added to front of | emote (space still required
+- Setting to hide/show minimap icon
+- Icon for TurtleRP switched to mini turtle
+- Issue with item comparison fixed PFUI
 0.1.2
 - // Description box should no longer get cut off
 - // Emotes now show "Quotations in White"

@@ -149,7 +149,7 @@
         </Scripts>
         <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
       </Button>
-      <Button name="$parent_RPChatButton" inherits="UIPanelButtonGrayTemplate" movable="true" text="/c">
+      <Button name="$parent_RPChatButton" inherits="UIPanelButtonGrayTemplate" movable="true">
         <Size>
           <AbsDimension x="25" y="25"/>
         </Size>
@@ -160,13 +160,59 @@
             </Offset>
           </Anchor>
         </Anchors>
+        <Layers>
+          <Layer level="OVERLAY">
+            <Texture file="Interface\GossipFrame\GossipGossipIcon">
+              <Size x="15" y="15"/>
+              <Anchors>
+                <Anchor point="CENTER" />
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
         <Scripts>
-          <OnLoad>
-            this:SetFont("Fonts\\FRIZQT__.ttf", 10)
-          </OnLoad>
           <OnClick>
             if TurtleRP.movingIconTray == nil then
               TurtleRP_ChatBox:Show()
+            end
+          </OnClick>
+          <OnMouseDown>
+            TurtleRP_IconTray:StartMoving()
+            TurtleRP.IconTrayMover('mousedown', this)
+          </OnMouseDown>
+          <OnMouseUp>
+            TurtleRP_IconTray:StopMovingOrSizing()
+            TurtleRP.IconTrayMover('mouseup', this)
+          </OnMouseUp>
+        </Scripts>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+      </Button>
+
+      <Button name="$parent_AdminButton" inherits="UIPanelButtonGrayTemplate" movable="true">
+        <Size>
+          <AbsDimension x="25" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent_RPChatButton" relativePoint="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="0" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="OVERLAY">
+            <Texture file="Interface\Addons\TurtleRP\images\wizardturtle">
+              <Size x="15" y="15"/>
+              <Anchors>
+                <Anchor point="CENTER" />
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
+        <Scripts>
+          <OnClick>
+            if TurtleRP.movingIconTray == nil then
+              TurtleRP.OpenAdmin()
             end
           </OnClick>
           <OnMouseDown>

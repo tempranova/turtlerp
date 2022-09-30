@@ -24,19 +24,21 @@ function TurtleRP.tooltip_events()
     tooltipDefaults["tooltipFontRight" .. i .. "Flag"] = rflag
   end
   -- Custom scripts
+  local defaultTooltipShowScript = TurtleRP.gameTooltip:GetScript("OnShow")
   TurtleRP.gameTooltip:SetScript("OnShow", function()
     if UnitIsPlayer("mouseover") then
       TurtleRP.buildTooltip(UnitName("mouseover"), "mouseover")
     end
+    defaultTooltipShowScript()
   end)
-  local defaultTooltipScript = TurtleRP.gameTooltip:GetScript("OnHide")
+  local defaultTooltipHideScript = TurtleRP.gameTooltip:GetScript("OnHide")
   TurtleRP.gameTooltip:SetScript("OnHide", function()
     -- Set defaults
     for i = 1, 11 do
       getglobal("GameTooltipTextLeft" .. i):SetFont(tooltipDefaults["tooltipFontLeft" .. i .. "Name"], tooltipDefaults["tooltipFontLeft" .. i .. "Height"], tooltipDefaults["tooltipFontLeft" .. i .. "Flag"])
       getglobal("GameTooltipTextRight" .. i):SetFont(tooltipDefaults["tooltipFontRight" .. i .. "Name"], tooltipDefaults["tooltipFontRight" .. i .. "Height"], tooltipDefaults["tooltipFontRight" .. i .. "Flag"])
     end
-    defaultTooltipScript()
+    defaultTooltipHideScript()
     TurtleRP_Tooltip_Icon:Hide()
   end)
 end

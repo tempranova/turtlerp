@@ -23,7 +23,7 @@
         </Anchors>
         <Layers>
           <Layer level="BACKGROUND">
-            <Texture name="$parentEye" file="Interface\Addons\TurtleRP\images\wizard-hat">
+            <Texture name="$parentEye" file="Interface\Addons\TurtleRP\images\wizardturtle-round">
               <Size x="13" y="13"/>
               <Anchors>
                 <Anchor point="CENTER">

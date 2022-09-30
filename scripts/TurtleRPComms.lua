@@ -256,7 +256,7 @@ function TurtleRP.storeChunkedData(dataPrefix, playerName, stringData)
     justDataString = justDataString .. stringData[i] .. (i == totalReceived and "" or "~")
   end
   TurtleRPCharacters[playerName]["temp" .. dataPrefix] = TurtleRPCharacters[playerName]["temp" .. dataPrefix] .. justDataString
-  
+
   return readyToProcess
 end
 

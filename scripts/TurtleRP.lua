@@ -17,6 +17,7 @@ TurtleRP.timeBetweenPings = 30
 TurtleRP.currentlyRequestedData = nil
 -- Interface
 TurtleRP.iconFrames = nil
+TurtleRP.directoryFrames = nil
 TurtleRP.iconSelectorCreated = nil
 TurtleRP.currentIconSelector = nil
 TurtleRP.iconSelectorFilter = ""
@@ -85,6 +86,7 @@ function TurtleRP:OnEvent()
     TurtleRPSettingsTemplate["tray"] = "1"
     TurtleRPSettingsTemplate["name_size"] = "1"
     TurtleRPSettingsTemplate["minimap_icon_size"] = "0"
+    TurtleRPSettingsTemplate["hide_minimap_icon"] = "1"
 
 
     -- Global character defaults setup
@@ -140,8 +142,9 @@ function TurtleRP:OnEvent()
 
     TurtleRP.emote_events()
 
+
     -- Set Version number
-    TurtleRP_AdminSB_Content6_VersionText:SetText(TurtleRP.currentVersion)
+    TurtleRP_AdminSB_Content7_VersionText:SetText(TurtleRP.currentVersion)
 
     -- SLash commands
     SLASH_TURTLERP1 = "/ttrp";
@@ -212,60 +215,64 @@ end
 -----
 function TurtleRP.emote_events()
 
-  local TurtleLastEmote = nil
-  local TurtleLastSender = nil
-  local beginningQuoteFlag = false
+  local TurtleLastEmote = {}
+  local TurtleLastSender = {}
+  local beginningQuoteFlag = {}
+
   local oldChatFrame_OnEvent = ChatFrame_OnEvent
   function ChatFrame_OnEvent(event)
     local savedEvent = event
     if ( strsub(event, 1, 8) == "CHAT_MSG" ) then
       local type = strsub(event, 10);
       if ( type == "EMOTE" ) then
-        if TurtleLastEmote ~= arg1 then
-          if TurtleLastSender == arg2 then
-            if string.find(TurtleLastEmote, '"') then
-              local splitArrayQuotes = string.split(TurtleLastEmote, '"')
-              local numberOfQuotes = getn(splitArrayQuotes) + 1
-              if (numberOfQuotes - math.floor(numberOfQuotes/2)*2) ~= 0 then -- an odd number of quotes!
-                if beginningQuoteFlag then
-                  beginningQuoteFlag = false
-                else
-                  beginningQuoteFlag = true
-                end
-              end
-            end
-          end
-          -- if TurtleLastSender ~= arg2 then
-          TurtleLastEmote = arg1
-          TurtleLastSender = arg2
-          savedEvent = "TURTLE_TAKEOVER"
-          local nameString = arg2
-          local splitArray = string.split(arg1, '"')
-          local firstChunk = splitArray[1]
-          local firstChars = strsub(firstChunk, 1, 3)
-          if firstChars == "|| " then
-            nameString = ""
-            firstChunk = strsub(firstChunk, 3)
-          end
-          local newString = beginningQuoteFlag and (" |cffFFFFFF" .. firstChunk) or firstChunk
-          if getn(splitArray) > 1 then
-            for i in splitArray do
-              if i ~= 1 then
-                if (i - math.floor(i/2)*2) == 0 then -- this is even
-                  local colorChange = beginningQuoteFlag and "|cffFF7E40" or "|cffFFFFFF"
-                  local colorRevert = beginningQuoteFlag and "|cffFFFFFF" or "|cffFF7E40"
-                  local finalQuoteToAdd = splitArray[i + 1] and '"' or ''
-                  newString = newString .. colorChange .. '"' .. splitArray[i] .. finalQuoteToAdd .. colorRevert
-                else
-                  newString = newString .. splitArray[i]
-                end
-              end
-            end
-          end
-          local body = format(TEXT(getglobal("CHAT_"..type.."_GET")) .. newString, "|cffFF7E40" .. nameString);
-          DEFAULT_CHAT_FRAME:AddMessage(body)
-          -- end
+        if beginningQuoteFlag[this:GetID()] == nil then
+          beginningQuoteFlag[this:GetID()] = 0
         end
+        if TurtleLastSender[this:GetID()] and TurtleLastSender[this:GetID()] == arg2 then
+          if string.find(TurtleLastEmote[this:GetID()], '"') then
+            local splitArrayQuotes = string.split(TurtleLastEmote[this:GetID()], '"')
+            local numberOfQuotes = getn(splitArrayQuotes) + 1
+            if (numberOfQuotes - math.floor(numberOfQuotes/2)*2) ~= 0 then -- an odd number of quotes!
+              if beginningQuoteFlag[this:GetID()] == 1 then
+                beginningQuoteFlag[this:GetID()] = 0
+              else
+                beginningQuoteFlag[this:GetID()] = 1
+              end
+            end
+          end
+        end
+        TurtleLastEmote[this:GetID()] = arg1
+        TurtleLastSender[this:GetID()] = arg2
+        savedEvent = "TURTLE_TAKEOVER"
+        local nameString = arg2
+        local splitArray = string.split(arg1, '"')
+        local firstChunk = splitArray[1]
+        local firstChars = strsub(firstChunk, 1, 3)
+        if firstChars == "|| " then
+          nameString = ""
+          firstChunk = strsub(firstChunk, 4)
+        end
+        local newString = beginningQuoteFlag[this:GetID()] == 1 and (" |cffFFFFFF" .. firstChunk) or firstChunk
+        if getn(splitArray) > 1 then
+          for i in splitArray do
+            if i ~= 1 then
+              if (i - math.floor(i/2)*2) == 0 then -- this is even
+                local colorChange = beginningQuoteFlag[this:GetID()] == 1 and "|cffFF7E40" or "|cffFFFFFF"
+                local colorRevert = beginningQuoteFlag[this:GetID()] == 1 and "|cffFFFFFF" or "|cffFF7E40"
+                local finalQuoteToAdd = splitArray[i + 1] and '"' or ''
+                newString = newString .. colorChange .. '"' .. splitArray[i] .. finalQuoteToAdd .. colorRevert
+              else
+                newString = newString .. splitArray[i]
+              end
+            end
+          end
+        end
+        local body = format(TEXT(getglobal("CHAT_"..type.."_GET")) .. newString, "|cffFF7E40" .. nameString)
+        if nameString == "" then
+          body = "|cffFF7E40" .. newString
+        end
+
+        this:AddMessage(body)
       end
     end
     oldChatFrame_OnEvent(savedEvent)
@@ -375,8 +382,8 @@ function TurtleRP.populate_interface_user_data()
   TurtleRP_AdminSB_Content3_DescriptionScrollBox_DescriptionInput:SetText(TurtleRPCharacterInfo["description"])
   TurtleRP_AdminSB_Content4_NotesScrollBox_NotesInput:SetText(TurtleRPCharacterInfo["notes"])
 
-  TurtleRP_AdminSB_Content5_PVPButton:SetChecked(TurtleRPSettings["bgs"] == "on" and true or false)
-  TurtleRP_AdminSB_Content5_NameButton:SetChecked(TurtleRPSettings["name_size"] == "1" and true or false)
+  TurtleRP_AdminSB_Content6_PVPButton:SetChecked(TurtleRPSettings["bgs"] == "on" and true or false)
+  TurtleRP_AdminSB_Content6_NameButton:SetChecked(TurtleRPSettings["name_size"] == "1" and true or false)
 
   if TurtleRPCharacterInfo["currently_ic"] == "1" then
     TurtleRP_AdminSB_Content1_ICButton:SetChecked(true)
@@ -387,13 +394,18 @@ function TurtleRP.populate_interface_user_data()
   end
 
   if TurtleRPSettings["tray"] == "1" then
-    TurtleRP_AdminSB_Content5_TrayButton:SetChecked(true)
+    TurtleRP_AdminSB_Content6_TrayButton:SetChecked(true)
     TurtleRP_IconTray:Show()
   end
 
   if TurtleRPSettings["minimap_icon_size"] == "1" then
-    TurtleRP_AdminSB_Content5_MinimapButton:SetChecked(true)
+    TurtleRP_AdminSB_Content6_MinimapButton:SetChecked(true)
     TurtleRP_MinimapIcon_OpenAdmin:SetScale(1.25)
+  end
+
+  if TurtleRPSettings["hide_minimap_icon"] == "1" then
+    TurtleRP_AdminSB_Content6_HideMinimapButton:SetChecked(true)
+    TurtleRP_MinimapIcon:Hide()
   end
 
 end
@@ -509,6 +521,45 @@ function TurtleRP.save_notes()
   TurtleRPCharacterInfo["notes"] = notes
 end
 
+----
+-- Directory Manager
+----
+function TurtleRP.Directory_ScrollBar_Update()
+  -- if TurtleRP.iconFrames == nil then
+  --   TurtleRP.iconFrames = TurtleRP.makeIconFrames()
+  -- end
+  -- local totalDirectoryChars = 0
+  -- for i, v in TurtleRPCharacters do
+  --   totalDirectoryChars = totalDirectoryChars + 1
+  -- end
+  -- TurtleRP.log(totalDirectoryChars)
+  -- FauxScrollFrame_Update(TurtleRP_AdminSB_Content5_DirectoryScrollBox, totalDirectoryChars, 20, 25)
+  -- local currentLine = FauxScrollFrame_GetOffset(TurtleRP_AdminSB_Content5_DirectoryScrollBox)
+  -- TurtleRP.renderDirectory((currentLine * 5))
+end
+
+function TurtleRP.makeDirectoryFrames()
+end
+
+function TurtleRP.renderDirectory(directoryOffset)
+  -- TurtleRP.log(directoryOffset)
+  -- local remadeArray = {}
+  -- local currentArrayNumber = 1
+  -- for i, v in TurtleRPCharacters do
+  --   remadeArray[currentArrayNumber] = v
+  --   currentArrayNumber = currentArrayNumber + 1
+  -- end
+  -- for i=directoryOffset, directoryOffset+20 do
+  --   for i, v in TurtleRPCharacters do
+  --     local directoryNameFrame = CreateFrame("Frame",  "TurtleRP_AdminSB_Content5_DirectoryScrollBox_DirectoryHolder_Listing_DirectoryName" .. i, TurtleRP_AdminSB_Content5_DirectoryScrollBox_DirectoryHolder, "TurtleRP_Directory_Listing")
+  --     getglobal("TurtleRP_AdminSB_Content5_DirectoryScrollBox_DirectoryHolder_Listing_DirectoryName" .. i .. "_NameText"):SetText(i)
+  --     getglobal("TurtleRP_AdminSB_Content5_DirectoryScrollBox_DirectoryHolder_Listing_DirectoryName" .. i):SetPoint("TOPLEFT", TurtleRP_AdminSB_Content5, "TOPLEFT", 0, framesCreated * -25)
+  --     framesCreated = framesCreated + 1
+  --   end
+  -- end
+  -- local framesCreated = 0
+end
+
 -----
 -- Icon Selector
 -----
@@ -526,7 +577,7 @@ function TurtleRP.create_icon_selector()
   TurtleRP.renderIcons((currentLine * 5))
 end
 
-function MyModScrollBar_Update()
+function TurtleRP.Icon_ScrollBar_Update()
   FauxScrollFrame_Update(TurtleRP_IconSelector_ScrollBox, 450, 250, 25)
   local currentLine = FauxScrollFrame_GetOffset(TurtleRP_IconSelector_ScrollBox)
   TurtleRP.renderIcons((currentLine * 5))
@@ -696,13 +747,17 @@ function TurtleRP.OpenAdmin()
   TurtleRP_AdminSB_Tab4.tooltip = "Notes"
   TurtleRP_AdminSB_Tab4:Show()
 
-  TurtleRP_AdminSB_Tab5:SetNormalTexture("Interface\\Icons\\Trade_Engineering")
-  TurtleRP_AdminSB_Tab5.tooltip = "Settings"
-  TurtleRP_AdminSB_Tab5:Show()
+  -- TurtleRP_AdminSB_Tab5:SetNormalTexture("Interface\\Icons\\Spell_Holy_InnerFire")
+  -- TurtleRP_AdminSB_Tab5.tooltip = "Directory"
+  -- TurtleRP_AdminSB_Tab5:Show()
 
-  TurtleRP_AdminSB_Tab6:SetNormalTexture("Interface\\Icons\\INV_Misc_QuestionMark")
-  TurtleRP_AdminSB_Tab6.tooltip = "About / Help"
+  TurtleRP_AdminSB_Tab6:SetNormalTexture("Interface\\Icons\\Trade_Engineering")
+  TurtleRP_AdminSB_Tab6.tooltip = "Settings"
   TurtleRP_AdminSB_Tab6:Show()
+
+  TurtleRP_AdminSB_Tab7:SetNormalTexture("Interface\\Icons\\INV_Misc_QuestionMark")
+  TurtleRP_AdminSB_Tab7.tooltip = "About / Help"
+  TurtleRP_AdminSB_Tab7:Show()
 
   TurtleRP_AdminSB_Tab1:SetChecked(1)
 end
