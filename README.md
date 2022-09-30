@@ -17,12 +17,10 @@ Bugs
 
 - Tooltips with icons result in inconsistent spacing
 - A few blank lines are added on bottom of Shagu tooltips occasionally
-- Not recentering description properly on large name?
 
 Next Up
 
 - Prevent pinging when gone AFK
-- Doing a quick directory version with Descriptions
 
 After beta
 
@@ -31,13 +29,10 @@ After beta
 - Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
 - Showing class colors in /say (harder than it seems! Maybe just use Shagu instead)
 
-Feature List
-
-- More to come after beta testing and first release, based on community response
-
-Recently Done
+### Recently Done
 
 0.1.3
+
 - Name fields combined into one
 - Custom class color
 - Custom class
@@ -82,7 +77,9 @@ Recently Done
 - Setting to hide/show minimap icon
 - Icon for TurtleRP switched to mini turtle
 - Issue with item comparison fixed PFUI
+
 0.1.2
+
 - // Description box should no longer get cut off
 - // Emotes now show "Quotations in White"
 - // When a player is ??, tooltip shows -1
