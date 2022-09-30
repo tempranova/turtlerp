@@ -44,7 +44,7 @@ end
 function TurtleRP.getStatusText(currently_ic, ICOn, ICOff, whiteColor)
   local statusText = ""
   if currently_ic ~= nil then
-    if currently_ic == 'on' then
+    if currently_ic == "1" then
       statusText = " (" .. ICOn .. "IC" .. whiteColor .. ")"
     else
       statusText = " (" .. ICOff .. "OOC" .. whiteColor .. ")"
@@ -98,9 +98,10 @@ function TurtleRP.buildTooltip(playerName, targetType)
   end
 
   -- Getting details for character
-  local fullName        = locallyRetrievable and TurtleRP.getFullName(characterInfo['title'], characterInfo['first_name'], characterInfo['last_name']) or UnitName(targetType)
-  local race            = UnitRace(targetType)
-  local class           = UnitClass(targetType)
+  local fullName        = locallyRetrievable and characterInfo["full_name"] or UnitName(targetType)
+  local race            = locallyRetrievable and characterInfo["race"] or UnitRace(targetType)
+  local class           = locallyRetrievable and characterInfo["class"] or UnitClass(targetType)
+  local class_color     = locallyRetrievable and characterInfo['class_color'] or TurtleRPClassData[class][4]
   local guildName, guildRank
                         = GetGuildInfo(targetType)
   local queriedLevel    = UnitLevel(targetType)
@@ -113,7 +114,7 @@ function TurtleRP.buildTooltip(playerName, targetType)
 
   -- Color variables
   local colorPrefix       = "|cff"
-  local thisClassColor    = colorPrefix .. TurtleRPClassData[class][4] -- Hex code
+  local thisClassColor    = colorPrefix .. class_color -- Hex code
   local guildColor        = colorPrefix .. "FFD700"
   local whiteColor        = colorPrefix .. "FFFFFF"
   local ICOn              = colorPrefix .. "40AF6F"
@@ -121,6 +122,8 @@ function TurtleRP.buildTooltip(playerName, targetType)
   local pronounColor      = colorPrefix .. "ffcc80"
 
   -- Formatting variables
+  -- local titleExtraSpaces    = (icon ~= nil and icon ~= "") and "" or ""
+  -- local guildExtraSpaces    = (icon ~= nil and icon ~= "") and "" or ""
   local titleExtraSpaces    = (icon ~= nil and icon ~= "") and "         " or ""
   local guildExtraSpaces    = (icon ~= nil and icon ~= "") and "           " or ""
   if TurtleRP.shaguEnabled then
@@ -136,7 +139,11 @@ function TurtleRP.buildTooltip(playerName, targetType)
 
   -- Modify tooltip
   local l = 1
-  getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 18)
+  if TurtleRPSettings["name_size"] == "1" then
+    getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 18)
+  else
+    getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 15)
+  end
   getglobal("GameTooltipTextLeft"..l):SetText(thisClassColor .. titleExtraSpaces .. fullName)
 
   l = l + 1
@@ -177,11 +184,16 @@ function TurtleRP.buildTooltip(playerName, targetType)
     l = TurtleRP.printICandOOC(ooc_info, OOCandPronounsText, blankLine, l)
 
     if icon ~= nil and icon ~= "" then
-      TurtleRP_Tooltip_Icon:SetPoint("TOPLEFT", "GameTooltipTextLeft1", "TOPLEFT")
+      TurtleRP_Tooltip_Icon:SetPoint("TOPLEFT", GameTooltipTextLeft1, "TOPLEFT")
       TurtleRP_Tooltip_Icon:SetFrameStrata("tooltip")
       TurtleRP_Tooltip_Icon:SetFrameLevel(99)
       TurtleRP_Tooltip_Icon_Icon:SetTexture("Interface\\Icons\\" .. TurtleRPIcons[tonumber(icon)])
       TurtleRP_Tooltip_Icon:Show()
+
+      -- getglobal("GameTooltipTextLeft1"):SetPoint("TOPLEFT", GameTooltip, "TOPLEFT", 50, -5)
+      -- getglobal("GameTooltipTextLeft2"):SetPoint("TOPLEFT", GameTooltipTextLeft1, "BOTTOMLEFT", 0, -5)
+      -- getglobal("GameTooltipTextLeft3"):SetPoint("TOPLEFT", GameTooltipTextLeft2, "BOTTOMLEFT", -40, -10)
+
     else
       TurtleRP_Tooltip_Icon:Hide()
     end

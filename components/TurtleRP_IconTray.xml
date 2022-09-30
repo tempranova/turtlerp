@@ -1,0 +1,185 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+
+  <Frame name="TurtleRP_IconTray" parent="UIParent" toplevel="true" movable="true" enableMouse="true" hidden="true">
+    <Size>
+      <AbsDimension x="75" y="24" />
+    </Size>
+    <Anchors>
+      <Anchor point="TOPRIGHT">
+        <Offset>
+          <AbsDimension x="-200" y="-200" />
+        </Offset>
+      </Anchor>
+    </Anchors>
+    <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
+      <EdgeSize>
+        <AbsValue val="0.5"/>
+      </EdgeSize>
+      <Color r="0" g="0" b="0" a="0" />
+      <BorderColor r="255" g="255" b="255" a="0" />
+    </Backdrop>
+    <Frames>
+      <Button name="$parent_RPModeButton" inherits="UIPanelButtonGrayTemplate" movable="true" text="RP">
+        <Size>
+          <AbsDimension x="25" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
+            <Offset>
+              <AbsDimension x="0" y="2"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+          </OnLoad>
+          <OnClick>
+            if TurtleRP.movingIconTray == nil then
+              this:Hide()
+              TurtleRP_IconTray_RPModeButton2:Show()
+              TurtleRP.RPMode = 1
+          		TurtleRP.EnableRPMode();
+            end
+          </OnClick>
+          <OnMouseDown>
+            TurtleRP_IconTray:StartMoving()
+            TurtleRP.IconTrayMover('mousedown', this)
+          </OnMouseDown>
+          <OnMouseUp>
+            TurtleRP_IconTray:StopMovingOrSizing()
+            TurtleRP.IconTrayMover('mouseup', this)
+          </OnMouseUp>
+        </Scripts>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+      </Button>
+      <Button name="$parent_RPModeButton2" inherits="UIPanelButtonTemplate" movable="true" text="RP" hidden="true">
+        <Size>
+          <AbsDimension x="25" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
+            <Offset>
+              <AbsDimension x="0" y="2"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+          </OnLoad>
+          <OnClick>
+            if TurtleRP.movingIconTray == nil then
+              this:Hide()
+              TurtleRP_IconTray_RPModeButton:Show()
+              TurtleRP.RPMode = 0
+          		TurtleRP.DisableRPMode();
+            end
+          </OnClick>
+          <OnMouseDown>
+            TurtleRP_IconTray:StartMoving()
+            TurtleRP.IconTrayMover('mousedown', this)
+          </OnMouseDown>
+          <OnMouseUp>
+            TurtleRP_IconTray:StopMovingOrSizing()
+            TurtleRP.IconTrayMover('mouseup', this)
+          </OnMouseUp>
+        </Scripts>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+      </Button>
+      <Button name="$parent_ICModeButton" inherits="UIPanelButtonGrayTemplate" movable="true" text="IC" hidden="true">
+        <Size>
+          <AbsDimension x="25" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent_RPModeButton" relativePoint="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="0" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+          </OnLoad>
+          <OnClick>
+            if TurtleRP.movingIconTray == nil then
+              TurtleRP.change_ic_status()
+            end
+          </OnClick>
+          <OnMouseDown>
+            TurtleRP_IconTray:StartMoving()
+            TurtleRP.IconTrayMover('mousedown', this)
+          </OnMouseDown>
+          <OnMouseUp>
+            TurtleRP_IconTray:StopMovingOrSizing()
+            TurtleRP.IconTrayMover('mouseup', this)
+          </OnMouseUp>
+        </Scripts>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+      </Button>
+      <Button name="$parent_ICModeButton2" inherits="UIPanelButtonTemplate" movable="true" text="IC" hidden="true">
+        <Size>
+          <AbsDimension x="25" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent_RPModeButton" relativePoint="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="0" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+          </OnLoad>
+          <OnClick>
+            if TurtleRP.movingIconTray == nil then
+              TurtleRP.change_ic_status()
+            end
+          </OnClick>
+          <OnMouseDown>
+            TurtleRP_IconTray:StartMoving()
+            TurtleRP.IconTrayMover('mousedown', this)
+          </OnMouseDown>
+          <OnMouseUp>
+            TurtleRP_IconTray:StopMovingOrSizing()
+            TurtleRP.IconTrayMover('mouseup', this)
+          </OnMouseUp>
+        </Scripts>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+      </Button>
+      <Button name="$parent_RPChatButton" inherits="UIPanelButtonGrayTemplate" movable="true" text="/c">
+        <Size>
+          <AbsDimension x="25" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent_ICModeButton" relativePoint="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="0" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+          </OnLoad>
+          <OnClick>
+            if TurtleRP.movingIconTray == nil then
+              TurtleRP_ChatBox:Show()
+            end
+          </OnClick>
+          <OnMouseDown>
+            TurtleRP_IconTray:StartMoving()
+            TurtleRP.IconTrayMover('mousedown', this)
+          </OnMouseDown>
+          <OnMouseUp>
+            TurtleRP_IconTray:StopMovingOrSizing()
+            TurtleRP.IconTrayMover('mouseup', this)
+          </OnMouseUp>
+        </Scripts>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+      </Button>
+    </Frames>
+  </Frame>
+</Ui>

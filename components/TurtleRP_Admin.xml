@@ -166,8 +166,8 @@
               </Anchors>
               <Color r="0" g="0" b="0" a="0.3" />
             </Texture>
-            <!-- Title Text -->
-            <FontString name="$parent_TitleText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Character Title">
+            <!-- Name Text -->
+            <FontString name="$parent_NameText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Character Title and Name">
               <Anchors>
                 <Anchor point="LEFT" relativeTo="$parent_hr" relativePoint="LEFT">
                   <Offset>
@@ -180,10 +180,24 @@
               </FontHeight>
               <Color r="0" g="0" b="0" />
             </FontString>
+            <!-- Race Text -->
+            <FontString name="$parent_RaceText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Race">
+              <Anchors>
+                <Anchor point="LEFT" relativeTo="$parent_NameText" relativePoint="LEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-40" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
             <!-- Icons Text -->
             <FontString name="$parent_IconText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Icon">
               <Anchors>
-                <Anchor point="LEFT" relativeTo="$parent_TitleText" relativePoint="RIGHT">
+                <Anchor point="LEFT" relativeTo="$parent_RaceText" relativePoint="RIGHT">
                   <Offset>
                     <AbsDimension x="155" y="0" />
                   </Offset>
@@ -194,12 +208,26 @@
               </FontHeight>
               <Color r="0" g="0" b="0" />
             </FontString>
-            <!-- First Name Text -->
-            <FontString name="$parent_FirstNameText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="First Name">
+            <!-- Class Text -->
+            <FontString name="$parent_ClassText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Class">
               <Anchors>
-                <Anchor point="LEFT" relativeTo="$parent_TitleText" relativePoint="LEFT">
+                <Anchor point="LEFT" relativeTo="$parent_RaceText" relativePoint="LEFT">
                   <Offset>
                     <AbsDimension x="0" y="-40" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
+            <!-- Color Text -->
+            <FontString name="$parent_ClassColorText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Class Color">
+              <Anchors>
+                <Anchor point="LEFT" relativeTo="$parent_ClassText" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="152" y="0" />
                   </Offset>
                 </Anchor>
               </Anchors>
@@ -209,25 +237,11 @@
               <Color r="0" g="0" b="0" />
             </FontString>
             <!-- Currently IC Text -->
-            <FontString name="$parent_CurrentlyICText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Currently IC?">
+            <FontString name="$parent_CurrentlyICText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="IC?">
               <Anchors>
-                <Anchor point="LEFT" relativeTo="$parent_FirstNameText" relativePoint="RIGHT">
+                <Anchor point="LEFT" relativeTo="$parent_ClassColorText" relativePoint="RIGHT">
                   <Offset>
-                    <AbsDimension x="175" y="0" />
-                  </Offset>
-                </Anchor>
-              </Anchors>
-              <FontHeight>
-                <AbsValue val="10" />
-              </FontHeight>
-              <Color r="0" g="0" b="0" />
-            </FontString>
-            <!-- Last Name Text -->
-            <FontString name="$parent_LastNameText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Last Name">
-              <Anchors>
-                <Anchor point="LEFT" relativeTo="$parent_FirstNameText" relativePoint="LEFT">
-                  <Offset>
-                    <AbsDimension x="0" y="-40" />
+                    <AbsDimension x="30" y="0" />
                   </Offset>
                 </Anchor>
               </Anchors>
@@ -239,7 +253,7 @@
             <!-- IC Info Text -->
             <FontString name="$parent_ICInfoText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="IC Info">
               <Anchors>
-                <Anchor point="LEFT" relativeTo="$parent_LastNameText" relativePoint="LEFT">
+                <Anchor point="LEFT" relativeTo="$parent_ClassText" relativePoint="LEFT">
                   <Offset>
                     <AbsDimension x="0" y="-40" />
                   </Offset>
@@ -321,9 +335,9 @@
               <AbsDimension x="25" y="25" />
             </Size>
             <Anchors>
-              <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+              <Anchor point="TOPRIGHT" relativeTo="$parent_IconText" relativePoint="TOPRIGHT">
                 <Offset>
-                  <AbsDimension x="-65" y="-44"/>
+                  <AbsDimension x="2" y="-13"/>
                 </Offset>
               </Anchor>
             </Anchors>
@@ -365,6 +379,32 @@
               </OnClick>
             </Scripts>
           </Button>
+          <!-- Class Color Button -->
+          <Button name="$parent_ClassColorButton">
+            <Size>
+              <AbsDimension x="20" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent_ClassColorText" relativePoint="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="1" y="-14"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Backdrop alphaMode="ADD" bgFile="Interface\Buttons\WHITE8x8" tile="false">
+             <TileSize>
+               <AbsValue val="20"/>
+             </TileSize>
+             <Color r="0" g="0" b="0" />
+            </Backdrop>
+            <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+            <Scripts>
+              <OnClick>
+                local r, g, b = TurtleRP.hex2rgb(TurtleRPCharacterInfo['class_color'])
+                TurtleRP.showColorPicker(r, g, b, 1, TurtleRP.colorPickerCallback);
+              </OnClick>
+            </Scripts>
+          </Button>
           <!-- IC Button -->
           <CheckButton name="$parent_ICButton" inherits="UICheckButtonTemplate">
             <Size>
@@ -379,22 +419,17 @@
             </Anchors>
             <Scripts>
               <OnClick>
-                if TurtleRPCharacterInfo["currently_ic"] ~= "on" then
-                  TurtleRPCharacterInfo["currently_ic"] = "on"
-                else
-                  TurtleRPCharacterInfo["currently_ic"] = "off"
-                end
-                TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
+                TurtleRP.change_ic_status()
               </OnClick>
             </Scripts>
           </CheckButton>
-          <!-- Title Input Box -->
-          <EditBox name="$parent_TitleInput" alpha="0.85" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
+          <!-- Name Input Box -->
+          <EditBox name="$parent_NameInput" alpha="0.85" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
             <Size>
-              <AbsDimension x="150" y="20" />
+              <AbsDimension x="290" y="20" />
             </Size>
             <Anchors>
-              <Anchor point="LEFT" relativeTo="$parent_TitleText" relativePoint="LEFT">
+              <Anchor point="LEFT" relativeTo="$parent_NameText" relativePoint="LEFT">
                 <Offset>
                   <AbsDimension x="5" y="-20" />
                 </Offset>
@@ -403,17 +438,17 @@
             <FontString inherits="ChatFontNormal" />
             <Scripts>
               <OnLoad>
-                this:SetMaxLetters(15)
+                this:SetMaxLetters(50)
               </OnLoad>
             </Scripts>
           </EditBox>
-          <!-- First Name Input Box -->
-          <EditBox name="$parent_FirstNameInput" alpha="0.85" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
+          <!-- Race Input Box -->
+          <EditBox name="$parent_RaceInput" alpha="0.85" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
             <Size>
               <AbsDimension x="150" y="20" />
             </Size>
             <Anchors>
-              <Anchor point="LEFT" relativeTo="$parent_FirstNameText" relativePoint="LEFT">
+              <Anchor point="LEFT" relativeTo="$parent_RaceText" relativePoint="LEFT">
                 <Offset>
                   <AbsDimension x="5" y="-20" />
                 </Offset>
@@ -422,17 +457,17 @@
             <FontString inherits="ChatFontNormal" />
             <Scripts>
               <OnLoad>
-                this:SetMaxLetters(15)
+                this:SetMaxLetters(20)
               </OnLoad>
             </Scripts>
           </EditBox>
           <!-- Last Name Input Box -->
-          <EditBox name="$parent_LastNameInput" alpha="0.85" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
+          <EditBox name="$parent_ClassInput" alpha="0.85" inherits="InputBoxTemplate" visible="true" enableMouse="true" autoFocus="false">
             <Size>
               <AbsDimension x="150" y="20" />
             </Size>
             <Anchors>
-              <Anchor point="LEFT" relativeTo="$parent_LastNameText" relativePoint="LEFT">
+              <Anchor point="LEFT" relativeTo="$parent_ClassText" relativePoint="LEFT">
                 <Offset>
                   <AbsDimension x="5" y="-20" />
                 </Offset>
@@ -1416,6 +1451,48 @@
               </FontHeight>
               <Color r="0" g="0" b="0" />
             </FontString>
+            <!-- Tray Setting Text -->
+            <FontString name="$parent_TrayText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Show Button Tray">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_PVPText" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
+            <!-- Name Setting Text -->
+            <FontString name="$parent_NameText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Large Tooltip Name">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_TrayText" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
+            <!-- Minimap Icon Setting Text -->
+            <FontString name="$parent_MinimapText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Large Minimap Icon">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_NameText" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
           </Layer>
         </Layers>
         <Frames>
@@ -1437,6 +1514,76 @@
                   TurtleRPSettings["bgs"] = "on"
                 else
                   TurtleRPSettings["bgs"] = "off"
+                end
+              </OnClick>
+            </Scripts>
+          </CheckButton>
+          <!-- Tray Button -->
+          <CheckButton name="$parent_TrayButton" inherits="UICheckButtonTemplate">
+            <Size>
+              <AbsDimension x="25" y="25" />
+            </Size>
+            <Anchors>
+              <Anchor point="RIGHT" relativeTo="$parent_PVPButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="0" y="-20"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnClick>
+                if TurtleRPSettings["tray"] == "0" then
+                  TurtleRPSettings["tray"] = "1"
+                  TurtleRP_IconTray:Show()
+                else
+                  TurtleRPSettings["tray"] = "0"
+                  TurtleRP_IconTray:Hide()
+                end
+              </OnClick>
+            </Scripts>
+          </CheckButton>
+          <!-- Name Button -->
+          <CheckButton name="$parent_NameButton" inherits="UICheckButtonTemplate">
+            <Size>
+              <AbsDimension x="25" y="25" />
+            </Size>
+            <Anchors>
+              <Anchor point="RIGHT" relativeTo="$parent_TrayButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="0" y="-20"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnClick>
+                if TurtleRPSettings["name_size"] == "0" then
+                  TurtleRPSettings["name_size"] = "1"
+                else
+                  TurtleRPSettings["name_size"] = "0"
+                end
+              </OnClick>
+            </Scripts>
+          </CheckButton>
+          <!-- Name Button -->
+          <CheckButton name="$parent_MinimapButton" inherits="UICheckButtonTemplate">
+            <Size>
+              <AbsDimension x="25" y="25" />
+            </Size>
+            <Anchors>
+              <Anchor point="RIGHT" relativeTo="$parent_NameButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="0" y="-20"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnClick>
+                if TurtleRPSettings["minimap_icon_size"] == "0" then
+                  TurtleRPSettings["minimap_icon_size"] = "1"
+                  TurtleRP_MinimapIcon_OpenAdmin:SetScale(1.25)
+                else
+                  TurtleRPSettings["minimap_icon_size"] = "0"
+                  TurtleRP_MinimapIcon_OpenAdmin:SetScale(1)
                 end
               </OnClick>
             </Scripts>
@@ -1742,7 +1889,7 @@
       </CheckButton>
       <CheckButton name="$parent_Tab2" inherits="TurtleRP_SBTabTemplate" id="2">
         <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="SpellBookSkillLineTab1" relativePoint="BOTTOMLEFT">
+          <Anchor point="TOPLEFT" relativeTo="$parent_Tab1" relativePoint="BOTTOMLEFT">
             <Offset>
               <AbsDimension x="0" y="-17"/>
             </Offset>
@@ -1756,7 +1903,7 @@
       </CheckButton>
       <CheckButton name="$parent_Tab3" inherits="TurtleRP_SBTabTemplate" id="3">
         <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="SpellBookSkillLineTab2" relativePoint="BOTTOMLEFT">
+          <Anchor point="TOPLEFT" relativeTo="$parent_Tab2" relativePoint="BOTTOMLEFT">
             <Offset>
               <AbsDimension x="0" y="-17"/>
             </Offset>
@@ -1770,7 +1917,7 @@
       </CheckButton>
       <CheckButton name="$parent_Tab4" inherits="TurtleRP_SBTabTemplate" id="4">
         <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="SpellBookSkillLineTab3" relativePoint="BOTTOMLEFT">
+          <Anchor point="TOPLEFT" relativeTo="$parent_Tab3" relativePoint="BOTTOMLEFT">
             <Offset>
               <AbsDimension x="0" y="-17"/>
             </Offset>
@@ -1784,7 +1931,7 @@
       </CheckButton>
       <CheckButton name="$parent_Tab5" inherits="TurtleRP_SBTabTemplate" id="5">
         <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="SpellBookSkillLineTab4" relativePoint="BOTTOMLEFT">
+          <Anchor point="TOPLEFT" relativeTo="$parent_Tab4" relativePoint="BOTTOMLEFT">
             <Offset>
               <AbsDimension x="0" y="-17"/>
             </Offset>
@@ -1798,7 +1945,7 @@
       </CheckButton>
       <CheckButton name="$parent_Tab6" inherits="TurtleRP_SBTabTemplate" id="6">
         <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="SpellBookSkillLineTab5" relativePoint="BOTTOMLEFT">
+          <Anchor point="TOPLEFT" relativeTo="$parent_Tab5" relativePoint="BOTTOMLEFT">
             <Offset>
               <AbsDimension x="0" y="-17"/>
             </Offset>
@@ -1812,7 +1959,7 @@
       </CheckButton>
       <CheckButton name="$parent_Tab7" inherits="TurtleRP_SBTabTemplate" id="7">
         <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="SpellBookSkillLineTab6" relativePoint="BOTTOMLEFT">
+          <Anchor point="TOPLEFT" relativeTo="$parent_Tab6" relativePoint="BOTTOMLEFT">
             <Offset>
               <AbsDimension x="0" y="-17"/>
             </Offset>
@@ -1821,7 +1968,7 @@
       </CheckButton>
       <CheckButton name="$parent_Tab8" inherits="TurtleRP_SBTabTemplate" id="8">
         <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="SpellBookSkillLineTab7" relativePoint="BOTTOMLEFT">
+          <Anchor point="TOPLEFT" relativeTo="$parent_Tab7" relativePoint="BOTTOMLEFT">
             <Offset>
               <AbsDimension x="0" y="-17"/>
             </Offset>
@@ -1832,7 +1979,6 @@
     <Scripts>
       <OnLoad>
         if ShaguTweaks_config and ShaguTweaks_config["Darkened UI"] and ShaguTweaks_config["Darkened UI"] == 1 then
-          TurtleRP.log("Dark UI!")
           this.Material = this.Material or this:CreateTexture(nil, "OVERLAY")
           this.Material:SetTexture("Interface\\Stationery\\StationeryTest1")
           this.Material:SetWidth(325)

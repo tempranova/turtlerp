@@ -117,7 +117,7 @@
                 </FontString>
                 <Layers>
             			<Layer level="OVERLAY">
-                    <FontString name="$parent_TargetDescription" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyH="LEFT" justifyV="TOP">
+                    <FontString name="$parent_TargetDescription" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyH="LEFT" justifyV="TOP" text="|cFFFF0000Hiiii|r  |TInterface\TargetingFrame\TargetDead|t">
                       <Size>
                         <AbsDimension x="280" y="550" />
                       </Size>

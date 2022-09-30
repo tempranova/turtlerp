@@ -1,5 +1,3 @@
-local _G = _G or getfenv(0)
-local gfind = string.gmatch or string.gfind
 --[[
   Created by Vee (http://victortemprano.com), Drixi in-game
   See Github repo at https://github.com/tempranova/turtlerp
@@ -11,7 +9,7 @@ local gfind = string.gmatch or string.gfind
 TurtleRP.TestMode = 0
 
 -- Dev
-TurtleRP.currentVersion = "0.1.2"
+TurtleRP.currentVersion = "0.1.3"
 -- Chat
 TurtleRP.channelName = "TTRP"
 TurtleRP.channelIndex = 0
@@ -23,6 +21,10 @@ TurtleRP.iconSelectorCreated = nil
 TurtleRP.currentIconSelector = nil
 TurtleRP.iconSelectorFilter = ""
 TurtleRP.RPMode = 0
+TurtleRP.movingIconTray = nil
+TurtleRP.movingMinimapButton = nil
+TurtleRP.editingChatBox = nil
+TurtleRP.currentChatType = nil
 TurtleRP.targetFrame = TargetFrame
 TurtleRP.gameTooltip = GameTooltip
 TurtleRP.shaguEnabled = nil
@@ -51,14 +53,15 @@ function TurtleRP:OnEvent()
 
     TurtleRPCharacterInfoTemplate["keyM"] = TurtleRP.randomchars()
     TurtleRPCharacterInfoTemplate["icon"] = ""
-    TurtleRPCharacterInfoTemplate["title"] = ""
-    TurtleRPCharacterInfoTemplate["first_name"] = UnitName("player")
-    TurtleRPCharacterInfoTemplate["last_name"] = ""
+    TurtleRPCharacterInfoTemplate["full_name"] = UnitName("player")
+    TurtleRPCharacterInfoTemplate["race"] = UnitRace("player")
+    TurtleRPCharacterInfoTemplate["class"] = UnitClass("player")
+    TurtleRPCharacterInfoTemplate["class_color"] = TurtleRPClassData[UnitClass("player")][4]
     TurtleRPCharacterInfoTemplate["ic_info"] = ""
     TurtleRPCharacterInfoTemplate["ooc_info"] = ""
     TurtleRPCharacterInfoTemplate["ic_pronouns"] = ""
     TurtleRPCharacterInfoTemplate["ooc_pronouns"] = ""
-    TurtleRPCharacterInfoTemplate["currently_ic"] = "on"
+    TurtleRPCharacterInfoTemplate["currently_ic"] = "1"
 
     TurtleRPCharacterInfoTemplate["notes"] = ""
 
@@ -77,6 +80,13 @@ function TurtleRP:OnEvent()
     TurtleRPCharacterInfoTemplate["keyD"] = TurtleRP.randomchars()
     TurtleRPCharacterInfoTemplate["description"] = ""
 
+    local TurtleRPSettingsTemplate = {}
+    TurtleRPSettingsTemplate["bgs"] = "off"
+    TurtleRPSettingsTemplate["tray"] = "1"
+    TurtleRPSettingsTemplate["name_size"] = "1"
+    TurtleRPSettingsTemplate["minimap_icon_size"] = "0"
+
+
     -- Global character defaults setup
     if TurtleRPCharacterInfo == nil then
       TurtleRPCharacterInfo = TurtleRPCharacterInfoTemplate
@@ -86,8 +96,7 @@ function TurtleRP:OnEvent()
       TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
     end
     if TurtleRPSettings == nil then
-      TurtleRPSettings = {}
-      TurtleRPSettings["bgs"] = "off"
+      TurtleRPSettings = TurtleRPSettingsTemplate
     end
     if TurtleRPQueryablePlayers == nil then
       TurtleRPQueryablePlayers = {}
@@ -97,14 +106,23 @@ function TurtleRP:OnEvent()
     if TurtleRPCharacterInfo ~= nil then
       for i, field in pairs(TurtleRPCharacterInfoTemplate) do
         if TurtleRPCharacterInfo[i] == nil then
-          TurtleRPCharacterInfo[i] = ""
+          TurtleRPCharacterInfo[i] = TurtleRPCharacterInfoTemplate[i]
         end
       end
       TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
     end
 
+    -- For adding additional settings after plugin is in use
+    if TurtleRPSettings ~= nil then
+      for i, field in pairs(TurtleRPSettingsTemplate) do
+        if TurtleRPSettings[i] == nil then
+          TurtleRPSettings[i] = TurtleRPSettingsTemplate[i]
+        end
+      end
+    end
+
     -- Intro message
-    TurtleRP.log("Welcome, " .. TurtleRP.getFullName(TurtleRPCharacterInfo["title"], TurtleRPCharacterInfo["first_name"], TurtleRPCharacterInfo["last_name"]) .. ", to TurtleRP.")
+    TurtleRP.log("Welcome, " .. TurtleRPCharacterInfo["full_name"] .. ", to TurtleRP.")
     TurtleRP.log("Type |ccfFF0000/ttrp |ccfFFFFFFto open the addon.")
 
     if GetRealmName() == "Turtle WoW" and UnitLevel("player") < 5 and UnitLevel("player") ~= 0 then
@@ -196,31 +214,57 @@ function TurtleRP.emote_events()
 
   local TurtleLastEmote = nil
   local TurtleLastSender = nil
+  local beginningQuoteFlag = false
   local oldChatFrame_OnEvent = ChatFrame_OnEvent
   function ChatFrame_OnEvent(event)
     local savedEvent = event
     if ( strsub(event, 1, 8) == "CHAT_MSG" ) then
       local type = strsub(event, 10);
       if ( type == "EMOTE" ) then
-        if TurtleLastEmote ~= arg1 and TurtleLastSender ~= arg1 then
+        if TurtleLastEmote ~= arg1 then
+          if TurtleLastSender == arg2 then
+            if string.find(TurtleLastEmote, '"') then
+              local splitArrayQuotes = string.split(TurtleLastEmote, '"')
+              local numberOfQuotes = getn(splitArrayQuotes) + 1
+              if (numberOfQuotes - math.floor(numberOfQuotes/2)*2) ~= 0 then -- an odd number of quotes!
+                if beginningQuoteFlag then
+                  beginningQuoteFlag = false
+                else
+                  beginningQuoteFlag = true
+                end
+              end
+            end
+          end
+          -- if TurtleLastSender ~= arg2 then
           TurtleLastEmote = arg1
           TurtleLastSender = arg2
           savedEvent = "TURTLE_TAKEOVER"
+          local nameString = arg2
           local splitArray = string.split(arg1, '"')
-          local newString = splitArray[1]
+          local firstChunk = splitArray[1]
+          local firstChars = strsub(firstChunk, 1, 3)
+          if firstChars == "|| " then
+            nameString = ""
+            firstChunk = strsub(firstChunk, 3)
+          end
+          local newString = beginningQuoteFlag and (" |cffFFFFFF" .. firstChunk) or firstChunk
           if getn(splitArray) > 1 then
             for i in splitArray do
               if i ~= 1 then
                 if (i - math.floor(i/2)*2) == 0 then -- this is even
-                  newString = newString .. '|cffFFFFFF"' .. splitArray[i] .. '"|cffFF7E40'
+                  local colorChange = beginningQuoteFlag and "|cffFF7E40" or "|cffFFFFFF"
+                  local colorRevert = beginningQuoteFlag and "|cffFFFFFF" or "|cffFF7E40"
+                  local finalQuoteToAdd = splitArray[i + 1] and '"' or ''
+                  newString = newString .. colorChange .. '"' .. splitArray[i] .. finalQuoteToAdd .. colorRevert
                 else
                   newString = newString .. splitArray[i]
                 end
               end
             end
           end
-          local body = format(TEXT(getglobal("CHAT_"..type.."_GET")).. newString, "|cffFF7E40" .. arg2);
+          local body = format(TEXT(getglobal("CHAT_"..type.."_GET")) .. newString, "|cffFF7E40" .. nameString);
           DEFAULT_CHAT_FRAME:AddMessage(body)
+          -- end
         end
       end
     end
@@ -232,17 +276,30 @@ end
 -----
 -- Building interfaces to display data
 -----
-function TurtleRP.buildTargetFrame(playerName)
-  local characterInfo = TurtleRPCharacters[playerName]
-  TurtleRP_Target:Hide()
-  if characterInfo["keyT"] ~= nil then
-    local fullName = TurtleRP.getFullName(characterInfo['title'], characterInfo['first_name'], characterInfo['last_name'])
+function TurtleRP.SetNameFrameWidths(playerName)
+  if TurtleRPCharacters[playerName] then
+    local fullName = TurtleRPCharacters[playerName]["full_name"]
     TurtleRP_Target_TargetName:SetText(fullName)
     local stringWidth = TurtleRP_Target_TargetName:GetStringWidth()
     if stringWidth < 100 then
       stringWidth = 100
     end
     TurtleRP_Target:SetWidth(tonumber(stringWidth) + 40)
+
+    TurtleRP_Description_TargetName:SetText(TurtleRP_Target_TargetName:GetText())
+    local stringWidth = TurtleRP_Description_TargetName:GetStringWidth()
+    if (stringWidth + 40) > 350 then
+      TurtleRP_Description:SetWidth(tonumber(stringWidth) + 40)
+      TurtleRP_Description_DescriptionScrollBox:SetWidth(tonumber(stringWidth) - 40)
+      TurtleRP_Description:SetPoint("TOP", UIParent, 0, -100)
+    end
+  end
+end
+
+function TurtleRP.buildTargetFrame(playerName)
+  local characterInfo = TurtleRPCharacters[playerName]
+  TurtleRP_Target:Hide()
+  if characterInfo["keyT"] ~= nil then
 
     TurtleRP_Target_AtAGlance1:Hide()
     if characterInfo['atAGlance1Icon'] ~= "" then
@@ -271,6 +328,8 @@ function TurtleRP.buildTargetFrame(playerName)
       TurtleRP_Target_AtAGlance3:Show()
     end
 
+    TurtleRP.SetNameFrameWidths(playerName)
+
     TurtleRP_Target:Show()
   end
 end
@@ -278,12 +337,8 @@ end
 function TurtleRP.buildDescription(playerName)
   local characterInfo = TurtleRPCharacters[playerName]
   if characterInfo["keyD"] ~= nil then
-    TurtleRP_Description_TargetName:SetText(TurtleRP_Target_TargetName:GetText())
-    local stringWidth = TurtleRP_Description_TargetName:GetStringWidth()
-    if (stringWidth + 40) > 350 then
-      TurtleRP_Target:SetWidth(tonumber(stringWidth) + 40)
-    end
-    -- TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body><h1>Hi</h1></body></html>")
+
+    TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body><h1>Hi</h1></body></html>")
     if string.find(characterInfo['description'], "<p>") then
       TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body>" .. characterInfo['description'] .. "</body></html>")
       TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText("")
@@ -291,6 +346,8 @@ function TurtleRP.buildDescription(playerName)
       TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("")
       TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText(characterInfo['description'])
     end
+
+    TurtleRP.SetNameFrameWidths(playerName)
   end
 end
 
@@ -298,9 +355,11 @@ end
 -- Populate data
 -----
 function TurtleRP.populate_interface_user_data()
-  TurtleRP_AdminSB_Content1_TitleInput:SetText(TurtleRPCharacterInfo["title"])
-  TurtleRP_AdminSB_Content1_FirstNameInput:SetText(TurtleRPCharacterInfo["first_name"])
-  TurtleRP_AdminSB_Content1_LastNameInput:SetText(TurtleRPCharacterInfo["last_name"])
+  TurtleRP_AdminSB_Content1_NameInput:SetText(TurtleRPCharacterInfo["full_name"])
+  TurtleRP_AdminSB_Content1_RaceInput:SetText(TurtleRPCharacterInfo["race"])
+  TurtleRP_AdminSB_Content1_ClassInput:SetText(TurtleRPCharacterInfo["class"])
+  local r, g, b = TurtleRP.hex2rgb(TurtleRPCharacterInfo['class_color'])
+  TurtleRP_AdminSB_Content1_ClassColorButton:SetBackdropColor(r, g, b)
   TurtleRP_AdminSB_Content1_ICScrollBox_ICInfoInput:SetText(TurtleRPCharacterInfo["ic_info"])
   TurtleRP_AdminSB_Content1_OOCScrollBox_OOCInfoInput:SetText(TurtleRPCharacterInfo["ooc_info"])
   TurtleRP_AdminSB_Content1_ICPronounsInput:SetText(TurtleRPCharacterInfo["ic_pronouns"])
@@ -317,7 +376,26 @@ function TurtleRP.populate_interface_user_data()
   TurtleRP_AdminSB_Content4_NotesScrollBox_NotesInput:SetText(TurtleRPCharacterInfo["notes"])
 
   TurtleRP_AdminSB_Content5_PVPButton:SetChecked(TurtleRPSettings["bgs"] == "on" and true or false)
-  TurtleRP_AdminSB_Content1_ICButton:SetChecked(TurtleRPCharacterInfo["currently_ic"] == "on" and true or false)
+  TurtleRP_AdminSB_Content5_NameButton:SetChecked(TurtleRPSettings["name_size"] == "1" and true or false)
+
+  if TurtleRPCharacterInfo["currently_ic"] == "1" then
+    TurtleRP_AdminSB_Content1_ICButton:SetChecked(true)
+    TurtleRP_IconTray_ICModeButton2:Show()
+  else
+    TurtleRP_AdminSB_Content1_ICButton:SetChecked(false)
+    TurtleRP_IconTray_ICModeButton:Show()
+  end
+
+  if TurtleRPSettings["tray"] == "1" then
+    TurtleRP_AdminSB_Content5_TrayButton:SetChecked(true)
+    TurtleRP_IconTray:Show()
+  end
+
+  if TurtleRPSettings["minimap_icon_size"] == "1" then
+    TurtleRP_AdminSB_Content5_MinimapButton:SetChecked(true)
+    TurtleRP_MinimapIcon_OpenAdmin:SetScale(1.25)
+  end
+
 end
 
 function TurtleRP.setCharacterIcon()
@@ -353,17 +431,33 @@ end
 -----
 -- Saving
 -----
+function TurtleRP.change_ic_status()
+  if TurtleRPCharacterInfo["currently_ic"] ~= "1" then
+    TurtleRPCharacterInfo["currently_ic"] = "1"
+    TurtleRP_IconTray_ICModeButton2:Show()
+    TurtleRP_IconTray_ICModeButton:Hide()
+    TurtleRP_AdminSB_Content1_ICButton:SetChecked(true)
+  else
+    TurtleRPCharacterInfo["currently_ic"] = "0"
+    TurtleRP_IconTray_ICModeButton:Show()
+    TurtleRP_IconTray_ICModeButton2:Hide()
+    TurtleRP_AdminSB_Content1_ICButton:SetChecked(false)
+  end
+  TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
+  TurtleRP.save_general()
+end
+
 function TurtleRP.save_general()
   TurtleRPCharacterInfo['keyM'] = TurtleRP.randomchars()
-  local title = TurtleRP_AdminSB_Content1_TitleInput:GetText()
-  TurtleRP_AdminSB_Content1_TitleInput:ClearFocus()
-  TurtleRPCharacterInfo["title"] = TurtleRP.validateBeforeSaving(title)
-  local first_name = TurtleRP_AdminSB_Content1_FirstNameInput:GetText()
-  TurtleRP_AdminSB_Content1_FirstNameInput:ClearFocus()
-  TurtleRPCharacterInfo["first_name"] = TurtleRP.validateBeforeSaving(first_name)
-  local last_name = TurtleRP_AdminSB_Content1_LastNameInput:GetText()
-  TurtleRP_AdminSB_Content1_LastNameInput:ClearFocus()
-  TurtleRPCharacterInfo["last_name"] = TurtleRP.validateBeforeSaving(last_name)
+  local full_name = TurtleRP_AdminSB_Content1_NameInput:GetText()
+  TurtleRP_AdminSB_Content1_NameInput:ClearFocus()
+  TurtleRPCharacterInfo["full_name"] = TurtleRP.validateBeforeSaving(full_name)
+  local race = TurtleRP_AdminSB_Content1_RaceInput:GetText()
+  TurtleRP_AdminSB_Content1_RaceInput:ClearFocus()
+  TurtleRPCharacterInfo["race"] = TurtleRP.validateBeforeSaving(race)
+  local class = TurtleRP_AdminSB_Content1_ClassInput:GetText()
+  TurtleRP_AdminSB_Content1_ClassInput:ClearFocus()
+  TurtleRPCharacterInfo["class"] = TurtleRP.validateBeforeSaving(class)
   local ic_info = TurtleRP_AdminSB_Content1_ICScrollBox_ICInfoInput:GetText()
   TurtleRP_AdminSB_Content1_ICScrollBox_ICInfoInput:ClearFocus()
   TurtleRPCharacterInfo["ic_info"] = TurtleRP.validateBeforeSaving(ic_info)
@@ -498,13 +592,31 @@ end
 -----
 -- Interface helpers
 -----
-function TurtleRP.ToggleRPMode()
-	if (TurtleRP.RPMode == 0) then
-		TurtleRP.EnableRPMode();
-	else
-		TurtleRP.DisableRPMode();
-	end
+function TurtleRP.escapeFocusFromChatbox()
+  WorldFrame:SetScript("OnMouseDown", function()
+    if TurtleRP.editingChatBox then
+      TurtleRP_ChatBox_TextScrollBox_TextInput:ClearFocus()
+      TurtleRP.editingChatBox = false
+    end
+  end)
 end
+
+function TurtleRP.IconTrayMover(actionType, frame)
+  if actionType == "mousedown" then
+    local newLeft = frame:GetLeft()
+    local newTop = frame:GetTop()
+    TurtleRP.movingIconTray = newLeft * newTop
+  else
+    local newLeft = frame:GetLeft()
+    local newTop = frame:GetTop()
+    if TurtleRP.movingIconTray ~= (newLeft * newTop) then
+      TurtleRP.movingIconTray = true
+    else
+      TurtleRP.movingIconTray = nil
+    end
+  end
+end
+
 
 function TurtleRP.BindFrameToWorldFrame(frame)
 	local scale = UIParent:GetEffectiveScale();
@@ -527,6 +639,7 @@ function TurtleRP.EnableRPMode()
 	TurtleRP.BindFrameToWorldFrame(VoiceMacroMenu);
 	--TurtleRP.BindFrameToWorldFrame(TurtleRPInfobox);
 	for i = 1, 7 do
+    TurtleRP.BindFrameToWorldFrame(TurtleRP_IconTray)
 		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i));
 		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i .. "Tab"));
 		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i .. "TabDockRegion"));
@@ -553,6 +666,7 @@ function TurtleRP.DisableRPMode()
 	VoiceMacroMenu:SetFrameStrata("DIALOG");
 	--TurtleRP.BindFrameToUIParent(TurtleRPInfobox);
 	for i = 1, 7 do
+    TurtleRP.BindFrameToUIParent(TurtleRP_IconTray)
 		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i));
 		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i .. "Tab"));
 		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i .. "TabDockRegion"));
@@ -605,21 +719,31 @@ function TurtleRP.OnAdminTabClick(id)
   end
 end
 
+function TurtleRP.showColorPicker(r, g, b, a, changedCallback)
+ ColorPickerFrame:SetColorRGB(r, g, b);
+ ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = (a ~= nil), a;
+ ColorPickerFrame.previousValues = {r,g,b,a};
+ ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = changedCallback, changedCallback, changedCallback;
+ ColorPickerFrame:Hide(); -- Need to run the OnShow handler.
+ ColorPickerFrame:Show();
+end
+
+function TurtleRP.colorPickerCallback(restore)
+  local newR, newG, newB, newA;
+  if restore then
+    newR, newG, newB, newA = unpack(restore);
+  else
+    newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
+  end
+
+  local r, g, b, a = newR, newG, newB, newA;
+  local hex = TurtleRP.rgb2hex(r, g, b)
+  TurtleRP_AdminSB_Content1_ClassColorButton:SetBackdropColor(r, g, b)
+  TurtleRPCharacterInfo['class_color'] = hex
+end
 -----
 -- Utility
 -----
-function TurtleRP.splitByChunk(text, chunkSize)
-    local splitLength = 200
-    local sz = math.ceil(strlen(text) / splitLength)
-    local loopNumber = 0
-    local chunksToReturn = {}
-    while loopNumber < sz do
-      local startAt = (loopNumber * splitLength)
-      chunksToReturn[loopNumber + 1] = strsub(text, startAt, startAt + splitLength - 1)
-      loopNumber = loopNumber + 1
-    end
-    return chunksToReturn
-end
 
 function string:split(delimiter)
     local result = {}
@@ -634,17 +758,6 @@ function string:split(delimiter)
     return result
 end
 
-function TurtleRP.getFullName(title, first_name, last_name)
-  local fullName = first_name
-  if title ~= "" then
-    fullName = title .. " " .. fullName
-  end
-  if last_name ~= "" then
-   fullName = fullName .. " " .. last_name
-  end
-  return fullName
-end
-
 function TurtleRP.randomchars()
 	local res = ""
 	for i = 1, 5 do
@@ -653,9 +766,20 @@ function TurtleRP.randomchars()
 	return res
 end
 
+function TurtleRP.hex2rgb(hex)
+  return tonumber(strsub(hex, 1, 2), 16)/255, tonumber(strsub(hex, 3, 4), 16)/255, tonumber(strsub(hex, 5, 6), 16)/255
+end
+
+function TurtleRP.rgb2hex(r, g, b)
+	return string.format("%02x%02x%02x",
+		math.floor(r*255),
+		math.floor(g*255),
+		math.floor(b*255))
+end
+
 function TurtleRP.validateBeforeSaving(data)
-  if string.find(data, '&&') then
-    _ERRORMESSAGE('Please do not use the characters "&&" together in your text. Thanks!')
+  if string.find(data, '~') then
+    _ERRORMESSAGE('Please do not use the character "~" in your text. Thanks!')
   else
     return data
   end

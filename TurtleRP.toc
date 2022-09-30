@@ -1,7 +1,7 @@
 ## Interface: 11200
 ## Title: TurtleRP - |cffabd473TTRP
 ## Author: tempranova / Drixi / Vee
-## Version: 0.1.2
+## Version: 0.1.3
 ## Notes: RP Addon custom made for Turtle WoW
 ## SavedVariables: TurtleRPSettings, TurtleRPCharacters, TurtleRPQueryablePlayers
 ## SavedVariablesPerCharacter: TurtleRPCharacterInfo
@@ -16,4 +16,5 @@ components\TurtleRP_Target.xml
 components\TurtleRP_Description.xml
 components\TurtleRP_Tooltip.xml
 components\TurtleRP_Minimap.xml
-components\TurtleRP_RPButton.xml
+components\TurtleRP_ChatBox.xml
+components\TurtleRP_IconTray.xml

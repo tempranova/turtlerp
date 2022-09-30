@@ -12,7 +12,7 @@
       </Anchor>
     </Anchors>
     <Frames>
-      <Button name="$parent_OpenAdmin" enableMouse="true">
+      <Button name="$parent_OpenAdmin" movable="true" enableMouse="true">
         <Size x="25" y="25"/>
         <Anchors>
           <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
@@ -44,13 +44,25 @@
         <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
         <Scripts>
           <OnClick>
-            TurtleRP.OpenAdmin()
+            if TurtleRP.movingMinimapButton == nil then
+              TurtleRP.OpenAdmin()
+            end
           </OnClick>
           <OnMouseDown>
+            local newLeft = this:GetLeft()
+            local newTop = this:GetTop()
+            TurtleRP.movingMinimapButton = newLeft * newTop
             TurtleRP_MinimapIcon:StartMoving()
           </OnMouseDown>
           <OnMouseUp>
             TurtleRP_MinimapIcon:StopMovingOrSizing()
+            local newLeft = this:GetLeft()
+            local newTop = this:GetTop()
+            if TurtleRP.movingMinimapButton ~= (newLeft * newTop) then
+              TurtleRP.movingMinimapButton = true
+            else
+              TurtleRP.movingMinimapButton = nil
+            end
           </OnMouseUp>
         </Scripts>
       </Button>

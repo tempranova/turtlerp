@@ -18,12 +18,12 @@ TR
 DR
 
 -- Player1 sends out a request for information.
-  - If they have no key for that player: "<request type>:<Player2>&&NO_KEY"
-  - If they have a key for that player: "<request type>:<Player2>&&<unique key>"
+  - If they have no key for that player: "<request type>:<Player2>~NO_KEY"
+  - If they have a key for that player: "<request type>:<Player2>~<unique key>"
   - In the meantime, Player1 displays whatever they have stored locally
 -- Player2 is listening, recieves the request
   - If the key matches their local key, they send nothing back
-  - If the key doesn't match, they send a response: "<data type>:<Player2>&&<unique key>&&<DATA>"
+  - If the key doesn't match, they send a response: "<data type>:<Player2>~<unique key>~<DATA>"
 
 ]]
 
@@ -74,7 +74,9 @@ function TurtleRP.send_ping_message()
     local gt = GetTime() * 1000
     local st = (this.startTime + plus) * 1000
     if gt >= st then
-      TurtleRP.ttrpChatSend("P")
+      -- if UnitIsAFK("player") == false then
+        TurtleRP.ttrpChatSend("P")
+      -- end
       TurtleRPChannelPingDelay:Hide()
     end
   end)
@@ -131,10 +133,10 @@ function TurtleRP.sendRequestForData(requestType, playerName)
     if TurtleRPQueryablePlayers[playerName] or TurtleRPCharacters[playerName] then
       if TurtleRPCharacters[playerName] ~= nil and TurtleRPCharacters[playerName]['key' .. requestType] ~= nil then
         local currentKey = TurtleRPCharacters[playerName]['key' .. requestType]
-        TurtleRP.ttrpChatSend(requestType .. ':' .. playerName .. '&&' .. currentKey)
+        TurtleRP.ttrpChatSend(requestType .. ':' .. playerName .. '~' .. currentKey)
         TurtleRP.displayData(requestType, playerName)
       else
-        TurtleRP.ttrpChatSend(requestType .. ':' .. playerName .. '&&NO_KEY')
+        TurtleRP.ttrpChatSend(requestType .. ':' .. playerName .. '~NO_KEY')
       end
     end
   end
@@ -155,9 +157,9 @@ function TurtleRP.checkChatMessage(msg, playerName)
   if string.find(msg, ':') then
     local colonStart, colonEnd = string.find(msg, ':')
     local dataPrefix = string.sub(msg, 1, colonEnd - 1)
-    local ampersandStart, ampersandEnd = string.find(msg, '&&')
-    if ampersandStart then
-      local playerName = string.sub(msg, colonEnd + 1, ampersandEnd - 2)
+    local tildeStart, tildeEnd = string.find(msg, '~')
+    if tildeStart then
+      local playerName = string.sub(msg, colonEnd + 1, tildeEnd - 1)
       if playerName == UnitName("player") then
         if TurtleRP.checkUniqueKey(dataPrefix, msg) ~= true then
           TurtleRP.sendData(dataPrefix)
@@ -183,38 +185,41 @@ function TurtleRP.checkUniqueKey(dataPrefix, msg)
 end
 
 function TurtleRP.getDataFromString(msg)
-  local beginningOfData = strfind(msg, "&&")
+  local beginningOfData = strfind(msg, "~")
   local dataSlice = strsub(arg1, beginningOfData)
-  local splitArray = string.split(dataSlice, "&&")
+  local splitArray = string.split(dataSlice, "~")
   return splitArray
 end
 
+function sendChunks(dataPrefix, stringChunks)
+  local totalToSend = table.getn(stringChunks)
+  for i in stringChunks do
+    TurtleRP.ttrpChatSend(dataPrefix .. 'R:' .. UnitName("player") .. "~" .. TurtleRPCharacterInfo["key" .. dataPrefix] .. '~' .. i .. '~' .. totalToSend .. '~' .. stringChunks[i])
+  end
+end
+
 function TurtleRP.sendData(dataPrefix)
-  if dataPrefix == "M" then
-    TurtleRP.ttrpChatSend(TurtleRP.buildDataStringToSend(dataPrefix))
-  end
-  if dataPrefix == "T" then
-    TurtleRP.ttrpChatSend(TurtleRP.buildDataStringToSend(dataPrefix))
-  end
-  if dataPrefix == "D" then
-    local replacedStringForLineBreakPreservation = gsub(TurtleRPCharacterInfo["description"], "%\n", "@N")
-    local stringChunks = TurtleRP.splitByChunk(replacedStringForLineBreakPreservation, 200)
-    local totalToSend = table.getn(stringChunks)
-    if totalToSend == 0 then
-      TurtleRP.ttrpChatSend('DR:' .. UnitName("player") .. "&&" .. TurtleRPCharacterInfo["keyD"] .. "&&1&& ")
-    else
-      for i in stringChunks do
-        TurtleRP.ttrpChatSend('DR:' .. UnitName("player") .. "&&" .. TurtleRPCharacterInfo["keyD"] .. '&&' .. i .. "&&" .. stringChunks[i])
-      end
-    end
+  local stringChunks = TurtleRP.splitByChunk(TurtleRP.buildDataStringToSend(dataPrefix), 230)
+  if dataPrefix == "M" or dataPrefix == "T" or dataPrefix == "D" then
+    sendChunks(dataPrefix, stringChunks)
   end
 end
 
 function TurtleRP.buildDataStringToSend(dataPrefix)
   local dataToBuild = TurtleRP.dataKeys(dataPrefix)
-  local stringToSend = dataPrefix .. "R:" .. UnitName("player")
+  local stringToSend = ""
   for i, dataRef in ipairs(dataToBuild) do
-    stringToSend = stringToSend .. "&&" .. TurtleRPCharacterInfo[dataRef]
+    if i ~= 1 then -- don't send key again
+      local thisData = TurtleRPCharacterInfo[dataRef]
+      if dataRef == 'description' then
+        thisData = gsub(TurtleRPCharacterInfo["description"], "%\n", "@N")
+        if thisData == "" then
+          thisData = " "
+        end
+      end
+      local frontDelimiter = i == 2 and "" or "~"
+      stringToSend = stringToSend .. frontDelimiter .. thisData
+    end
   end
   return stringToSend
 end
@@ -222,43 +227,80 @@ end
 function TurtleRP.dataKeys(dataPrefix)
   local dataKeys = {}
   if dataPrefix == "M" or dataPrefix == "MR" then
-    dataKeys = { "keyM", "icon", "title", "first_name", "last_name", "ooc_info", "ic_info", "currently_ic", "ooc_pronouns", "ic_pronouns" }
+    dataKeys = { "keyM", "icon", "full_name", "race", "class", "class_color", "ooc_info", "ic_info", "currently_ic", "ooc_pronouns", "ic_pronouns" }
   end
   if dataPrefix == "T" or dataPrefix == "TR" then
     dataKeys = { "keyT", "atAGlance1", "atAGlance1Title", "atAGlance1Icon", "atAGlance2", "atAGlance2Title", "atAGlance2Icon", "atAGlance3", "atAGlance3Title", "atAGlance3Icon" }
   end
+  if dataPrefix == "D" or dataPrefix == "DR" then
+    dataKeys = { "keyD", "description" }
+  end
   return dataKeys
 end
 
+function TurtleRP.storeChunkedData(dataPrefix, playerName, stringData)
+  local readyToProcess = false
+  if stringData[3] == "1" then -- if this is the first message
+    TurtleRPCharacters[playerName]["temp" .. dataPrefix] = ""
+  end
+  if stringData[3] == stringData[4] then -- if this is the last message
+    readyToProcess = true
+  end
+  -- Process into temp holder
+  local totalReceived = table.getn(stringData)
+  local justDataString = ""
+  if TurtleRPCharacters[playerName]["temp" .. dataPrefix] == "" then
+    justDataString = stringData[2] .. "~" -- adding key back
+  end
+  for i=5, totalReceived do
+    justDataString = justDataString .. stringData[i] .. (i == totalReceived and "" or "~")
+  end
+  TurtleRPCharacters[playerName]["temp" .. dataPrefix] = TurtleRPCharacters[playerName]["temp" .. dataPrefix] .. justDataString
+  
+  return readyToProcess
+end
+
+function processAndStoreData(dataPrefix, playerName)
+  local splitString = string.split(TurtleRPCharacters[playerName]["temp" .. dataPrefix], "~")
+  local dataToSave = TurtleRP.dataKeys(dataPrefix)
+  for i, dataRef in ipairs(dataToSave) do
+    -- TurtleRP.log(dataRef)
+    -- TurtleRP.log(splitString[i])
+    if splitString[i] ~= nil then
+      TurtleRPCharacters[playerName][dataRef] = splitString[i]
+    else
+      TurtleRPCharacters[playerName][dataRef] = ""
+    end
+  end
+end
+
 function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
-  local stringData = TurtleRP.getDataFromString(msg)
+  local stringData = TurtleRP.getDataFromString(msg) -- 1 is username, 2 is key, 3 is i, 4 is total
   if TurtleRPCharacters[playerName] == nil then
     TurtleRPCharacters[playerName] = {}
   end
-  if dataPrefix == "MR" or dataPrefix == "TR" then
-    local dataToSave = TurtleRP.dataKeys(dataPrefix)
-    for i, dataRef in ipairs(dataToSave) do
-      if stringData[i + 1] ~= nil then
-        TurtleRPCharacters[playerName][dataRef] = stringData[i + 1]
-      else
-        TurtleRPCharacters[playerName][dataRef] = ""
-      end
+  if dataPrefix == "MR" then
+    local readyToProcess = TurtleRP.storeChunkedData(dataPrefix, playerName, stringData)
+    if readyToProcess then
+      processAndStoreData(dataPrefix, playerName)
+      TurtleRP.displayData(dataPrefix, playerName)
+      TurtleRP.SetNameFrameWidths(playerName)
+    end
+  end
+  if dataPrefix == "TR" then
+    local readyToProcess = TurtleRP.storeChunkedData(dataPrefix, playerName, stringData)
+    if readyToProcess then
+      processAndStoreData(dataPrefix, playerName)
+      TurtleRP.displayData(dataPrefix, playerName)
     end
   end
   if dataPrefix == "DR" then
-    if stringData[3] == "1" then
-      TurtleRPCharacters[playerName]["description"] = ""
-    end
-    local dataToSave = TurtleRP.getDataFromString(msg)
-    if dataToSave[2] ~= nil then
-      TurtleRPCharacters[playerName]["keyD"] = dataToSave[2]
-    end
-    if dataToSave[4] ~= nil then
-      local replacedStringForLineBreaks = gsub(dataToSave[4], "@N", "%\n")
-      TurtleRPCharacters[playerName]["description"] = TurtleRPCharacters[playerName]["description"] .. replacedStringForLineBreaks
+    local readyToProcess = TurtleRP.storeChunkedData(dataPrefix, playerName, stringData)
+    if readyToProcess then
+      processAndStoreData(dataPrefix, playerName)
+      TurtleRP.displayData(dataPrefix, playerName)
     end
   end
-  TurtleRP.displayData(dataPrefix, playerName)
 end
 
 function TurtleRP.displayData(dataPrefix, playerName)
@@ -271,6 +313,48 @@ function TurtleRP.displayData(dataPrefix, playerName)
   if playerName == UnitName("target") and (dataPrefix == "D" or dataPrefix == "DR") then
     TurtleRP.buildDescription(playerName)
   end
+end
+
+function TurtleRP.SendLongFormMessage(type, message)
+  local splitMessage = string.split(message, " ")
+  local currentCharCount = 0
+  local currentMessageString = ""
+  local emotePrefix = ""
+  if type == "Emote" then
+    emotePrefix = "|| "
+  end
+  for i, v in splitMessage do
+    local stringLength = strlen(v)
+    local sendMessage = false
+    currentCharCount = currentCharCount + stringLength
+    if splitMessage[i + 1] then
+      if (strlen(splitMessage[i + 1]) + currentCharCount) > 200 then
+        sendMessage = true
+      end
+    else
+      sendMessage = true
+    end
+    local extraSpace = currentMessageString == "" and (emotePrefix .. "") or " "
+    currentMessageString = currentMessageString .. extraSpace .. v
+    if sendMessage then
+      ChatThrottleLib:SendChatMessage("NORMAL", "TTRP", currentMessageString, type)
+      currentMessageString = ""
+      currentCharCount = 0
+    end
+  end
+end
+
+function TurtleRP.splitByChunk(text, chunkSize)
+    local splitLength = 200
+    local sz = math.ceil(strlen(text) / splitLength)
+    local loopNumber = 0
+    local chunksToReturn = {}
+    while loopNumber < sz do
+      local startAt = (loopNumber * splitLength)
+      chunksToReturn[loopNumber + 1] = strsub(text, startAt, startAt + splitLength - 1)
+      loopNumber = loopNumber + 1
+    end
+    return chunksToReturn
 end
 
 function TurtleRP.ttrpChatSend(message)

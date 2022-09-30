@@ -10,32 +10,24 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 Tests
 
-- GO TO CITY TO TEST FRAMES, random error popped tooltip
-- Testing chat messages for causing global errors to players by mean players. Simulating data responses, etc. How much does this need to be watched?
-- Test all iffy characters -- if any bad ones cause an error, it'll error EVERYONE (tested `~!@#$%^&*()-_=+[]\{}|;':",./<>?`)
 - Testing tooltips across different game situations (in raids, parties, bgs, etc)
 - Test when drunk (SLURRED_SPEECH)
 
 Bugs
 
+
+- Tooltips with icons result in inconsistent spacing
 - A few blank lines are added on bottom of Shagu tooltips occasionally
+- Not recentering description properly on large name?
 
 Next Up
 
-- Little box with RP mode, ability to open chat window, etc
-- Setting to change size of name
-- Minimap icon size options
 
 After beta
 
 - Adding a directory of characters
-- Increasing lengths of tooltip notes and AAG notes
 - Adding relationships/status tab
-
-- Allowing custom class text and custom class color
- - This requires some rethinking of how tooltip is sent, as we're nearing 255 char limit (see Class Constants for char limits). Do we split the tooltip into parts, like description? Or enforce other limits?
 - Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
-
 - Showing class colors in /say (harder than it seems! Maybe just use Shagu instead)
 
 Feature List
@@ -44,6 +36,44 @@ Feature List
 
 Recently Done
 
+0.1.3
+- Prevent pinging when gone AFK
+- Name fields combined into one
+- Custom class color
+- Custom class
+- Custom race
+- Improved communication to allow multiple message chaining in the future for all fields
+- New field limits for mouseover responses:
+  - Full name : 50
+  - IC and OOC info: 75 each
+  - Pronouns: 10 each
+  - Class : 15
+  - Race : 20
+  - Class color : 6
+  - Icon : 4 (internal)
+  - IC/OOC : 1
+  - Internal: Prefix 3, name 12, key 5, delimiter 10 (?)
+  - TOTAL MAX : just under 300 . Lots of room for more'
+- New comms system should allow full lengths on At A Glance descriptions
+- Changed IC/OOC from "on" vs "off" to 0 vs 1
+- Change delimiter to ~ instead of && (fewer characters) -- breaking change, old versions and new versions can't communicate
+- Change validator to prevent use of ~ in saved text
+- When minimap icon dragged, no longer pops admin panel
+- Pipe character (|), when first character of an emote, will remove the character name from the emote text
+- Icon Tray
+  - Moveable by drag
+  - RP button on/off
+  - IC button on/off
+  - /c chatbox opener
+- Chatbox v1
+  - click in box/out for focus management
+  - Selection of Yell, Emote, Say
+  - Emote never uses username
+  - Quotation color retained on long form quotes broken by multiple lines
+- Setting to change size of name
+- Minimap icon size options
+- Open to show/hide tray
+- Fix icon placement on PFUI spellbook
 0.1.2
 - // Description box should no longer get cut off
 - // Emotes now show "Quotations in White"
@@ -54,6 +84,7 @@ Recently Done
 - // Guild rank integrated into tooltip
 - // Tooltip layout integrated with PFUI
 - // Target removed when targetting a player after targetting self
+- // Showing version number in ? section
 0.1.1
 - // New Spellbook UI
 - // Implementing a Test channel for future dev changes
