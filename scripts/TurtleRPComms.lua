@@ -62,7 +62,7 @@ end
 
 function TurtleRP.send_ping_message()
   if UnitLevel("player") > 4 then
-    TurtleRP.ttrpChatSend("PS test slurred")
+    TurtleRP.ttrpChatSend("P")
   end
 
   local TurtleRPChannelPingDelay = CreateFrame("Frame")
@@ -80,7 +80,7 @@ function TurtleRP.send_ping_message()
     if gt >= st then
       if TurtleRP.disableMessageSending == nil then
         if UnitLevel("player") > 4 then
-          TurtleRP.ttrpChatSend("PS test slurred")
+          TurtleRP.ttrpChatSend("P")
         end
       end
       TurtleRPChannelPingDelay:Hide()
