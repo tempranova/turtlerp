@@ -553,14 +553,21 @@ function TurtleRP.makeDirectoryFrames()
   local framesCreated = 0
   for i=1, 13 do
     local directoryNameFrame = CreateFrame("Frame",  "TurtleRP_Directory_" .. i, TurtleRP_AdminSB_Content5_DirectoryScrollBox, "TurtleRP_Directory_Listing")
-    directoryNameFrame:SetPoint("TOPLEFT", TurtleRP_AdminSB_Content5, "TOPLEFT", 0, (i - 1) * -25)
+    if i == 1 then
+      directoryNameFrame:SetPoint("TOPLEFT", TurtleRP_AdminSB_Content5, "TOPLEFT", 0, (i - 1) * -25)
+    else
+      directoryNameFrame:SetPoint("TOPLEFT", getglobal("TurtleRP_Directory_" .. (i-1)), "BOTTOMLEFT", 0, -1)
+    end
     getglobal("TurtleRP_Directory_" .. i .. "_DetailsButton"):SetScript("OnClick", function()
       local frameName = this:GetParent():GetName()
-      local playerName = getglobal(frameName .. '_PlayerNameText'):GetText()
       TurtleRP.log(playerName)
+      getglobal(frameName .. '_DetailsFrame'):Show()
+      if TurtleRPQueryablePlayers[playerName] then
+        TurtleRP.log(TurtleRPQueryablePlayers[playerName])
+      end
       -- What do we show here? Description? Or anything we have? Locations? Etc.
-      TurtleRP_Description:Show()
-      TurtleRP.buildDescription(playerName)
+      -- TurtleRP_Description:Show()
+      -- TurtleRP.buildDescription(playerName)
     end)
   end
   return framesCreated
@@ -584,7 +591,7 @@ function TurtleRP.renderDirectory(directoryOffset)
       local thisCharacter = remadeArray[i]
       getglobal("TurtleRP_Directory_" .. currentFrameNumber):Show()
       getglobal("TurtleRP_Directory_" .. currentFrameNumber .. "_NameText"):SetText(thisCharacter['full_name'])
-      getglobal("TurtleRP_Directory_" .. currentFrameNumber .. "_PlayerNameText"):SetText(thisCharacter['player_name'])
+      getglobal("TurtleRP_Directory_" .. currentFrameNumber .. '_DetailsFrame_NameText'):SetText("Player Name: " .. thisCharacter['player_name'])
       currentFrameNumber = currentFrameNumber + 1
     end
   end

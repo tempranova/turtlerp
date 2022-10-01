@@ -155,14 +155,10 @@ end
 function TurtleRP.checkChatMessage(msg, playerName)
   -- If it's requesting data from me
   if msg == "A" then
-    if TurtleRPQueryablePlayers[playerName] == nil then
-      TurtleRPQueryablePlayers[playerName] = true
-    end
+    TurtleRPQueryablePlayers[playerName] = time()
   end
   if msg == "P" then
-    if TurtleRPQueryablePlayers[playerName] == nil then
-      TurtleRPQueryablePlayers[playerName] = true
-    end
+    TurtleRPQueryablePlayers[playerName] = time()
   end
   if string.find(msg, ':') then
     local colonStart, colonEnd = string.find(msg, ':')
@@ -294,7 +290,7 @@ function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
     if readyToProcess then
       processAndStoreData(dataPrefix, playerName)
       TurtleRP.displayData(dataPrefix, playerName)
-      if playerName == UnitName("target") or playerName == UnitName("mouseover") then 
+      if playerName == UnitName("target") or playerName == UnitName("mouseover") then
         TurtleRP.SetNameFrameWidths(playerName)
       end
     end

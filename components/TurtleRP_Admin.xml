@@ -2255,9 +2255,9 @@
     </Layers>
     <Frames>
       <!-- See Details button -->
-      <Button name="$parent_DetailsButton" inherits="UIPanelButtonGrayTemplate" text="Details">
+      <Button name="$parent_DetailsButton" inherits="UIPanelButtonGrayTemplate" text=">">
         <Size>
-          <AbsDimension x="50" y="20" />
+          <AbsDimension x="20" y="20" />
         </Size>
         <Anchors>
           <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
@@ -2272,6 +2272,123 @@
           </OnLoad>
         </Scripts>
       </Button>
+      <!-- See Details button -->
+      <!-- <Button name="$parent_DetailsButton" inherits="UIPanelButtonGrayTemplate" text=">">
+        <Size>
+          <AbsDimension x="20" y="20" />
+        </Size>
+        <Anchors>
+          <Anchor point="RIGHT" relativeTo="$parent_WhisperButton" relativePoint="LEFT">
+            <Offset>
+              <AbsDimension x="0" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+          </OnLoad>
+        </Scripts>
+      </Button> -->
+      <Frame name="$parent_DetailsFrame" hidden="true">
+        <Size>
+          <AbsDimension x="270" y="65"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="0" y="0" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+          <BackgroundInsets>
+            <AbsInset left="11" right="12" top="12" bottom="11"/>
+          </BackgroundInsets>
+          <TileSize>
+            <AbsValue val="32"/>
+          </TileSize>
+          <EdgeSize>
+            <AbsValue val="32"/>
+          </EdgeSize>
+        </Backdrop>
+        <Layers>
+          <Layer level="OVERLAY">
+            <FontString name="$parent_NameText" justifyV="TOP" justifyH="LEFT" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Player Name: ">
+              <Size>
+                <AbsDimension x="310" y="80"/>
+              </Size>
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                  <Offset>
+                    <AbsDimension x="15" y="-15" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="12" />
+              </FontHeight>
+              <Color r="1" g="1" b="1" />
+            </FontString>
+          </Layer>
+        </Layers>
+        <Frames>
+          <!-- See Tooltip button -->
+          <Button name="$parent_TooltipButton" inherits="UIPanelButtonGrayTemplate" text="Tooltip">
+            <Size>
+              <AbsDimension x="60" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent_NameText" relativePoint="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="0" y="-15"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+            </Scripts>
+          </Button>
+          <!-- See Glances button -->
+          <Button name="$parent_GlancesButton" inherits="UIPanelButtonGrayTemplate" text="Glances">
+            <Size>
+              <AbsDimension x="70" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" relativeTo="$parent_TooltipButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="5" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+            </Scripts>
+          </Button>
+          <!-- See Description button -->
+          <Button name="$parent_DescriptionButton" inherits="UIPanelButtonGrayTemplate" text="Description">
+            <Size>
+              <AbsDimension x="100" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" relativeTo="$parent_GlancesButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="5" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+            </Scripts>
+          </Button>
+        </Frames>
+      </Frame>
     </Frames>
   </Frame>
 
