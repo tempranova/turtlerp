@@ -37,7 +37,9 @@ local timeOfLastSend = time()
 
 -- This function often runs too early
 function TurtleRP.communication_prep()
-  TurtleRP.ttrpChatSend("A")
+  if UnitLevel("player") > 4 then
+    TurtleRP.ttrpChatSend("A")
+  end
 
   local TurtleRPChannelJoinDelay = CreateFrame("Frame")
   TurtleRPChannelJoinDelay:Hide()
@@ -59,7 +61,9 @@ function TurtleRP.communication_prep()
 end
 
 function TurtleRP.send_ping_message()
-  TurtleRP.ttrpChatSend("P")
+  if UnitLevel("player") > 4 then
+    TurtleRP.ttrpChatSend("P")
+  end
 
   local TurtleRPChannelPingDelay = CreateFrame("Frame")
   TurtleRPChannelPingDelay:Hide()
@@ -74,9 +78,11 @@ function TurtleRP.send_ping_message()
     local gt = GetTime() * 1000
     local st = (this.startTime + plus) * 1000
     if gt >= st then
-      -- if UnitIsAFK("player") == false then
-        TurtleRP.ttrpChatSend("P")
-      -- end
+      if TurtleRP.disableMessageSending == nil then
+        if UnitLevel("player") > 4 then
+          TurtleRP.ttrpChatSend("P")
+        end
+      end
       TurtleRPChannelPingDelay:Hide()
     end
   end)
@@ -96,9 +102,13 @@ function TurtleRP.checkTTRPChannel()
   end
   if TurtleRP.channelIndex == 0 then
     JoinChannelByName(TurtleRP.channelName)
-    TurtleRP.ttrpChatSend("A")
+    if UnitLevel("player") > 4 then
+      TurtleRP.ttrpChatSend("A")
+    end
   else
-    TurtleRP.ttrpChatSend("A")
+    if UnitLevel("player") > 4 then
+      TurtleRP.ttrpChatSend("A")
+    end
   end
 end
 
@@ -284,7 +294,9 @@ function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
     if readyToProcess then
       processAndStoreData(dataPrefix, playerName)
       TurtleRP.displayData(dataPrefix, playerName)
-      TurtleRP.SetNameFrameWidths(playerName)
+      if playerName == UnitName("target") or playerName == UnitName("mouseover") then 
+        TurtleRP.SetNameFrameWidths(playerName)
+      end
     end
   end
   if dataPrefix == "TR" then

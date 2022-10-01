@@ -10,7 +10,6 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 Tests
 
-- Testing tooltips across different game situations (in raids, parties, bgs, etc)
 - Test when drunk (SLURRED_SPEECH)
 
 Bugs
@@ -20,7 +19,6 @@ Bugs
 
 Next Up
 
-- Prevent pinging when gone AFK
 
 After beta
 
@@ -30,6 +28,14 @@ After beta
 - Showing class colors in /say (harder than it seems! Maybe just use Shagu instead)
 
 ### Recently Done
+
+0.1.4
+
+- Minor fix to highlighted icon when opening admin
+- Storing script and redoing on world frame (focus clear)
+- Prevent messages sending when under level 5, or when AFK
+- Fix to scrolling description frame
+- Fix to target and wrong name appearing when message sent in chat bug
 
 0.1.3
 

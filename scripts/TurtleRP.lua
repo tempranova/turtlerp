@@ -15,6 +15,7 @@ TurtleRP.channelName = "TTRP"
 TurtleRP.channelIndex = 0
 TurtleRP.timeBetweenPings = 30
 TurtleRP.currentlyRequestedData = nil
+TurtleRP.disableMessageSending = nil
 -- Interface
 TurtleRP.iconFrames = nil
 TurtleRP.directoryFrames = nil
@@ -224,6 +225,16 @@ function TurtleRP.emote_events()
     local savedEvent = event
     if ( strsub(event, 1, 8) == "CHAT_MSG" ) then
       local type = strsub(event, 10);
+
+      if ( type == "SYSTEM") then
+        if arg1 == "You are now AFK: Away from Keyboard" then
+          TurtleRP.disableMessageSending = true
+        end
+        if arg1 == "You are no longer AFK." then
+          TurtleRP.disableMessageSending = nil
+        end
+      end
+
       if ( type == "EMOTE" ) then
         if beginningQuoteFlag[this:GetID()] == nil then
           beginningQuoteFlag[this:GetID()] = 0
@@ -644,10 +655,14 @@ end
 -- Interface helpers
 -----
 function TurtleRP.escapeFocusFromChatbox()
+  local existingWorldFrameFunctions = WorldFrame:GetScript("OnMouseDown")
   WorldFrame:SetScript("OnMouseDown", function()
     if TurtleRP.editingChatBox then
       TurtleRP_ChatBox_TextScrollBox_TextInput:ClearFocus()
       TurtleRP.editingChatBox = false
+    end
+    if existingWorldFrameFunctions then
+      existingWorldFrameFunctions()
     end
   end)
 end
@@ -759,7 +774,7 @@ function TurtleRP.OpenAdmin()
   TurtleRP_AdminSB_Tab7.tooltip = "About / Help"
   TurtleRP_AdminSB_Tab7:Show()
 
-  TurtleRP_AdminSB_Tab1:SetChecked(1)
+  TurtleRP.OnAdminTabClick(1)
 end
 
 function TurtleRP.OnAdminTabClick(id)

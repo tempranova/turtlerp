@@ -55,7 +55,7 @@
         </Anchors>
       </Button>
       <!-- Description frame scrolling -->
-      <ScrollFrame name="$parent_DescriptionScrollBox" enableMouse="true" inherits="FauxScrollFrameTemplate">
+      <ScrollFrame name="$parent_DescriptionScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
         <Size>
           <AbsDimension x="300" y="280" />
         </Size>
