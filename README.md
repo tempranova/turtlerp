@@ -10,8 +10,6 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 Tests
 
-- Test when drunk (SLURRED_SPEECH)
-
 Bugs
 
 - Tooltips with icons result in inconsistent spacing
@@ -28,6 +26,13 @@ After beta
 - Showing class colors in /say (harder than it seems! Maybe just use Shagu instead)
 
 ### Recently Done
+
+1.0.1
+
+- No more drunk texting
+- TurtleRP_ChatBox now visible in RP mode
+
+1.0.0 same as 0.1.4
 
 0.1.4
 

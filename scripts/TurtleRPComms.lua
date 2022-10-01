@@ -62,7 +62,7 @@ end
 
 function TurtleRP.send_ping_message()
   if UnitLevel("player") > 4 then
-    TurtleRP.ttrpChatSend("P")
+    TurtleRP.ttrpChatSend("PS test slurred")
   end
 
   local TurtleRPChannelPingDelay = CreateFrame("Frame")
@@ -80,7 +80,7 @@ function TurtleRP.send_ping_message()
     if gt >= st then
       if TurtleRP.disableMessageSending == nil then
         if UnitLevel("player") > 4 then
-          TurtleRP.ttrpChatSend("P")
+          TurtleRP.ttrpChatSend("PS test slurred")
         end
       end
       TurtleRPChannelPingDelay:Hide()
@@ -154,6 +154,7 @@ end
 
 function TurtleRP.checkChatMessage(msg, playerName)
   -- If it's requesting data from me
+  msg = TurtleRP.DrunkDecode(msg)
   if msg == "A" then
     if TurtleRPQueryablePlayers[playerName] == nil then
       TurtleRPQueryablePlayers[playerName] = true
@@ -294,7 +295,7 @@ function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
     if readyToProcess then
       processAndStoreData(dataPrefix, playerName)
       TurtleRP.displayData(dataPrefix, playerName)
-      if playerName == UnitName("target") or playerName == UnitName("mouseover") then 
+      if playerName == UnitName("target") or playerName == UnitName("mouseover") then
         TurtleRP.SetNameFrameWidths(playerName)
       end
     end
@@ -370,5 +371,5 @@ function TurtleRP.splitByChunk(text, chunkSize)
 end
 
 function TurtleRP.ttrpChatSend(message)
-  ChatThrottleLib:SendChatMessage("NORMAL", TurtleRP.channelName, message, "CHANNEL", nil, GetChannelName(TurtleRP.channelName))
+  ChatThrottleLib:SendChatMessage("NORMAL", TurtleRP.channelName, TurtleRP.DrunkEncode(message), "CHANNEL", nil, GetChannelName(TurtleRP.channelName))
 end

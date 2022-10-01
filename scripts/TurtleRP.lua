@@ -13,7 +13,7 @@ TurtleRP.currentVersion = "1.0.0"
 -- Chat
 TurtleRP.channelName = "TTRP"
 TurtleRP.channelIndex = 0
-TurtleRP.timeBetweenPings = 30
+TurtleRP.timeBetweenPings = 10
 TurtleRP.currentlyRequestedData = nil
 TurtleRP.disableMessageSending = nil
 -- Interface
@@ -706,6 +706,7 @@ function TurtleRP.EnableRPMode()
 	--TurtleRP.BindFrameToWorldFrame(TurtleRPInfobox);
 	for i = 1, 7 do
     TurtleRP.BindFrameToWorldFrame(TurtleRP_IconTray)
+    TurtleRP.BindFrameToWorldFrame(TurtleRP_ChatBox)
 		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i));
 		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i .. "Tab"));
 		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i .. "TabDockRegion"));
@@ -733,6 +734,7 @@ function TurtleRP.DisableRPMode()
 	--TurtleRP.BindFrameToUIParent(TurtleRPInfobox);
 	for i = 1, 7 do
     TurtleRP.BindFrameToUIParent(TurtleRP_IconTray)
+    TurtleRP.BindFrameToUIParent(TurtleRP_ChatBox)
 		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i));
 		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i .. "Tab"));
 		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i .. "TabDockRegion"));
@@ -853,6 +855,20 @@ function TurtleRP.validateBeforeSaving(data)
   else
     return data
   end
+end
+
+function TurtleRP.DrunkEncode(text)
+	text = string.gsub(text, "s", "°");
+	text = string.gsub(text, "S", "§");
+	return text;
+end
+
+function TurtleRP.DrunkDecode(text)
+  local DrunkSuffix = string.gsub(SLURRED_SPEECH, "%%s(.+)", "%1$"); -- remove "%s" from the localized " ...hic!" text;
+	text = string.gsub(text, "°", "s");
+	text = string.gsub(text, "§", "S");
+	text = string.gsub(text, DrunkSuffix, ""); -- likely only needed if decoding an entire message
+	return text;
 end
 
 function TurtleRP.log(msg)
