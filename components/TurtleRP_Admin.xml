@@ -2027,7 +2027,7 @@
       </CheckButton>
       <CheckButton name="$parent_Tab6" inherits="TurtleRP_SBTabTemplate" id="6">
         <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="$parent_Tab4" relativePoint="BOTTOMLEFT">
+          <Anchor point="TOPLEFT" relativeTo="$parent_Tab5" relativePoint="BOTTOMLEFT">
             <Offset>
               <AbsDimension x="0" y="-17"/>
             </Offset>
@@ -2234,8 +2234,45 @@
           </FontHeight>
           <Color r="1" g="1" b="1" />
         </FontString>
+        <!-- Player Name Text -->
+        <FontString name="$parent_PlayerNameText" justifyV="TOP" justifyH="LEFT" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Player Name">
+          <Size>
+            <AbsDimension x="310" y="40"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+              <Offset>
+                <AbsDimension x="3" y="-3" />
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <FontHeight>
+            <AbsValue val="1" />
+          </FontHeight>
+          <Color r="1" g="1" b="1" a="0" />
+        </FontString>
       </Layer>
     </Layers>
+    <Frames>
+      <!-- See Details button -->
+      <Button name="$parent_DetailsButton" inherits="UIPanelButtonGrayTemplate" text="Details">
+        <Size>
+          <AbsDimension x="50" y="20" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="-10" y="-1"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+          </OnLoad>
+        </Scripts>
+      </Button>
+    </Frames>
   </Frame>
 
 </Ui>

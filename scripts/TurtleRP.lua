@@ -536,39 +536,58 @@ end
 -- Directory Manager
 ----
 function TurtleRP.Directory_ScrollBar_Update()
-  -- if TurtleRP.iconFrames == nil then
-  --   TurtleRP.iconFrames = TurtleRP.makeIconFrames()
-  -- end
-  -- local totalDirectoryChars = 0
-  -- for i, v in TurtleRPCharacters do
-  --   totalDirectoryChars = totalDirectoryChars + 1
-  -- end
-  -- TurtleRP.log(totalDirectoryChars)
-  -- FauxScrollFrame_Update(TurtleRP_AdminSB_Content5_DirectoryScrollBox, totalDirectoryChars, 20, 25)
-  -- local currentLine = FauxScrollFrame_GetOffset(TurtleRP_AdminSB_Content5_DirectoryScrollBox)
-  -- TurtleRP.renderDirectory((currentLine * 5))
+  if TurtleRP.directoryFrames == nil then
+    TurtleRP.directoryFrames = TurtleRP.makeDirectoryFrames()
+  end
+  local totalDirectoryChars = 0
+  for i, v in TurtleRPCharacters do
+    totalDirectoryChars = totalDirectoryChars + 1
+  end
+  TurtleRP.log(totalDirectoryChars)
+  FauxScrollFrame_Update(TurtleRP_AdminSB_Content5_DirectoryScrollBox, totalDirectoryChars, 20, 10)
+  local currentLine = FauxScrollFrame_GetOffset(TurtleRP_AdminSB_Content5_DirectoryScrollBox)
+  TurtleRP.renderDirectory((currentLine * 2))
 end
 
 function TurtleRP.makeDirectoryFrames()
+  local framesCreated = 0
+  for i=1, 13 do
+    local directoryNameFrame = CreateFrame("Frame",  "TurtleRP_Directory_" .. i, TurtleRP_AdminSB_Content5_DirectoryScrollBox, "TurtleRP_Directory_Listing")
+    directoryNameFrame:SetPoint("TOPLEFT", TurtleRP_AdminSB_Content5, "TOPLEFT", 0, (i - 1) * -25)
+    getglobal("TurtleRP_Directory_" .. i .. "_DetailsButton"):SetScript("OnClick", function()
+      local frameName = this:GetParent():GetName()
+      local playerName = getglobal(frameName .. '_PlayerNameText'):GetText()
+      TurtleRP.log(playerName)
+      -- What do we show here? Description? Or anything we have? Locations? Etc.
+      TurtleRP_Description:Show()
+      TurtleRP.buildDescription(playerName)
+    end)
+  end
+  return framesCreated
 end
 
 function TurtleRP.renderDirectory(directoryOffset)
-  -- TurtleRP.log(directoryOffset)
-  -- local remadeArray = {}
-  -- local currentArrayNumber = 1
-  -- for i, v in TurtleRPCharacters do
-  --   remadeArray[currentArrayNumber] = v
-  --   currentArrayNumber = currentArrayNumber + 1
-  -- end
-  -- for i=directoryOffset, directoryOffset+20 do
-  --   for i, v in TurtleRPCharacters do
-  --     local directoryNameFrame = CreateFrame("Frame",  "TurtleRP_AdminSB_Content5_DirectoryScrollBox_DirectoryHolder_Listing_DirectoryName" .. i, TurtleRP_AdminSB_Content5_DirectoryScrollBox_DirectoryHolder, "TurtleRP_Directory_Listing")
-  --     getglobal("TurtleRP_AdminSB_Content5_DirectoryScrollBox_DirectoryHolder_Listing_DirectoryName" .. i .. "_NameText"):SetText(i)
-  --     getglobal("TurtleRP_AdminSB_Content5_DirectoryScrollBox_DirectoryHolder_Listing_DirectoryName" .. i):SetPoint("TOPLEFT", TurtleRP_AdminSB_Content5, "TOPLEFT", 0, framesCreated * -25)
-  --     framesCreated = framesCreated + 1
-  --   end
-  -- end
-  -- local framesCreated = 0
+  TurtleRP.log(directoryOffset)
+  local remadeArray = {}
+  local currentArrayNumber = 1
+  for i, v in TurtleRPCharacters do
+    if TurtleRPCharacters[i] and TurtleRPCharacters[i]['full_name'] ~= nil then
+      remadeArray[currentArrayNumber] = v
+      remadeArray[currentArrayNumber]['player_name'] = i
+      currentArrayNumber = currentArrayNumber + 1
+    end
+  end
+  local currentFrameNumber = 1
+  for i=directoryOffset, directoryOffset+12 do
+    getglobal("TurtleRP_Directory_" .. currentFrameNumber):Hide()
+    if remadeArray[i] then
+      local thisCharacter = remadeArray[i]
+      getglobal("TurtleRP_Directory_" .. currentFrameNumber):Show()
+      getglobal("TurtleRP_Directory_" .. currentFrameNumber .. "_NameText"):SetText(thisCharacter['full_name'])
+      getglobal("TurtleRP_Directory_" .. currentFrameNumber .. "_PlayerNameText"):SetText(thisCharacter['player_name'])
+      currentFrameNumber = currentFrameNumber + 1
+    end
+  end
 end
 
 -----
@@ -762,9 +781,9 @@ function TurtleRP.OpenAdmin()
   TurtleRP_AdminSB_Tab4.tooltip = "Notes"
   TurtleRP_AdminSB_Tab4:Show()
 
-  -- TurtleRP_AdminSB_Tab5:SetNormalTexture("Interface\\Icons\\Spell_Holy_InnerFire")
-  -- TurtleRP_AdminSB_Tab5.tooltip = "Directory"
-  -- TurtleRP_AdminSB_Tab5:Show()
+  TurtleRP_AdminSB_Tab5:SetNormalTexture("Interface\\Icons\\Spell_Holy_InnerFire")
+  TurtleRP_AdminSB_Tab5.tooltip = "Directory"
+  TurtleRP_AdminSB_Tab5:Show()
 
   TurtleRP_AdminSB_Tab6:SetNormalTexture("Interface\\Icons\\Trade_Engineering")
   TurtleRP_AdminSB_Tab6.tooltip = "Settings"
