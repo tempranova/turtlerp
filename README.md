@@ -33,6 +33,12 @@ After beta
 
 ### Recently Done
 
+- Directory layout and scroller
+- Showing online/offline status
+- Ability to query mouseover (two second delay between requests required, possible bug as well)
+  - Can't show guild
+-
+
 0.1.4
 
 - Minor fix to highlighted icon when opening admin

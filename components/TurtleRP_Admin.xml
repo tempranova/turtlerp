@@ -1437,6 +1437,20 @@
         </Anchors>
         <Layers>
     			<Layer level="OVERLAY">
+            <!-- Flavour Text -->
+            <FontString name="$parent_FlavourText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="View available details about fellow adventurers.">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="12" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
           </Layer>
         </Layers>
         <Frames>
@@ -2370,6 +2384,19 @@
           </Layer>
         </Layers>
         <Frames>
+          <!-- Close button -->
+          <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
+            <Size>
+              <AbsDimension x="20" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPRIGHT">
+                <Offset>
+                  <AbsDimension x="-10" y="-10"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+          </Button>
           <!-- See Tooltip button -->
           <Button name="$parent_TooltipButton" inherits="UIPanelButtonGrayTemplate" text="Tooltip">
             <Size>
@@ -2394,6 +2421,7 @@
               </OnEnter>
               <OnLeave>
                 TurtleRP.showTooltip = nil
+                TurtleRP.gameTooltip:Hide()
               </OnLeave>
             </Scripts>
           </Button>
@@ -2413,6 +2441,12 @@
               <OnLoad>
                 this:SetFont("Fonts\\FRIZQT__.ttf", 10)
               </OnLoad>
+              <OnClick>
+                local parentFrameName = this:GetParent():GetName()
+                local playerName = getglobal(parentFrameName .. "_NameText"):GetText()
+                TurtleRP.showTarget = playerName
+                TurtleRP.sendRequestForData("T", playerName)
+              </OnClick>
             </Scripts>
           </Button>
           <!-- See Description button -->
@@ -2431,6 +2465,12 @@
               <OnLoad>
                 this:SetFont("Fonts\\FRIZQT__.ttf", 10)
               </OnLoad>
+              <OnClick>
+                local parentFrameName = this:GetParent():GetName()
+                local playerName = getglobal(parentFrameName .. "_NameText"):GetText()
+                TurtleRP.showDescription = playerName
+                TurtleRP.sendRequestForData("D", playerName)
+              </OnClick>
             </Scripts>
           </Button>
         </Frames>

@@ -102,11 +102,7 @@ function TurtleRP.buildTooltip(playerName, targetType)
   end
 
   if targetType == nil then
-    TurtleRP.gameTooltip:ClearLines()
-    TurtleRP.gameTooltip:Show()
-    TurtleRP.gameTooltip:AddLine(" ")
-    TurtleRP.gameTooltip:AddLine(" ")
-    TurtleRP.log("HEY")
+    GameTooltip_SetDefaultAnchor(TurtleRP.gameTooltip, UIParent)
   end
 
   -- Getting details for character
@@ -115,8 +111,8 @@ function TurtleRP.buildTooltip(playerName, targetType)
   local class           = locallyRetrievable and characterInfo["class"] or UnitClass(targetType)
   local class_color     = locallyRetrievable and characterInfo['class_color'] or TurtleRPClassData[class][4]
   local guildName, guildRank
-                        = targetType == nil and "", "" or GetGuildInfo(targetType)
-  local queriedLevel    = targetType == nil and "" or UnitLevel(targetType)
+                        = targetType == nil and " ", " " or GetGuildInfo(targetType)
+  local queriedLevel    = targetType == nil and " " or UnitLevel(targetType)
   local icon            = locallyRetrievable and characterInfo['icon'] or nil
   local currently_ic    = locallyRetrievable and characterInfo['currently_ic'] or nil
   local ic_info         = locallyRetrievable and characterInfo['ic_info'] or nil
@@ -151,6 +147,9 @@ function TurtleRP.buildTooltip(playerName, targetType)
 
   -- Modify tooltip
   local l = 1
+  if getglobal("GameTooltipTextLeft1"):GetText() == nil then
+    TurtleRP.gameTooltip:AddLine(thisClassColor .. titleExtraSpaces .. fullName)
+  end
   if TurtleRPSettings["name_size"] == "1" then
     getglobal("GameTooltipTextLeft1"):SetFont("Fonts\\FRIZQT__.ttf", 18)
   else

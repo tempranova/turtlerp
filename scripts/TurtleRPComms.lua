@@ -270,8 +270,6 @@ function processAndStoreData(dataPrefix, playerName)
   local splitString = string.split(TurtleRPCharacters[playerName]["temp" .. dataPrefix], "~")
   local dataToSave = TurtleRP.dataKeys(dataPrefix)
   for i, dataRef in ipairs(dataToSave) do
-    -- TurtleRP.log(dataRef)
-    -- TurtleRP.log(splitString[i])
     if splitString[i] ~= nil then
       TurtleRPCharacters[playerName][dataRef] = splitString[i]
     else
@@ -322,9 +320,18 @@ function TurtleRP.displayData(dataPrefix, playerName)
     TurtleRP.buildDescription(playerName)
   end
   -- Directory exceptions
-  TurtleRP.log("HERE")
   if playerName == TurtleRP.showTooltip and (dataPrefix == "M" or dataPrefix == "MR") then
     TurtleRP.buildTooltip(playerName, nil) -- Missing some data
+  end
+  if playerName == TurtleRP.showTarget and (dataPrefix == "T" or dataPrefix == "TR") then
+    TurtleRP.buildTargetFrame(playerName)
+    TurtleRP.showTarget = nil
+  end
+  if playerName == TurtleRP.showDescription and (dataPrefix == "D" or dataPrefix == "DR") then
+    TurtleRP.buildDescription(playerName)
+    TurtleRP_Target:Hide()
+    TurtleRP_Description:Show()
+    TurtleRP.showDescription = nil
   end
 end
 

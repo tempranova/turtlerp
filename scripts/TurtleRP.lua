@@ -32,6 +32,8 @@ TurtleRP.gameTooltip = GameTooltip
 TurtleRP.shaguEnabled = nil
 -- Directory
 TurtleRP.showTooltip = nil
+TurtleRP.showTarget = nil
+TurtleRP.showDescription = nil
 -- Accounting for PFUI, Go Shagu Go
 if pfUI ~= nil and pfUI.uf ~= nil and pfUI.uf.target ~= nil then
   TurtleRP.targetFrame = pfUI.uf.target
@@ -359,12 +361,13 @@ function TurtleRP.buildDescription(playerName)
   if characterInfo["keyD"] ~= nil then
 
     TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body><h1>Hi</h1></body></html>")
+    local replacedLineBreaks = gsub(characterInfo["description"], "@N", "%\n")
     if string.find(characterInfo['description'], "<p>") then
-      TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body>" .. characterInfo['description'] .. "</body></html>")
+      TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body>" .. replacedLineBreaks .. "</body></html>")
       TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText("")
     else
       TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("")
-      TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText(characterInfo['description'])
+      TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText(replacedLineBreaks)
     end
 
     TurtleRP.SetNameFrameWidths(playerName)
@@ -545,15 +548,14 @@ function TurtleRP.Directory_ScrollBar_Update()
   for i, v in TurtleRPCharacters do
     totalDirectoryChars = totalDirectoryChars + 1
   end
-  TurtleRP.log(totalDirectoryChars)
-  FauxScrollFrame_Update(TurtleRP_AdminSB_Content5_DirectoryScrollBox, totalDirectoryChars, 20, 10)
+  FauxScrollFrame_Update(TurtleRP_AdminSB_Content5_DirectoryScrollBox, totalDirectoryChars, 7, 65)
   local currentLine = FauxScrollFrame_GetOffset(TurtleRP_AdminSB_Content5_DirectoryScrollBox)
-  TurtleRP.renderDirectory((currentLine * 2))
+  TurtleRP.renderDirectory(currentLine)
 end
 
 function TurtleRP.makeDirectoryFrames()
   local framesCreated = 0
-  for i=1, 13 do
+  for i=1, 14 do
     local directoryNameFrame = CreateFrame("Frame",  "TurtleRP_Directory_" .. i, TurtleRP_AdminSB_Content5_DirectoryScrollBox, "TurtleRP_Directory_Listing")
     if i == 1 then
       directoryNameFrame:SetPoint("TOPLEFT", TurtleRP_AdminSB_Content5, "TOPLEFT", 0, (i - 1) * -25)
@@ -561,20 +563,18 @@ function TurtleRP.makeDirectoryFrames()
       directoryNameFrame:SetPoint("TOPLEFT", getglobal("TurtleRP_Directory_" .. (i-1)), "BOTTOMLEFT", 0, -1)
     end
     getglobal("TurtleRP_Directory_" .. i .. "_DetailsButton"):SetScript("OnClick", function()
+      for i=1, 14 do
+        getglobal("TurtleRP_Directory_" .. i .. "_DetailsFrame"):Hide()
+      end
       local frameName = this:GetParent():GetName()
       local playerName = getglobal(frameName .. "_DetailsFrame_NameText"):GetText()
-      TurtleRP.log(playerName)
       getglobal(frameName .. '_DetailsFrame'):Show()
-      -- What do we show here? Description? Or anything we have? Locations? Etc.
-      -- TurtleRP_Description:Show()
-      -- TurtleRP.buildDescription(playerName)
     end)
   end
   return framesCreated
 end
 
 function TurtleRP.renderDirectory(directoryOffset)
-  TurtleRP.log(directoryOffset)
   local remadeArray = {}
   local currentArrayNumber = 1
   for i, v in TurtleRPCharacters do
@@ -585,7 +585,7 @@ function TurtleRP.renderDirectory(directoryOffset)
     end
   end
   local currentFrameNumber = 1
-  for i=directoryOffset, directoryOffset+12 do
+  for i=directoryOffset, directoryOffset+13 do
     getglobal("TurtleRP_Directory_" .. currentFrameNumber):Hide()
     if remadeArray[i] then
       local thisCharacter = remadeArray[i]
@@ -601,8 +601,8 @@ function TurtleRP.renderDirectory(directoryOffset)
           end
         end
       end
-      currentFrameNumber = currentFrameNumber + 1
     end
+    currentFrameNumber = currentFrameNumber + 1
   end
 end
 
