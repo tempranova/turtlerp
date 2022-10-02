@@ -20,9 +20,9 @@ Bugs
 Next Up
 
 - Directory:
- - What to show on click? Description?
- - Showing locations? Currently online/offline?
- - Showing actual player name for /w and /who?
+ - Adding filters (online/offline)
+ - Sort alphabetically
+ - Adding option to disable listing 
 
 After beta
 
