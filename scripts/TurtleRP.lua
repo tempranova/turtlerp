@@ -30,6 +30,8 @@ TurtleRP.currentChatType = nil
 TurtleRP.targetFrame = TargetFrame
 TurtleRP.gameTooltip = GameTooltip
 TurtleRP.shaguEnabled = nil
+-- Directory
+TurtleRP.showTooltip = nil
 -- Accounting for PFUI, Go Shagu Go
 if pfUI ~= nil and pfUI.uf ~= nil and pfUI.uf.target ~= nil then
   TurtleRP.targetFrame = pfUI.uf.target
@@ -560,11 +562,9 @@ function TurtleRP.makeDirectoryFrames()
     end
     getglobal("TurtleRP_Directory_" .. i .. "_DetailsButton"):SetScript("OnClick", function()
       local frameName = this:GetParent():GetName()
+      local playerName = getglobal(frameName .. "_DetailsFrame_NameText"):GetText()
       TurtleRP.log(playerName)
       getglobal(frameName .. '_DetailsFrame'):Show()
-      if TurtleRPQueryablePlayers[playerName] then
-        TurtleRP.log(TurtleRPQueryablePlayers[playerName])
-      end
       -- What do we show here? Description? Or anything we have? Locations? Etc.
       -- TurtleRP_Description:Show()
       -- TurtleRP.buildDescription(playerName)
@@ -589,9 +589,18 @@ function TurtleRP.renderDirectory(directoryOffset)
     getglobal("TurtleRP_Directory_" .. currentFrameNumber):Hide()
     if remadeArray[i] then
       local thisCharacter = remadeArray[i]
-      getglobal("TurtleRP_Directory_" .. currentFrameNumber):Show()
-      getglobal("TurtleRP_Directory_" .. currentFrameNumber .. "_NameText"):SetText(thisCharacter['full_name'])
-      getglobal("TurtleRP_Directory_" .. currentFrameNumber .. '_DetailsFrame_NameText'):SetText("Player Name: " .. thisCharacter['player_name'])
+      local thisFrameName = "TurtleRP_Directory_" .. currentFrameNumber
+      getglobal(thisFrameName):Show()
+      getglobal(thisFrameName .. "_NameText"):SetText(thisCharacter['full_name'])
+      getglobal(thisFrameName .. '_DetailsFrame_NameText'):SetText(thisCharacter['player_name'])
+      getglobal(thisFrameName .. '_StatusOffline'):Show()
+      if TurtleRPQueryablePlayers[thisCharacter['player_name']] then
+        if type(TurtleRPQueryablePlayers[thisCharacter['player_name']]) == "number" then
+          if TurtleRPQueryablePlayers[thisCharacter['player_name']] > time() - 65 then
+            getglobal(thisFrameName .. '_StatusOnline'):Show()
+          end
+        end
+      end
       currentFrameNumber = currentFrameNumber + 1
     end
   end

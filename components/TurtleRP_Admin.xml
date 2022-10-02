@@ -2272,6 +2272,43 @@
           </OnLoad>
         </Scripts>
       </Button>
+      <!-- Status icons -->
+      <Frame name="$parent_StatusOnline" hidden="true">
+        <Size>
+          <AbsDimension x="5" y="5" />
+        </Size>
+        <Anchors>
+          <Anchor point="RIGHT" relativeTo="$parent_DetailsButton" relativePoint="LEFT">
+            <Offset>
+              <AbsDimension x="-5" y="-1"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Backdrop alphaMode="ADD" bgFile="Interface\Buttons\WHITE8x8" tile="false">
+         <TileSize>
+           <AbsValue val="10"/>
+         </TileSize>
+         <Color r="0" g="1" b="0" />
+        </Backdrop>
+      </Frame>
+      <Frame name="$parent_StatusOffline" hidden="true">
+        <Size>
+          <AbsDimension x="5" y="5" />
+        </Size>
+        <Anchors>
+          <Anchor point="RIGHT" relativeTo="$parent_DetailsButton" relativePoint="LEFT">
+            <Offset>
+              <AbsDimension x="-5" y="-1"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Backdrop alphaMode="ADD" bgFile="Interface\Buttons\WHITE8x8" tile="false">
+         <TileSize>
+           <AbsValue val="10"/>
+         </TileSize>
+         <Color r="1" g="0" b="0" />
+        </Backdrop>
+      </Frame>
       <!-- See Details button -->
       <!-- <Button name="$parent_DetailsButton" inherits="UIPanelButtonGrayTemplate" text=">">
         <Size>
@@ -2316,7 +2353,7 @@
           <Layer level="OVERLAY">
             <FontString name="$parent_NameText" justifyV="TOP" justifyH="LEFT" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Player Name: ">
               <Size>
-                <AbsDimension x="310" y="80"/>
+                <AbsDimension x="150" y="40"/>
               </Size>
               <Anchors>
                 <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
@@ -2349,6 +2386,15 @@
               <OnLoad>
                 this:SetFont("Fonts\\FRIZQT__.ttf", 10)
               </OnLoad>
+              <OnEnter>
+                local parentFrameName = this:GetParent():GetName()
+                local playerName = getglobal(parentFrameName .. "_NameText"):GetText()
+                TurtleRP.showTooltip = playerName
+                TurtleRP.sendRequestForData("M", playerName)
+              </OnEnter>
+              <OnLeave>
+                TurtleRP.showTooltip = nil
+              </OnLeave>
             </Scripts>
           </Button>
           <!-- See Glances button -->

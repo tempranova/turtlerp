@@ -101,14 +101,22 @@ function TurtleRP.buildTooltip(playerName, targetType)
     locallyRetrievable = true
   end
 
+  if targetType == nil then
+    TurtleRP.gameTooltip:ClearLines()
+    TurtleRP.gameTooltip:Show()
+    TurtleRP.gameTooltip:AddLine(" ")
+    TurtleRP.gameTooltip:AddLine(" ")
+    TurtleRP.log("HEY")
+  end
+
   -- Getting details for character
   local fullName        = locallyRetrievable and characterInfo["full_name"] or UnitName(targetType)
   local race            = locallyRetrievable and characterInfo["race"] or UnitRace(targetType)
   local class           = locallyRetrievable and characterInfo["class"] or UnitClass(targetType)
   local class_color     = locallyRetrievable and characterInfo['class_color'] or TurtleRPClassData[class][4]
   local guildName, guildRank
-                        = GetGuildInfo(targetType)
-  local queriedLevel    = UnitLevel(targetType)
+                        = targetType == nil and "", "" or GetGuildInfo(targetType)
+  local queriedLevel    = targetType == nil and "" or UnitLevel(targetType)
   local icon            = locallyRetrievable and characterInfo['icon'] or nil
   local currently_ic    = locallyRetrievable and characterInfo['currently_ic'] or nil
   local ic_info         = locallyRetrievable and characterInfo['ic_info'] or nil

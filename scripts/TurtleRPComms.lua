@@ -140,7 +140,7 @@ function TurtleRP.sendRequestForData(requestType, playerName)
     timeOfLastSend = time()
     lastRequestType = requestType
     lastPlayerName = playerName
-    if TurtleRPQueryablePlayers[playerName] or TurtleRPCharacters[playerName] then
+    if TurtleRPQueryablePlayers[playerName] ~= nil or TurtleRPCharacters[playerName] ~= nil then
       if TurtleRPCharacters[playerName] ~= nil and TurtleRPCharacters[playerName]['key' .. requestType] ~= nil then
         local currentKey = TurtleRPCharacters[playerName]['key' .. requestType]
         TurtleRP.ttrpChatSend(requestType .. ':' .. playerName .. '~' .. currentKey)
@@ -320,6 +320,11 @@ function TurtleRP.displayData(dataPrefix, playerName)
   end
   if playerName == UnitName("target") and (dataPrefix == "D" or dataPrefix == "DR") then
     TurtleRP.buildDescription(playerName)
+  end
+  -- Directory exceptions
+  TurtleRP.log("HERE")
+  if playerName == TurtleRP.showTooltip and (dataPrefix == "M" or dataPrefix == "MR") then
+    TurtleRP.buildTooltip(playerName, nil) -- Missing some data
   end
 end
 
