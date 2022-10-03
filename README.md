@@ -20,9 +20,6 @@ Bugs
 Next Up
 
 - Directory:
- - Adding filters (online/offline)
- - Sort alphabetically
- - Adding option to disable listing
 
 After beta
 
@@ -38,6 +35,10 @@ After beta
   - Can't show guild
 - /ttrp dir or /ttrp directory opens directory
 - New buttons added to the tray (directory, helm, cloak)
+- Click on header columns to sort
+- Type into bottom search to filter by full name or player name
+- Selection between Zone and Character Name listing, both sortable
+- Sending zone along with ping
 
 0.1.4
 

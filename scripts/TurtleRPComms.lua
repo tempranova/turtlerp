@@ -91,7 +91,7 @@ end
 -- This function often runs too early
 function TurtleRP.communication_prep()
   if UnitLevel("player") > 4 then
-    TurtleRP.ttrpChatSend("A")
+    TurtleRP.pingWithLocation("A")
   end
 
   local TurtleRPChannelJoinDelay = CreateFrame("Frame")
@@ -115,7 +115,7 @@ end
 
 function TurtleRP.send_ping_message()
   if UnitLevel("player") > 4 then
-    TurtleRP.ttrpChatSend("P")
+    TurtleRP.pingWithLocation("P")
   end
 
   local TurtleRPChannelPingDelay = CreateFrame("Frame")
@@ -133,7 +133,7 @@ function TurtleRP.send_ping_message()
     if gt >= st then
       if TurtleRP.disableMessageSending == nil then
         if UnitLevel("player") > 4 then
-          TurtleRP.ttrpChatSend("P")
+          TurtleRP.pingWithLocation("P")
         end
       end
       TurtleRPChannelPingDelay:Hide()
@@ -156,11 +156,11 @@ function TurtleRP.checkTTRPChannel()
   if TurtleRP.channelIndex == 0 then
     JoinChannelByName(TurtleRP.channelName)
     if UnitLevel("player") > 4 then
-      TurtleRP.ttrpChatSend("A")
+      TurtleRP.pingWithLocation("A")
     end
   else
     if UnitLevel("player") > 4 then
-      TurtleRP.ttrpChatSend("A")
+      TurtleRP.pingWithLocation("A")
     end
   end
 end
@@ -211,12 +211,6 @@ end
 
 function TurtleRP.checkChatMessage(msg, playerName)
   -- If it's requesting data from me
-  if msg == "A" then
-    TurtleRPQueryablePlayers[playerName] = time()
-  end
-  if msg == "P" then
-    TurtleRPQueryablePlayers[playerName] = time()
-  end
   if string.find(msg, ':') then
     local colonStart, colonEnd = string.find(msg, ':')
     local dataPrefix = string.sub(msg, 1, colonEnd - 1)
@@ -232,7 +226,16 @@ function TurtleRP.checkChatMessage(msg, playerName)
       end
     end
   else
-end
+    local firstLetter = string.sub(msg, 1, 1)
+    if firstLetter == "P" or firstLetter == "A" then
+      local zoneText = string.sub(msg, 2)
+      TurtleRPQueryablePlayers[playerName] = time()
+      if TurtleRPCharacters[playerName] == nil then
+        TurtleRPCharacters[playerName] = {}
+      end
+      TurtleRPCharacters[playerName]['zone'] = zoneText
+    end
+  end
 end
 
 function TurtleRP.checkUniqueKey(dataPrefix, msg)
@@ -432,6 +435,12 @@ function TurtleRP.splitByChunk(text, chunkSize)
       loopNumber = loopNumber + 1
     end
     return chunksToReturn
+end
+
+function TurtleRP.pingWithLocation(message)
+  local revisedMessage = message
+  message = message .. GetZoneText()
+  TurtleRP.ttrpChatSend(message)
 end
 
 function TurtleRP.ttrpChatSend(message)

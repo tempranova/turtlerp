@@ -35,8 +35,10 @@ TurtleRP.currentlyViewedPlayer = nil
 TurtleRP.showTooltip = nil
 TurtleRP.showTarget = nil
 TurtleRP.showDescription = nil
+TurtleRP.secondColumn = "Character Name"
 TurtleRP.sortByKey = nil
 TurtleRP.sortByOrder = 0
+TurtleRP.searchTerm = ""
 -- Accounting for PFUI, Go Shagu Go
 if pfUI ~= nil and pfUI.uf ~= nil and pfUI.uf.target ~= nil then
   TurtleRP.targetFrame = pfUI.uf.target
@@ -95,6 +97,7 @@ function TurtleRP:OnEvent()
     TurtleRPSettingsTemplate["name_size"] = "1"
     TurtleRPSettingsTemplate["minimap_icon_size"] = "0"
     TurtleRPSettingsTemplate["hide_minimap_icon"] = "1"
+    TurtleRPSettingsTemplate["share_location"] = "1"
 
 
     -- Global character defaults setup

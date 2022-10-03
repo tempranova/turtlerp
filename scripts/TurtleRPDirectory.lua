@@ -10,7 +10,7 @@ function TurtleRP.OpenDirectory()
 end
 
 ----
--- Directory Manager
+-- Directory Scroll Manager
 ----
 function TurtleRP.Directory_ScrollBar_Update()
   local totalDirectoryChars = 0
@@ -37,17 +37,26 @@ function TurtleRP.renderDirectory(directoryOffset)
   local currentArrayNumber = 1
   for i, v in TurtleRPCharacters do
     if TurtleRPCharacters[i] and TurtleRPCharacters[i]['full_name'] ~= nil then
-      remadeArray[currentArrayNumber] = v
-      remadeArray[currentArrayNumber]['player_name'] = i
-      remadeArray[currentArrayNumber]['status'] = "Offline"
-      if TurtleRPQueryablePlayers[i] then
-        if type(TurtleRPQueryablePlayers[i]) == "number" then
-          if TurtleRPQueryablePlayers[i] > (time() - 65) then
-            remadeArray[currentArrayNumber]['status'] = "Online"
-          end
+      local resultShown = true
+      if TurtleRP.searchTerm ~= "" then
+        if string.find(string.lower(i), string.lower(TurtleRP.searchTerm)) == nil and string.find(string.lower(v['full_name']), string.lower(TurtleRP.searchTerm)) == nil then
+          resultShown = false
         end
       end
-      currentArrayNumber = currentArrayNumber + 1
+      if resultShown then
+        remadeArray[currentArrayNumber] = v
+        remadeArray[currentArrayNumber]['player_name'] = i
+        remadeArray[currentArrayNumber]['status'] = "Offline"
+        remadeArray[currentArrayNumber]['zone'] = v['zone'] and v['zone'] or ""
+        if TurtleRPQueryablePlayers[i] then
+          if type(TurtleRPQueryablePlayers[i]) == "number" then
+            if TurtleRPQueryablePlayers[i] > (time() - 65) then
+              remadeArray[currentArrayNumber]['status'] = "Online"
+            end
+          end
+        end
+        currentArrayNumber = currentArrayNumber + 1
+      end
     end
   end
 
@@ -70,7 +79,7 @@ function TurtleRP.renderDirectory(directoryOffset)
       local thisCharacter = remadeArray[i]
       getglobal(thisFrameName):Show()
       getglobal(thisFrameName .. "Name"):SetText(thisCharacter['player_name'])
-      getglobal(thisFrameName .. 'Variable'):SetText(thisCharacter['full_name'])
+      getglobal(thisFrameName .. 'Variable'):SetText(TurtleRP.secondColumn == "Character Name" and thisCharacter['full_name'] or thisCharacter['zone'])
       getglobal(thisFrameName .. '_StatusOffline'):Show()
       getglobal(thisFrameName .. '_StatusOnline'):Hide()
       if thisCharacter['status'] == "Online" then
@@ -85,4 +94,21 @@ end
 function TurtleRP.OpenDirectoryListing(frame)
   TurtleRP_Directory_DetailsFrame:SetPoint("LEFT", frame, "RIGHT", 30, 0)
   TurtleRP_Directory_DetailsFrame:Show()
+end
+
+function TurtleRP.Directory_FrameDropDown_Initialize()
+  local info;
+  local buttonTexts = { "Character Name", "Zone" }
+  for i=1, getn(buttonTexts), 1 do
+    info = {};
+    info.text = buttonTexts[i];
+    info.func = TurtleRP.Directory_FrameDropDown_OnClick;
+    UIDropDownMenu_AddButton(info);
+  end
+end
+
+function TurtleRP.Directory_FrameDropDown_OnClick()
+  UIDropDownMenu_SetSelectedID(TurtleRP_Directory_FrameDropDown, this:GetID());
+  TurtleRP.secondColumn = this:GetText()
+  TurtleRP.Directory_ScrollBar_Update(0)
 end

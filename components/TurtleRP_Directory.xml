@@ -148,7 +148,7 @@
     </HitRectInsets>
     <Layers>
       <Layer level="BACKGROUND">
-        <Texture file="Interface\FriendsFrame\FriendsFrameScrollIcon">
+        <Texture file="Interface\Addons\TurtleRP\Images\wizardturtle-round">
           <Size>
             <AbsDimension x="60" y="60"/>
           </Size>
@@ -162,7 +162,8 @@
         </Texture>
       </Layer>
       <Layer level="ARTWORK">
-        <Texture name="$parent_TopLeft" file="Interface\PaperDollInfoFrame\UI-Character-General-TopLeft">
+        <Texture name="$parent_TopLeft" file="Interface\ClassTrainerFrame\UI-ClassTrainer-TopLeft">
+        <!-- <Texture name="$parent_TopLeft" file="Interface\PaperDollInfoFrame\UI-Character-General-TopLeft"> -->
           <Size>
             <AbsDimension x="256" y="256"/>
           </Size>
@@ -174,7 +175,8 @@
             </Anchor>
           </Anchors>
         </Texture>
-        <Texture name="$parent_TopRight" file="Interface\PaperDollInfoFrame\UI-Character-General-TopRight">
+        <Texture name="$parent_TopRight" file="Interface\ClassTrainerFrame\UI-ClassTrainer-TopRight">
+        <!-- <Texture name="$parent_TopRight" file="Interface\PaperDollInfoFrame\UI-Character-General-TopRight"> -->
           <Size>
             <AbsDimension x="128" y="256"/>
           </Size>
@@ -263,7 +265,18 @@
               </Anchor>
             </Anchors>
             <Layers>
-              <Layer level="BACKGROUND">
+              <Layer level="ARTWORK">
+                <FontString name="$parent_ButtonText" inherits="GameFontHighlightSmall" text="Click a name to view more details!">
+                  <Anchors>
+                    <Anchor point="RIGHT" relativePoint="RIGHT">
+                      <Offset>
+                        <AbsDimension x="-10" y="1"/>
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                </FontString>
+              </Layer>
+              <!-- <Layer level="BACKGROUND">
                 <Texture name="$parent_FrameRight" file="Interface\ClassTrainerFrame\UI-ClassTrainer-FilterBorder">
                   <Size>
                     <AbsDimension x="12" y="28"/>
@@ -291,10 +304,10 @@
                   </Anchors>
                   <TexCoords left="0" right="0.09375" top="0" bottom="1.0"/>
                 </Texture>
-              </Layer>
+              </Layer> -->
             </Layers>
             <Frames>
-              <CheckButton name="$parent_LFGButton" virtual="true">
+              <!-- <CheckButton name="$parent_LFGButton" virtual="true">
                 <Size>
                   <AbsDimension x="20" y="20"/>
                 </Size>
@@ -336,7 +349,7 @@
                 <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
                 <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
                 <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
-              </CheckButton>
+              </CheckButton> -->
             </Frames>
           </Frame>
           <Button name="$parent_ColumnHeader1" inherits="WhoFrameColumnHeaderTemplate" text="NAME">
@@ -354,7 +367,7 @@
                 getglobal(this:GetName().."Middle"):SetWidth(width - 9);
               </OnLoad>
               <OnClick>
-                if TurtleRP.sortByKey == "player_name" then 
+                if TurtleRP.sortByKey == "player_name" then
                   TurtleRP.sortByOrder = TurtleRP.sortByOrder == 0 and 1 or 0
                 end
                 TurtleRP.sortByKey = "player_name"
@@ -362,7 +375,7 @@
               </OnClick>
             </Scripts>
           </Button>
-          <Button name="$parent_ColumnHeader2" inherits="WhoFrameColumnHeaderTemplate" text="Character Name">
+          <!-- <Button name="$parent_ColumnHeader2" inherits="WhoFrameColumnHeaderTemplate" text="Character Name">
             <Anchors>
               <Anchor point="LEFT" relativeTo="$parent_ColumnHeader1" relativePoint="RIGHT">
                 <Offset>
@@ -384,8 +397,8 @@
                 TurtleRP.renderDirectory(0)
               </OnClick>
             </Scripts>
-          </Button>
-          <!-- <Button name="$parent_ColumnHeader2" inherits="WhoFrameColumnHeaderTemplate">
+          </Button> -->
+          <Button name="$parent_ColumnHeader2" inherits="WhoFrameColumnHeaderTemplate">
             <Anchors>
               <Anchor point="LEFT" relativeTo="$parent_ColumnHeader1" relativePoint="RIGHT">
                 <Offset>
@@ -394,7 +407,7 @@
               </Anchor>
             </Anchors>
             <Frames>
-              <Frame name="WhoFrameDropDown" inherits="UIDropDownMenuTemplate" id="1">
+              <Frame name="TurtleRP_Directory_FrameDropDown" inherits="UIDropDownMenuTemplate" id="1">
                 <Anchors>
                   <Anchor point="TOPLEFT">
                     <Offset>
@@ -404,29 +417,38 @@
                 </Anchors>
                 <Scripts>
                   <OnLoad>
-                    WhoFrameDropDown_OnLoad();
+                    UIDropDownMenu_Initialize(this, TurtleRP.Directory_FrameDropDown_Initialize);
+                    UIDropDownMenu_SetWidth(165);
+                    UIDropDownMenu_SetButtonWidth(24);
+                    UIDropDownMenu_JustifyText("LEFT", TurtleRP_Directory_FrameDropDown)
                   </OnLoad>
                   <OnShow>
-                    UIDropDownMenu_Initialize(WhoFrameDropDown, WhoFrameDropDown_Initialize);
-                    UIDropDownMenu_SetSelectedID(WhoFrameDropDown, 1);
+                    UIDropDownMenu_Initialize(this, TurtleRP.Directory_FrameDropDown_Initialize);
+                    UIDropDownMenu_SetSelectedID(TurtleRP_Directory_FrameDropDown, 1);
                   </OnShow>
                   <OnEvent>
                     WhoFrameDropDown_OnEvent()
                   </OnEvent>
                   <OnMouseUp>
-                    if ( WHOFRAME_DROPDOWN_LIST[UIDropDownMenu_GetSelectedID(WhoFrameDropDown)].sortType ) then
-                      SortWho(WHOFRAME_DROPDOWN_LIST[UIDropDownMenu_GetSelectedID(WhoFrameDropDown)].sortType);
+                    local textForSort = 'full_name'
+                    if TurtleRP.secondColumn == "Zone" then
+                      textForSort = 'zone'
                     end
+                    if TurtleRP.sortByKey == textForSort then
+                      TurtleRP.sortByOrder = TurtleRP.sortByOrder == 0 and 1 or 0
+                    end
+                    TurtleRP.sortByKey = textForSort
+                    TurtleRP.renderDirectory(0)
                   </OnMouseUp>
                 </Scripts>
               </Frame>
             </Frames>
             <Scripts>
               <OnLoad>
-                WhoFrameColumn_SetWidth(105);
+                WhoFrameColumn_SetWidth(190);
               </OnLoad>
             </Scripts>
-          </Button> -->
+          </Button>
           <Button name="$parent_ColumnHeader3" inherits="WhoFrameColumnHeaderTemplate" text="Status">
             <Anchors>
               <Anchor point="LEFT" relativeTo="$parent_ColumnHeader2" relativePoint="RIGHT">
@@ -667,7 +689,8 @@
                 this:ClearFocus();
               </OnShow>
               <OnEnterPressed>
-                WhoFrameEditBox_OnEnterPressed();
+                TurtleRP.searchTerm = this:GetText()
+                TurtleRP.renderDirectory(0)
               </OnEnterPressed>
               <OnEscapePressed>
                 this:ClearFocus();
@@ -749,20 +772,20 @@
           <OnLoad>
             this:SetFont("Fonts\\FRIZQT__.ttf", 8)
           </OnLoad>
-          <OnEnter>
+          <OnClick>
             TurtleRP.showTooltip = TurtleRP.currentlyViewedPlayer
             TurtleRP.sendRequestForData("M", TurtleRP.currentlyViewedPlayer)
-          </OnEnter>
-          <OnLeave>
+          </OnClick>
+          <OnHide>
             TurtleRP.showTooltip = nil
             TurtleRP.gameTooltip:Hide()
-          </OnLeave>
+          </OnHide>
         </Scripts>
       </Button>
       <!-- See Glances button -->
       <Button name="$parent_GlancesButton" inherits="UIPanelButtonGrayTemplate" text="Glances">
         <Size>
-          <AbsDimension x="50" y="18" />
+          <AbsDimension x="45" y="18" />
         </Size>
         <Anchors>
           <Anchor point="LEFT" relativeTo="$parent_TooltipButton" relativePoint="RIGHT">
@@ -787,7 +810,7 @@
       <!-- See Description button -->
       <Button name="$parent_DescriptionButton" inherits="UIPanelButtonGrayTemplate" text="Description">
         <Size>
-          <AbsDimension x="70" y="18" />
+          <AbsDimension x="60" y="18" />
         </Size>
         <Anchors>
           <Anchor point="TOPLEFT" relativeTo="$parent_TooltipButton" relativePoint="BOTTOMLEFT">
