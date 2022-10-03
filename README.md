@@ -22,11 +22,10 @@ Next Up
 - Directory:
  - Adding filters (online/offline)
  - Sort alphabetically
- - Adding option to disable listing 
+ - Adding option to disable listing
 
 After beta
 
-- Adding a directory of characters
 - Adding relationships/status tab
 - Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
 - Showing class colors in /say (harder than it seems! Maybe just use Shagu instead)
@@ -37,7 +36,8 @@ After beta
 - Showing online/offline status
 - Ability to query mouseover (two second delay between requests required, possible bug as well)
   - Can't show guild
--
+- /ttrp dir or /ttrp directory opens directory
+- New buttons added to the tray (directory, helm, cloak)
 
 0.1.4
 

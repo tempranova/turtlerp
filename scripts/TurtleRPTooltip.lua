@@ -110,15 +110,19 @@ function TurtleRP.buildTooltip(playerName, targetType)
   local race            = locallyRetrievable and characterInfo["race"] or UnitRace(targetType)
   local class           = locallyRetrievable and characterInfo["class"] or UnitClass(targetType)
   local class_color     = locallyRetrievable and characterInfo['class_color'] or TurtleRPClassData[class][4]
-  local guildName, guildRank
-                        = targetType == nil and " ", " " or GetGuildInfo(targetType)
-  local queriedLevel    = targetType == nil and " " or UnitLevel(targetType)
+  local guildName       = nil
+  local guildRank       = nil
+  local queriedLevel    = ""
   local icon            = locallyRetrievable and characterInfo['icon'] or nil
   local currently_ic    = locallyRetrievable and characterInfo['currently_ic'] or nil
   local ic_info         = locallyRetrievable and characterInfo['ic_info'] or nil
   local ic_pronouns     = locallyRetrievable and characterInfo['ic_pronouns'] or nil
   local ooc_info        = locallyRetrievable and characterInfo['ooc_info'] or nil
   local ooc_pronouns    = locallyRetrievable and characterInfo['ooc_pronouns'] or nil
+  if targetType ~= nil then
+    guildName, guildRank= GetGuildInfo(targetType)
+    queriedLevel = UnitLevel(targetType)
+  end
 
   -- Color variables
   local colorPrefix       = "|cff"

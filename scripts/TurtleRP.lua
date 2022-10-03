@@ -31,9 +31,12 @@ TurtleRP.targetFrame = TargetFrame
 TurtleRP.gameTooltip = GameTooltip
 TurtleRP.shaguEnabled = nil
 -- Directory
+TurtleRP.currentlyViewedPlayer = nil
 TurtleRP.showTooltip = nil
 TurtleRP.showTarget = nil
 TurtleRP.showDescription = nil
+TurtleRP.sortByKey = nil
+TurtleRP.sortByOrder = 0
 -- Accounting for PFUI, Go Shagu Go
 if pfUI ~= nil and pfUI.uf ~= nil and pfUI.uf.target ~= nil then
   TurtleRP.targetFrame = pfUI.uf.target
@@ -147,153 +150,23 @@ function TurtleRP:OnEvent()
 
     TurtleRP.emote_events()
 
-
     -- Set Version number
-    TurtleRP_AdminSB_Content7_VersionText:SetText(TurtleRP.currentVersion)
+    TurtleRP_AdminSB_Content6_VersionText:SetText(TurtleRP.currentVersion)
 
     -- SLash commands
     SLASH_TURTLERP1 = "/ttrp";
     function SlashCmdList.TURTLERP(msg)
-      TurtleRP.OpenAdmin()
+      if msg == "dir" or msg == "directory" then
+        TurtleRP.OpenDirectory()
+      else
+        TurtleRP.OpenAdmin()
+      end
     end
 
   end
 end
 
 TurtleRP_Parent:SetScript("OnEvent", TurtleRP.OnEvent)
-
------
--- Interface interaction for communication and display
------
-function TurtleRP.mouseover_and_target_events()
-
-  -- Player target
-  local TurtleRPTargetFrame = CreateFrame("Frame")
-  TurtleRPTargetFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
-  TurtleRPTargetFrame:SetScript("OnEvent",
-  	function(self, event, ...)
-      if (IsInInstance() == "pvp" and TurtleRPSettings["bgs"] == "off") or IsInInstance() ~= "pvp" then
-        if (UnitIsPlayer("target")) then
-          if UnitName("target") == UnitName("player") then
-            TurtleRP.buildTargetFrame(UnitName("player"))
-          else
-            TurtleRP_Target:Hide()
-            TurtleRP.sendRequestForData("T", UnitName("target"))
-          end
-        else
-          TurtleRP_Target:Hide()
-        end
-      end
-  	end
-  )
-
-  -- Other player mouseover
-  local TurtleRPMouseoverFrame = CreateFrame("Frame")
-  TurtleRPMouseoverFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
-  TurtleRPMouseoverFrame:RegisterEvent("CURSOR_UPDATE")
-  TurtleRPMouseoverFrame:SetScript("OnEvent",function(self, event)
-      -- Ensuring defaults are in place
-      if (IsInInstance() == "pvp" and TurtleRPSettings["bgs"] == "off") or IsInInstance() ~= "pvp" then
-        if (UnitIsPlayer("mouseover")) then
-          TurtleRP.sendRequestForData("M", UnitName("mouseover"))
-        end
-      end
-  end)
-
-  -- Self target mouseover frame (preview of self mouseover)
-  TurtleRP.targetFrame:EnableMouse()
-  local defaultTargetFrameFunction = TurtleRP.targetFrame:GetScript("OnEnter")
-  TurtleRP.targetFrame:SetScript("OnEnter",
-    function()
-      defaultTargetFrameFunction()
-      if (IsInInstance() == "pvp" and TurtleRPSettings["bgs"] == "off") or IsInInstance() ~= "pvp" then
-        if(UnitName("target") == UnitName("player")) then
-          TurtleRP.buildTooltip(UnitName("player"), "target")
-        end
-      end
-    end
-  )
-end
-
------
--- Handling custom emotes
------
-function TurtleRP.emote_events()
-
-  local TurtleLastEmote = {}
-  local TurtleLastSender = {}
-  local beginningQuoteFlag = {}
-
-  local oldChatFrame_OnEvent = ChatFrame_OnEvent
-  function ChatFrame_OnEvent(event)
-    local savedEvent = event
-    if ( strsub(event, 1, 8) == "CHAT_MSG" ) then
-      local type = strsub(event, 10);
-
-      if ( type == "SYSTEM") then
-        if arg1 == "You are now AFK: Away from Keyboard" then
-          TurtleRP.disableMessageSending = true
-        end
-        if arg1 == "You are no longer AFK." then
-          TurtleRP.disableMessageSending = nil
-        end
-      end
-
-      if ( type == "EMOTE" ) then
-        if beginningQuoteFlag[this:GetID()] == nil then
-          beginningQuoteFlag[this:GetID()] = 0
-        end
-        if TurtleLastSender[this:GetID()] and TurtleLastSender[this:GetID()] == arg2 then
-          if string.find(TurtleLastEmote[this:GetID()], '"') then
-            local splitArrayQuotes = string.split(TurtleLastEmote[this:GetID()], '"')
-            local numberOfQuotes = getn(splitArrayQuotes) + 1
-            if (numberOfQuotes - math.floor(numberOfQuotes/2)*2) ~= 0 then -- an odd number of quotes!
-              if beginningQuoteFlag[this:GetID()] == 1 then
-                beginningQuoteFlag[this:GetID()] = 0
-              else
-                beginningQuoteFlag[this:GetID()] = 1
-              end
-            end
-          end
-        end
-        TurtleLastEmote[this:GetID()] = arg1
-        TurtleLastSender[this:GetID()] = arg2
-        savedEvent = "TURTLE_TAKEOVER"
-        local nameString = arg2
-        local splitArray = string.split(arg1, '"')
-        local firstChunk = splitArray[1]
-        local firstChars = strsub(firstChunk, 1, 3)
-        if firstChars == "|| " then
-          nameString = ""
-          firstChunk = strsub(firstChunk, 4)
-        end
-        local newString = beginningQuoteFlag[this:GetID()] == 1 and (" |cffFFFFFF" .. firstChunk) or firstChunk
-        if getn(splitArray) > 1 then
-          for i in splitArray do
-            if i ~= 1 then
-              if (i - math.floor(i/2)*2) == 0 then -- this is even
-                local colorChange = beginningQuoteFlag[this:GetID()] == 1 and "|cffFF7E40" or "|cffFFFFFF"
-                local colorRevert = beginningQuoteFlag[this:GetID()] == 1 and "|cffFFFFFF" or "|cffFF7E40"
-                local finalQuoteToAdd = splitArray[i + 1] and '"' or ''
-                newString = newString .. colorChange .. '"' .. splitArray[i] .. finalQuoteToAdd .. colorRevert
-              else
-                newString = newString .. splitArray[i]
-              end
-            end
-          end
-        end
-        local body = format(TEXT(getglobal("CHAT_"..type.."_GET")) .. newString, "|cffFF7E40" .. nameString)
-        if nameString == "" then
-          body = "|cffFF7E40" .. newString
-        end
-
-        this:AddMessage(body)
-      end
-    end
-    oldChatFrame_OnEvent(savedEvent)
-  end
-
-end
 
 -----
 -- Building interfaces to display data
@@ -398,8 +271,8 @@ function TurtleRP.populate_interface_user_data()
   TurtleRP_AdminSB_Content3_DescriptionScrollBox_DescriptionInput:SetText(TurtleRPCharacterInfo["description"])
   TurtleRP_AdminSB_Content4_NotesScrollBox_NotesInput:SetText(TurtleRPCharacterInfo["notes"])
 
-  TurtleRP_AdminSB_Content6_PVPButton:SetChecked(TurtleRPSettings["bgs"] == "on" and true or false)
-  TurtleRP_AdminSB_Content6_NameButton:SetChecked(TurtleRPSettings["name_size"] == "1" and true or false)
+  TurtleRP_AdminSB_Content5_PVPButton:SetChecked(TurtleRPSettings["bgs"] == "on" and true or false)
+  TurtleRP_AdminSB_Content5_NameButton:SetChecked(TurtleRPSettings["name_size"] == "1" and true or false)
 
   if TurtleRPCharacterInfo["currently_ic"] == "1" then
     TurtleRP_AdminSB_Content1_ICButton:SetChecked(true)
@@ -410,17 +283,17 @@ function TurtleRP.populate_interface_user_data()
   end
 
   if TurtleRPSettings["tray"] == "1" then
-    TurtleRP_AdminSB_Content6_TrayButton:SetChecked(true)
+    TurtleRP_AdminSB_Content5_TrayButton:SetChecked(true)
     TurtleRP_IconTray:Show()
   end
 
   if TurtleRPSettings["minimap_icon_size"] == "1" then
-    TurtleRP_AdminSB_Content6_MinimapButton:SetChecked(true)
+    TurtleRP_AdminSB_Content5_MinimapButton:SetChecked(true)
     TurtleRP_MinimapIcon_OpenAdmin:SetScale(1.25)
   end
 
   if TurtleRPSettings["hide_minimap_icon"] == "1" then
-    TurtleRP_AdminSB_Content6_HideMinimapButton:SetChecked(true)
+    TurtleRP_AdminSB_Content5_HideMinimapButton:SetChecked(true)
     TurtleRP_MinimapIcon:Hide()
   end
 
@@ -537,319 +410,9 @@ function TurtleRP.save_notes()
   TurtleRPCharacterInfo["notes"] = notes
 end
 
-----
--- Directory Manager
-----
-function TurtleRP.Directory_ScrollBar_Update()
-  if TurtleRP.directoryFrames == nil then
-    TurtleRP.directoryFrames = TurtleRP.makeDirectoryFrames()
-  end
-  local totalDirectoryChars = 0
-  for i, v in TurtleRPCharacters do
-    totalDirectoryChars = totalDirectoryChars + 1
-  end
-  FauxScrollFrame_Update(TurtleRP_AdminSB_Content5_DirectoryScrollBox, totalDirectoryChars, 7, 65)
-  local currentLine = FauxScrollFrame_GetOffset(TurtleRP_AdminSB_Content5_DirectoryScrollBox)
-  TurtleRP.renderDirectory(currentLine)
-end
-
-function TurtleRP.makeDirectoryFrames()
-  local framesCreated = 0
-  for i=1, 14 do
-    local directoryNameFrame = CreateFrame("Frame",  "TurtleRP_Directory_" .. i, TurtleRP_AdminSB_Content5_DirectoryScrollBox, "TurtleRP_Directory_Listing")
-    if i == 1 then
-      directoryNameFrame:SetPoint("TOPLEFT", TurtleRP_AdminSB_Content5, "TOPLEFT", 0, (i - 1) * -25)
-    else
-      directoryNameFrame:SetPoint("TOPLEFT", getglobal("TurtleRP_Directory_" .. (i-1)), "BOTTOMLEFT", 0, -1)
-    end
-    getglobal("TurtleRP_Directory_" .. i .. "_DetailsButton"):SetScript("OnClick", function()
-      for i=1, 14 do
-        getglobal("TurtleRP_Directory_" .. i .. "_DetailsFrame"):Hide()
-      end
-      local frameName = this:GetParent():GetName()
-      local playerName = getglobal(frameName .. "_DetailsFrame_NameText"):GetText()
-      getglobal(frameName .. '_DetailsFrame'):Show()
-    end)
-  end
-  return framesCreated
-end
-
-function TurtleRP.renderDirectory(directoryOffset)
-  local remadeArray = {}
-  local currentArrayNumber = 1
-  for i, v in TurtleRPCharacters do
-    if TurtleRPCharacters[i] and TurtleRPCharacters[i]['full_name'] ~= nil then
-      remadeArray[currentArrayNumber] = v
-      remadeArray[currentArrayNumber]['player_name'] = i
-      currentArrayNumber = currentArrayNumber + 1
-    end
-  end
-  local currentFrameNumber = 1
-  for i=directoryOffset, directoryOffset+13 do
-    getglobal("TurtleRP_Directory_" .. currentFrameNumber):Hide()
-    if remadeArray[i] then
-      local thisCharacter = remadeArray[i]
-      local thisFrameName = "TurtleRP_Directory_" .. currentFrameNumber
-      getglobal(thisFrameName):Show()
-      getglobal(thisFrameName .. "_NameText"):SetText(thisCharacter['full_name'])
-      getglobal(thisFrameName .. '_DetailsFrame_NameText'):SetText(thisCharacter['player_name'])
-      getglobal(thisFrameName .. '_StatusOffline'):Show()
-      if TurtleRPQueryablePlayers[thisCharacter['player_name']] then
-        if type(TurtleRPQueryablePlayers[thisCharacter['player_name']]) == "number" then
-          if TurtleRPQueryablePlayers[thisCharacter['player_name']] > time() - 65 then
-            getglobal(thisFrameName .. '_StatusOnline'):Show()
-          end
-        end
-      end
-    end
-    currentFrameNumber = currentFrameNumber + 1
-  end
-end
-
------
--- Icon Selector
------
-function TurtleRP.create_icon_selector()
-  TurtleRP_IconSelector:Show()
-  TurtleRP_IconSelector:SetFrameStrata("high")
-  TurtleRP_IconSelector_FilterSearchInput:SetFrameStrata("high")
-  TurtleRP_IconSelector_ScrollBox:SetFrameStrata("high")
-  if TurtleRP.iconFrames == nil then
-    TurtleRP.iconFrames = TurtleRP.makeIconFrames()
-  end
-  TurtleRP.iconSelectorFilter = ""
-  TurtleRP_IconSelector_FilterSearchInput:SetText("")
-  local currentLine = FauxScrollFrame_GetOffset(TurtleRP_IconSelector_ScrollBox)
-  TurtleRP.renderIcons((currentLine * 5))
-end
-
-function TurtleRP.Icon_ScrollBar_Update()
-  FauxScrollFrame_Update(TurtleRP_IconSelector_ScrollBox, 450, 250, 25)
-  local currentLine = FauxScrollFrame_GetOffset(TurtleRP_IconSelector_ScrollBox)
-  TurtleRP.renderIcons((currentLine * 5))
-end
-
-function TurtleRP.makeIconFrames()
-  local IconFrames = {}
-  local numberOnRow = 0
-  local currentRow = 0
-  for i=1,20 do
-    local thisIconFrame = CreateFrame("Button", "TurtleRPIcon_" .. i, TurtleRP_IconSelector_ScrollBox)
-    thisIconFrame:SetWidth(25)
-    thisIconFrame:SetHeight(25)
-    thisIconFrame:SetPoint("TOPLEFT", TurtleRP_IconSelector_ScrollBox, numberOnRow * 25, currentRow * -25)
-    thisIconFrame:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-    thisIconFrame:SetText(i)
-    thisIconFrame:SetFont("Fonts\\FRIZQT__.ttf", 0)
-    thisIconFrame:SetScript("OnClick", function()
-      local thisIconIndex = thisIconFrame:GetText()
-      TurtleRPCharacterInfo[TurtleRP.currentIconSelector] = thisIconIndex
-      TurtleRP.save_general()
-      TurtleRP.save_at_a_glance()
-      TurtleRP_IconSelector:Hide()
-    end)
-    IconFrames[i] = thisIconFrame
-    numberOnRow = numberOnRow + 1
-    if (i - math.floor(i/5)*5) == 0 then
-      currentRow = currentRow + 1
-      numberOnRow = 0
-    end
-  end
-  return IconFrames
-end
-
-function TurtleRP.renderIcons(iconOffset)
-  if TurtleRP.iconFrames ~= nil then
-    local filteredIcons = {}
-    local numberAdded = 0
-    for i, iconName in ipairs(TurtleRPIcons) do
-      if TurtleRP.iconSelectorFilter ~= "" then
-        if TurtleRPIcons[i + iconOffset] ~= nil then
-          if string.find(string.lower(TurtleRPIcons[i + iconOffset]), string.lower(TurtleRP.iconSelectorFilter)) then
-            filteredIcons[numberAdded + 1] = i + iconOffset
-            numberAdded = numberAdded + 1
-          end
-        end
-      else
-        filteredIcons[numberAdded + 1] = i + iconOffset
-        numberAdded = numberAdded + 1
-      end
-    end
-    for i, iconFrame in ipairs(TurtleRP.iconFrames) do
-      if filteredIcons[i + iconOffset] ~= nil and TurtleRPIcons[filteredIcons[i + iconOffset]] ~= nil then
-        iconFrame:SetText(filteredIcons[i + iconOffset])
-        iconFrame:SetBackdrop({ bgFile = "Interface\\Icons\\" .. TurtleRPIcons[filteredIcons[i + iconOffset]] })
-      else
-        iconFrame:SetBackdrop(nil)
-      end
-    end
-  end
-end
-
------
--- Interface helpers
------
-function TurtleRP.escapeFocusFromChatbox()
-  local existingWorldFrameFunctions = WorldFrame:GetScript("OnMouseDown")
-  WorldFrame:SetScript("OnMouseDown", function()
-    if TurtleRP.editingChatBox then
-      TurtleRP_ChatBox_TextScrollBox_TextInput:ClearFocus()
-      TurtleRP.editingChatBox = false
-    end
-    if existingWorldFrameFunctions then
-      existingWorldFrameFunctions()
-    end
-  end)
-end
-
-function TurtleRP.IconTrayMover(actionType, frame)
-  if actionType == "mousedown" then
-    local newLeft = frame:GetLeft()
-    local newTop = frame:GetTop()
-    TurtleRP.movingIconTray = newLeft * newTop
-  else
-    local newLeft = frame:GetLeft()
-    local newTop = frame:GetTop()
-    if TurtleRP.movingIconTray ~= (newLeft * newTop) then
-      TurtleRP.movingIconTray = true
-    else
-      TurtleRP.movingIconTray = nil
-    end
-  end
-end
-
-
-function TurtleRP.BindFrameToWorldFrame(frame)
-	local scale = UIParent:GetEffectiveScale();
-	frame:SetParent(WorldFrame);
-	frame:SetScale(scale);
-end
-
-function TurtleRP.BindFrameToUIParent(frame)
-	frame:SetParent(UIParent);
-	frame:SetScale(1);
-end
-
-function TurtleRP.EnableRPMode()
-	TurtleRP.BindFrameToWorldFrame(GameTooltip);
-	TurtleRP.BindFrameToWorldFrame(ChatFrameEditBox);
-	TurtleRP.BindFrameToWorldFrame(ChatFrameMenuButton);
-	TurtleRP.BindFrameToWorldFrame(ChatMenu);
-	TurtleRP.BindFrameToWorldFrame(EmoteMenu);
-	TurtleRP.BindFrameToWorldFrame(LanguageMenu);
-	TurtleRP.BindFrameToWorldFrame(VoiceMacroMenu);
-	--TurtleRP.BindFrameToWorldFrame(TurtleRPInfobox);
-	for i = 1, 7 do
-    TurtleRP.BindFrameToWorldFrame(TurtleRP_IconTray)
-		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i));
-		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i .. "Tab"));
-		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i .. "TabDockRegion"));
-	end
-	TurtleRP.RPMode = 1;
-	CloseAllWindows();
-	UIParent:Hide();
-end
-
-function TurtleRP.DisableRPMode()
-	TurtleRP.BindFrameToUIParent(GameTooltip);
-	GameTooltip:SetFrameStrata("TOOLTIP");
-	TurtleRP.BindFrameToUIParent(ChatFrameEditBox);
-	ChatFrameEditBox:SetFrameStrata("DIALOG");
-	TurtleRP.BindFrameToUIParent(ChatFrameMenuButton);
-	ChatFrameMenuButton:SetFrameStrata("DIALOG");
-	TurtleRP.BindFrameToUIParent(ChatMenu);
-	ChatMenu:SetFrameStrata("DIALOG");
-	TurtleRP.BindFrameToUIParent(EmoteMenu);
-	EmoteMenu:SetFrameStrata("DIALOG");
-	TurtleRP.BindFrameToUIParent(LanguageMenu);
-	LanguageMenu:SetFrameStrata("DIALOG");
-	TurtleRP.BindFrameToUIParent(VoiceMacroMenu);
-	VoiceMacroMenu:SetFrameStrata("DIALOG");
-	--TurtleRP.BindFrameToUIParent(TurtleRPInfobox);
-	for i = 1, 7 do
-    TurtleRP.BindFrameToUIParent(TurtleRP_IconTray)
-		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i));
-		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i .. "Tab"));
-		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i .. "TabDockRegion"));
-	end
-	TurtleRP.RPMode = 0;
-	UIParent:Show();
-end
-
-function TurtleRP.OpenAdmin()
-  UIPanelWindows["TurtleRP_AdminSB"] = { area = "left", pushable = 0 }
-
-  ShowUIPanel(TurtleRP_AdminSB)
-
-  TurtleRP_AdminSB_Tab1:SetNormalTexture("Interface\\Icons\\Spell_Nature_MoonGlow")
-  TurtleRP_AdminSB_Tab1.tooltip = "Profile"
-  TurtleRP_AdminSB_Tab1:Show()
-
-  TurtleRP_AdminSB_Tab2:SetNormalTexture("Interface\\Icons\\INV_Misc_Head_Human_02")
-  TurtleRP_AdminSB_Tab2.tooltip = "At A Glance"
-  TurtleRP_AdminSB_Tab2:Show()
-
-  TurtleRP_AdminSB_Tab3:SetNormalTexture("Interface\\Icons\\INV_Misc_StoneTablet_11")
-  TurtleRP_AdminSB_Tab3.tooltip = "Description"
-  TurtleRP_AdminSB_Tab3:Show()
-
-  TurtleRP_AdminSB_Tab4:SetNormalTexture("Interface\\Icons\\INV_Letter_03")
-  TurtleRP_AdminSB_Tab4.tooltip = "Notes"
-  TurtleRP_AdminSB_Tab4:Show()
-
-  TurtleRP_AdminSB_Tab5:SetNormalTexture("Interface\\Icons\\Spell_Holy_InnerFire")
-  TurtleRP_AdminSB_Tab5.tooltip = "Directory"
-  TurtleRP_AdminSB_Tab5:Show()
-
-  TurtleRP_AdminSB_Tab6:SetNormalTexture("Interface\\Icons\\Trade_Engineering")
-  TurtleRP_AdminSB_Tab6.tooltip = "Settings"
-  TurtleRP_AdminSB_Tab6:Show()
-
-  TurtleRP_AdminSB_Tab7:SetNormalTexture("Interface\\Icons\\INV_Misc_QuestionMark")
-  TurtleRP_AdminSB_Tab7.tooltip = "About / Help"
-  TurtleRP_AdminSB_Tab7:Show()
-
-  TurtleRP.OnAdminTabClick(1)
-end
-
-function TurtleRP.OnAdminTabClick(id)
-  for i=1, 7 do
-    if i ~= id then
-      getglobal("TurtleRP_AdminSB_Tab"..i):SetChecked(0)
-      getglobal("TurtleRP_AdminSB_Content"..i):Hide()
-    else
-      getglobal("TurtleRP_AdminSB_Tab"..i):SetChecked(1)
-      getglobal("TurtleRP_AdminSB_Content"..i):Show()
-    end
-  end
-end
-
-function TurtleRP.showColorPicker(r, g, b, a, changedCallback)
- ColorPickerFrame:SetColorRGB(r, g, b);
- ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = (a ~= nil), a;
- ColorPickerFrame.previousValues = {r,g,b,a};
- ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = changedCallback, changedCallback, changedCallback;
- ColorPickerFrame:Hide(); -- Need to run the OnShow handler.
- ColorPickerFrame:Show();
-end
-
-function TurtleRP.colorPickerCallback(restore)
-  local newR, newG, newB, newA;
-  if restore then
-    newR, newG, newB, newA = unpack(restore);
-  else
-    newA, newR, newG, newB = OpacitySliderFrame:GetValue(), ColorPickerFrame:GetColorRGB();
-  end
-
-  local r, g, b, a = newR, newG, newB, newA;
-  local hex = TurtleRP.rgb2hex(r, g, b)
-  TurtleRP_AdminSB_Content1_ClassColorButton:SetBackdropColor(r, g, b)
-  TurtleRPCharacterInfo['class_color'] = hex
-end
 -----
 -- Utility
 -----
-
 function string:split(delimiter)
     local result = {}
     local from = 1

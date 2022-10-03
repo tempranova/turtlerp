@@ -27,13 +27,66 @@ DR
 
 ]]
 
-----
--- Player communication
-----
-
 local lastRequestType = nil
 local lastPlayerName = nil
 local timeOfLastSend = time()
+
+-----
+-- Interface interaction for communication and display
+-----
+function TurtleRP.mouseover_and_target_events()
+
+  -- Player target
+  local TurtleRPTargetFrame = CreateFrame("Frame")
+  TurtleRPTargetFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
+  TurtleRPTargetFrame:SetScript("OnEvent",
+  	function(self, event, ...)
+      if (IsInInstance() == "pvp" and TurtleRPSettings["bgs"] == "off") or IsInInstance() ~= "pvp" then
+        if (UnitIsPlayer("target")) then
+          if UnitName("target") == UnitName("player") then
+            TurtleRP.buildTargetFrame(UnitName("player"))
+          else
+            TurtleRP_Target:Hide()
+            TurtleRP.sendRequestForData("T", UnitName("target"))
+          end
+        else
+          TurtleRP_Target:Hide()
+        end
+      end
+  	end
+  )
+
+  -- Other player mouseover
+  local TurtleRPMouseoverFrame = CreateFrame("Frame")
+  TurtleRPMouseoverFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+  TurtleRPMouseoverFrame:RegisterEvent("CURSOR_UPDATE")
+  TurtleRPMouseoverFrame:SetScript("OnEvent",function(self, event)
+      -- Ensuring defaults are in place
+      if (IsInInstance() == "pvp" and TurtleRPSettings["bgs"] == "off") or IsInInstance() ~= "pvp" then
+        if (UnitIsPlayer("mouseover")) then
+          TurtleRP.sendRequestForData("M", UnitName("mouseover"))
+        end
+      end
+  end)
+
+  -- Self target mouseover frame (preview of self mouseover)
+  TurtleRP.targetFrame:EnableMouse()
+  local defaultTargetFrameFunction = TurtleRP.targetFrame:GetScript("OnEnter")
+  TurtleRP.targetFrame:SetScript("OnEnter",
+    function()
+      defaultTargetFrameFunction()
+      if (IsInInstance() == "pvp" and TurtleRPSettings["bgs"] == "off") or IsInInstance() ~= "pvp" then
+        if(UnitName("target") == UnitName("player")) then
+          TurtleRP.buildTooltip(UnitName("player"), "target")
+        end
+      end
+    end
+  )
+end
+
+----
+-- Chat setup
+----
 
 -- This function often runs too early
 function TurtleRP.communication_prep()
@@ -134,6 +187,10 @@ function TurtleRP.communication_events()
   end)
 
 end
+
+----
+-- Player communication
+----
 
 function TurtleRP.sendRequestForData(requestType, playerName)
   if timeOfLastSend < (time() - 2) or lastRequestType ~= requestType then

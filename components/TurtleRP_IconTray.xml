@@ -2,7 +2,7 @@
 
   <Frame name="TurtleRP_IconTray" parent="UIParent" toplevel="true" movable="true" enableMouse="true" hidden="true">
     <Size>
-      <AbsDimension x="75" y="24" />
+      <AbsDimension x="100" y="50" />
     </Size>
     <Anchors>
       <Anchor point="TOPRIGHT">
@@ -213,6 +213,133 @@
           <OnClick>
             if TurtleRP.movingIconTray == nil then
               TurtleRP.OpenAdmin()
+            end
+          </OnClick>
+          <OnMouseDown>
+            TurtleRP_IconTray:StartMoving()
+            TurtleRP.IconTrayMover('mousedown', this)
+          </OnMouseDown>
+          <OnMouseUp>
+            TurtleRP_IconTray:StopMovingOrSizing()
+            TurtleRP.IconTrayMover('mouseup', this)
+          </OnMouseUp>
+        </Scripts>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+      </Button>
+
+      <Button name="$parent_DirectoryButton" inherits="UIPanelButtonGrayTemplate" movable="true">
+        <Size>
+          <AbsDimension x="25" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent_RPModeButton" relativePoint="BOTTOMLEFT">
+            <Offset>
+              <AbsDimension x="0" y="2"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="OVERLAY">
+            <Texture file="Interface\Addons\TurtleRP\images\directory-icon">
+              <Size x="12" y="12"/>
+              <Anchors>
+                <Anchor point="CENTER" />
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
+        <Scripts>
+          <OnClick>
+            if TurtleRP.movingIconTray == nil then
+              TurtleRP.OpenDirectory()
+            end
+          </OnClick>
+          <OnMouseDown>
+            TurtleRP_IconTray:StartMoving()
+            TurtleRP.IconTrayMover('mousedown', this)
+          </OnMouseDown>
+          <OnMouseUp>
+            TurtleRP_IconTray:StopMovingOrSizing()
+            TurtleRP.IconTrayMover('mouseup', this)
+          </OnMouseUp>
+        </Scripts>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+      </Button>
+
+
+      <Button name="$parent_HelmButton" inherits="UIPanelButtonGrayTemplate" movable="true">
+        <Size>
+          <AbsDimension x="25" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent_DirectoryButton" relativePoint="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="0" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="OVERLAY">
+            <Texture file="Interface\Addons\TurtleRP\images\helm-icon">
+              <Size x="14" y="14"/>
+              <Anchors>
+                <Anchor point="CENTER" />
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
+        <Scripts>
+          <OnClick>
+            if TurtleRP.movingIconTray == nil then
+              if ShowingHelm() == 1 then
+                ShowHelm(false)
+              else
+                ShowHelm(true)
+              end
+            end
+          </OnClick>
+          <OnMouseDown>
+            TurtleRP_IconTray:StartMoving()
+            TurtleRP.IconTrayMover('mousedown', this)
+          </OnMouseDown>
+          <OnMouseUp>
+            TurtleRP_IconTray:StopMovingOrSizing()
+            TurtleRP.IconTrayMover('mouseup', this)
+          </OnMouseUp>
+        </Scripts>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+      </Button>
+
+
+      <Button name="$parent_CloakButton" inherits="UIPanelButtonGrayTemplate" movable="true">
+        <Size>
+          <AbsDimension x="25" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent_HelmButton" relativePoint="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="0" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="OVERLAY">
+            <Texture file="Interface\Icons\INV_Misc_Cape_10">
+              <Size x="13" y="13"/>
+              <Anchors>
+                <Anchor point="CENTER" />
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
+        <Scripts>
+          <OnClick>
+            if TurtleRP.movingIconTray == nil then
+              if ShowingCloak() == 1 then
+                ShowCloak(false)
+              else
+                ShowCloak(true)
+              end
             end
           </OnClick>
           <OnMouseDown>
