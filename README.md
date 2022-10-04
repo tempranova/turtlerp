@@ -10,8 +10,6 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 Tests
 
-- Test when drunk (SLURRED_SPEECH)
-
 Bugs
 
 - Tooltips with icons result in inconsistent spacing
@@ -30,6 +28,10 @@ After beta
 
 ### Recently Done
 
+1.1.0
+
+- No more drunk texting
+- TurtleRP_ChatBox now visible in RP mode
 - Directory layout and scroller
 - Showing online/offline status
 - Ability to query mouseover (two second delay between requests required, possible bug as well)
@@ -40,6 +42,8 @@ After beta
 - Type into bottom search to filter by full name or player name
 - Selection between Zone and Character Name listing, both sortable
 - Sending zone along with ping
+
+1.0.0 same as 0.1.4
 
 0.1.4
 

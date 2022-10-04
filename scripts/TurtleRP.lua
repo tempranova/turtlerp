@@ -9,7 +9,7 @@
 TurtleRP.TestMode = 0
 
 -- Dev
-TurtleRP.currentVersion = "0.1.3"
+TurtleRP.currentVersion = "1.0.0"
 -- Chat
 TurtleRP.channelName = "TTRP"
 TurtleRP.channelIndex = 0
@@ -454,6 +454,20 @@ function TurtleRP.validateBeforeSaving(data)
   else
     return data
   end
+end
+
+function TurtleRP.DrunkEncode(text)
+	text = string.gsub(text, "s", "°");
+	text = string.gsub(text, "S", "§");
+	return text;
+end
+
+function TurtleRP.DrunkDecode(text)
+  local DrunkSuffix = string.gsub(SLURRED_SPEECH, "%%s(.+)", "%1$"); -- remove "%s" from the localized " ...hic!" text;
+	text = string.gsub(text, "°", "s");
+	text = string.gsub(text, "§", "S");
+	text = string.gsub(text, DrunkSuffix, ""); -- likely only needed if decoding an entire message
+	return text;
 end
 
 function TurtleRP.log(msg)

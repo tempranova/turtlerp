@@ -211,6 +211,7 @@ end
 
 function TurtleRP.checkChatMessage(msg, playerName)
   -- If it's requesting data from me
+  msg = TurtleRP.DrunkDecode(msg)
   if string.find(msg, ':') then
     local colonStart, colonEnd = string.find(msg, ':')
     local dataPrefix = string.sub(msg, 1, colonEnd - 1)
@@ -444,5 +445,5 @@ function TurtleRP.pingWithLocation(message)
 end
 
 function TurtleRP.ttrpChatSend(message)
-  ChatThrottleLib:SendChatMessage("NORMAL", TurtleRP.channelName, message, "CHANNEL", nil, GetChannelName(TurtleRP.channelName))
+  ChatThrottleLib:SendChatMessage("NORMAL", TurtleRP.channelName, TurtleRP.DrunkEncode(message), "CHANNEL", nil, GetChannelName(TurtleRP.channelName))
 end
