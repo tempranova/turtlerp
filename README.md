@@ -19,7 +19,8 @@ Bugs
 
 Next Up
 
-- Directory:
+- Merge with master
+- Start a new branch from this for mapping
 
 After beta
 
