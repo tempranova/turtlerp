@@ -266,7 +266,7 @@
             </Anchors>
             <Layers>
               <Layer level="ARTWORK">
-                <FontString name="$parent_ButtonText" inherits="GameFontHighlightSmall" text="Click a name to view more details!">
+                <FontString name="$parent_InfoText" inherits="GameFontHighlightSmall" text="Click a name to view more details.">
                   <Anchors>
                     <Anchor point="RIGHT" relativePoint="RIGHT">
                       <Offset>
@@ -661,9 +661,9 @@
               <AbsDimension x="85" y="22"/>
             </Size>
             <Anchors>
-              <Anchor point="RIGHT" relativeTo="WhoFrameAddFriendButton" relativePoint="LEFT">
+              <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT">
                 <Offset>
-                  <AbsDimension x="0" y="0"/>
+                  <AbsDimension x="20" y="83"/>
                 </Offset>
               </Anchor>
             </Anchors>

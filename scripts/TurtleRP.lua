@@ -10,12 +10,17 @@ TurtleRP.TestMode = 0
 
 -- Dev
 TurtleRP.currentVersion = "1.1.0"
+TurtleRP.latestVersion = TurtleRP.currentVersion
 -- Chat
 TurtleRP.channelName = "TTRP"
 TurtleRP.channelIndex = 0
 TurtleRP.timeBetweenPings = 30
 TurtleRP.currentlyRequestedData = nil
 TurtleRP.disableMessageSending = nil
+TurtleRP.sendingLongForm = nil
+TurtleRP.errorMessage = nil
+TurtleRP.sendWithError = nil
+TurtleRP.errorOpen = nil
 -- Interface
 TurtleRP.iconFrames = nil
 TurtleRP.directoryFrames = nil
@@ -136,11 +141,11 @@ function TurtleRP:OnEvent()
     end
 
     -- Intro message
-    TurtleRP.log("Welcome, " .. TurtleRPCharacterInfo["full_name"] .. ", to TurtleRP.")
-    TurtleRP.log("Type |ccfFF0000/ttrp |ccfFFFFFFto open the addon.")
+    TurtleRP.log("Welcome, |cff8C48AB" .. TurtleRPCharacterInfo["full_name"] .. "|ccfFFFFFF, to TurtleRP.")
+    TurtleRP.log("Type |cff8C48AB/ttrp |ccfFFFFFFto open the addon.")
 
     if GetRealmName() == "Turtle WoW" and UnitLevel("player") < 5 and UnitLevel("player") ~= 0 then
-      TurtleRP.log("|ccfFF0000Sorry, but due to Turtle WoW restrictions you can't access other player's TurtleRP profiles until level 5.")
+      TurtleRP.log("|cff8C48ABSorry, but due to Turtle WoW restrictions you can't access other player's TurtleRP profiles until level 5.")
     end
 
     TurtleRP.communication_prep()

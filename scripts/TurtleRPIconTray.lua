@@ -41,6 +41,7 @@ function TurtleRP.EnableRPMode()
 	--TurtleRP.BindFrameToWorldFrame(TurtleRPInfobox);
 	for i = 1, 7 do
     TurtleRP.BindFrameToWorldFrame(TurtleRP_IconTray)
+    TurtleRP.BindFrameToWorldFrame(TurtleRP_ChatBox)
 		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i));
 		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i .. "Tab"));
 		TurtleRP.BindFrameToWorldFrame(getglobal("ChatFrame" .. i .. "TabDockRegion"));
@@ -68,6 +69,7 @@ function TurtleRP.DisableRPMode()
 	--TurtleRP.BindFrameToUIParent(TurtleRPInfobox);
 	for i = 1, 7 do
     TurtleRP.BindFrameToUIParent(TurtleRP_IconTray)
+    TurtleRP.BindFrameToUIParent(TurtleRP_ChatBox)
 		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i));
 		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i .. "Tab"));
 		TurtleRP.BindFrameToUIParent(getglobal("ChatFrame" .. i .. "TabDockRegion"));

@@ -12,13 +12,12 @@ Tests
 
 Bugs
 
-- Tooltips with icons result in inconsistent spacing
-- A few blank lines are added on bottom of Shagu tooltips occasionally
+- Color pick is sometimes connected to other color picker instances
+- Not disabled in BGs
 
 Next Up
 
-- Merge with master
-- Start a new branch from this for mapping
+- Showing data for the section of the map the user is currently looking at (?)
 
 After beta
 
@@ -32,6 +31,7 @@ After beta
 
 - Directory layout and scroller
 - Showing online/offline status
+- Correcting issues with missing line breaks in non-HTML descriptions (?)
 - Ability to query mouseover (two second delay between requests required, possible bug as well)
   - Can't show guild
 - /ttrp dir or /ttrp directory opens directory
@@ -40,11 +40,19 @@ After beta
 - Type into bottom search to filter by full name or player name
 - Selection between Zone and Character Name listing, both sortable
 - Sending zone along with ping
+- Find other RPers on a map when entering a zone (must be in the zone, updated every 30 sec)
+- Permissions for sharing exact location with other players
+- Improving chat error catching
+  - Confirmation required when sending any emote with odd "s (long or short form)
+- Version tracker (chat message and note in admin panel)
+- Resetting defaults on tooltip mouseovers (PFUI issue with sticking icon + font size)
 
 1.0.1 (not released)
 
 - No more drunk texting
 - TurtleRP_ChatBox now visible in RP mode
+- Longer description
+- Longer notes 
 
 1.0.0 same as 0.1.4
 

@@ -107,6 +107,15 @@
             </Anchor>
           </Anchors>
         </FontString>
+        <FontString name="$parent_UpdateText" inherits="GameFontHighlightSmall" text="A new version of TurtleRP is available." hidden="true">
+          <Anchors>
+            <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+              <Offset>
+                <AbsDimension x="-45" y="-50"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
         <FontString name="$parent_PageText" inherits="GameFontNormal">
           <Size>
             <AbsDimension x="102" y="0"/>
@@ -1399,7 +1408,7 @@
               <!-- Notes Input Box -->
               <EditBox name="$parent_NotesInput" visible="true" enableMouse="true" autoFocus="false">
                 <Size>
-                  <AbsDimension x="280" y="300" />
+                  <AbsDimension x="280" y="2000" />
                 </Size>
                 <Anchors>
                   <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">

@@ -91,7 +91,7 @@ end
 -- This function often runs too early
 function TurtleRP.communication_prep()
   if UnitLevel("player") > 4 then
-    TurtleRP.pingWithLocation("A")
+    TurtleRP.pingWithLocationAndVersion("A")
   end
 
   local TurtleRPChannelJoinDelay = CreateFrame("Frame")
@@ -115,7 +115,7 @@ end
 
 function TurtleRP.send_ping_message()
   if UnitLevel("player") > 4 then
-    TurtleRP.pingWithLocation("P")
+    TurtleRP.pingWithLocationAndVersion("P")
   end
 
   local TurtleRPChannelPingDelay = CreateFrame("Frame")
@@ -133,7 +133,7 @@ function TurtleRP.send_ping_message()
     if gt >= st then
       if TurtleRP.disableMessageSending == nil then
         if UnitLevel("player") > 4 then
-          TurtleRP.pingWithLocation("P")
+          TurtleRP.pingWithLocationAndVersion("P")
         end
       end
       TurtleRPChannelPingDelay:Hide()
@@ -156,11 +156,11 @@ function TurtleRP.checkTTRPChannel()
   if TurtleRP.channelIndex == 0 then
     JoinChannelByName(TurtleRP.channelName)
     if UnitLevel("player") > 4 then
-      TurtleRP.pingWithLocation("A")
+      TurtleRP.pingWithLocationAndVersion("A")
     end
   else
     if UnitLevel("player") > 4 then
-      TurtleRP.pingWithLocation("A")
+      TurtleRP.pingWithLocationAndVersion("A")
     end
   end
 end
@@ -381,6 +381,13 @@ function TurtleRP.recievePingInformation(playerName, msg)
       TurtleRPCharacters[playerName]['zoneX'] = zoneX
       TurtleRPCharacters[playerName]['zoneY'] = zoneY
     end
+    if splitString[4] then
+      if TurtleRP.latestVersion ~= splitString[4] then
+        TurtleRP.latestVersion = splitString[4]
+        TurtleRP_AdminSB_UpdateText:Show()
+        TurtleRP.log("|cff8C48ABA new version of TurtleRP is available (" .. TurtleRP.latestVersion ..  ")! Please update to have access to more features.")
+      end
+    end
   end
 end
 
@@ -410,35 +417,6 @@ function TurtleRP.displayData(dataPrefix, playerName)
   end
 end
 
-function TurtleRP.SendLongFormMessage(type, message)
-  local splitMessage = string.split(message, " ")
-  local currentCharCount = 0
-  local currentMessageString = ""
-  local emotePrefix = ""
-  if type == "Emote" then
-    emotePrefix = "|| "
-  end
-  for i, v in splitMessage do
-    local stringLength = strlen(v)
-    local sendMessage = false
-    currentCharCount = currentCharCount + stringLength
-    if splitMessage[i + 1] then
-      if (strlen(splitMessage[i + 1]) + currentCharCount) > 200 then
-        sendMessage = true
-      end
-    else
-      sendMessage = true
-    end
-    local extraSpace = currentMessageString == "" and (emotePrefix .. "") or " "
-    currentMessageString = currentMessageString .. extraSpace .. v
-    if sendMessage then
-      ChatThrottleLib:SendChatMessage("NORMAL", "TTRP", currentMessageString, type)
-      currentMessageString = ""
-      currentCharCount = 0
-    end
-  end
-end
-
 function TurtleRP.splitByChunk(text, chunkSize)
     local splitLength = 200
     local sz = math.ceil(strlen(text) / splitLength)
@@ -452,14 +430,14 @@ function TurtleRP.splitByChunk(text, chunkSize)
     return chunksToReturn
 end
 
-function TurtleRP.pingWithLocation(message)
+function TurtleRP.pingWithLocationAndVersion(message)
   local revisedMessage = message
   message = message .. GetZoneText()
   if TurtleRPSettings['share_location'] == "1" then
     local zoneX, zoneY = GetPlayerMapPosition("player")
-    message = message .. "~" .. math.floor(zoneX * 10000)/10000 .. "~" .. math.floor(zoneY * 10000)/10000
+    message = message .. "~" .. math.floor(zoneX * 10000)/10000 .. "~" .. math.floor(zoneY * 10000)/10000 .. "~" .. TurtleRP.currentVersion
   else
-    message = message .. "~false~false"
+    message = message .. "~false~false~" .. TurtleRP.currentVersion
   end
   TurtleRP.ttrpChatSend(message)
 end

@@ -197,7 +197,6 @@
               local chatType = TurtleRP_ChatBox_ChatTypeDropdown_Text:GetText()
               local messageText = TurtleRP_ChatBox_TextScrollBox_TextInput:GetText()
               TurtleRP.SendLongFormMessage(chatType, messageText)
-              TurtleRP_ChatBox_TextScrollBox_TextInput:SetText("")
             else
               _ERRORMESSAGE('Please select a chat type for your message.')
             end
