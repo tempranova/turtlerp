@@ -832,4 +832,38 @@
     </Frames>
   </Frame>
 
+  <Frame name="TurtleRP_WorldMapUnitTemplate" hidden="true" virtual="true">
+    <Size>
+      <AbsDimension x="16" y="16"/>
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER"/>
+    </Anchors>
+    <Layers>
+      <Layer level="ARTWORK">
+        <Texture name="$parentIcon" file="Interface\Addons\TurtleRP\images\WorldMapPlayerIconTRP" setAllPoints="true">
+          <Size>
+            <AbsDimension x="16" y="16"/>
+          </Size>
+        </Texture>
+      </Layer>
+    </Layers>
+    <Scripts>
+      <OnEnter>
+        local x, y = this:GetCenter();
+        local parentX, parentY = this:GetParent():GetCenter();
+        if ( x > parentX ) then
+          WorldMapTooltip:SetOwner(this, "ANCHOR_LEFT");
+        else
+          WorldMapTooltip:SetOwner(this, "ANCHOR_RIGHT");
+        end
+        WorldMapTooltip:SetText(this.full_name);
+        WorldMapTooltip:Show();
+      </OnEnter>
+      <OnLeave>
+        WorldMapTooltip:Hide();
+      </OnLeave>
+    </Scripts>
+  </Frame>
+
 </Ui>

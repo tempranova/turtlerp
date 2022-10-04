@@ -10,22 +10,74 @@ function TurtleRP.OpenDirectory()
 end
 
 ----
+-- Map Directory Display
+----
+function TurtleRP.display_nearby_players()
+  local worldMapFrameOnOpen = WorldMapFrame:GetScript("OnShow")
+  WorldMapFrame:SetScript("OnShow", function()
+    if worldMapFrameOnOpen then
+      worldMapFrameOnOpen()
+    end
+    local onlinePlayers = TurtleRP.get_players_online()
+    local createdFrames = 1
+    for i, v in onlinePlayers do
+      if i ~= UnitName("player") then
+        if TurtleRPCharacters[i] and TurtleRPCharacters[i]['zone'] == GetZoneText() then
+          if TurtleRPCharacters[i]['zoneX'] and TurtleRPCharacters[i]['zoneY'] then
+            if TurtleRPCharacters[i]['zoneX'] ~= "false" and TurtleRPCharacters[i]['zoneY'] ~= "false" then
+              local zoneX = tonumber(TurtleRPCharacters[i]['zoneX'])
+              local zoneY = tonumber(TurtleRPCharacters[i]['zoneY'])
+              local playerPositionFrame = getglobal("TurtleRP_MapPlayerPosition_" .. createdFrames)
+              if playerPositionFrame == nil then
+                playerPositionFrame = CreateFrame("Button", "TurtleRP_MapPlayerPosition_" .. createdFrames, WorldMapDetailFrame, "TurtleRP_WorldMapUnitTemplate")
+                TurtleRP.locationFrames[getn(TurtleRP.locationFrames) + 1] = { playerPositionFrame }
+              end
+              local mapWidth = WorldMapDetailFrame:GetWidth()
+              local mapLeft = WorldMapDetailFrame:GetLeft()
+              local mapHeight = WorldMapDetailFrame:GetHeight()
+              local mapLeft = WorldMapDetailFrame:GetLeft()
+              playerPositionFrame.full_name = TurtleRPCharacters[i]['full_name']
+              playerPositionFrame:SetPoint("CENTER", WorldMapDetailFrame, "TOPLEFT", zoneX * mapWidth, zoneY * mapHeight * -1)
+              playerPositionFrame:Show()
+              createdFrames = createdFrames + 1
+            else
+              if getglobal("TurtleRP_MapPlayerPosition_" .. createdFrames) then
+                getglobal("TurtleRP_MapPlayerPosition_" .. createdFrames):Hide()
+              end
+              createdFrames = createdFrames + 1
+            end
+          end
+        end
+      end
+    end
+  end)
+  local worldMapFrameOnHide = WorldMapFrame:GetScript("OnHide")
+  WorldMapFrame:SetScript("OnHide", function()
+    if worldMapFrameOnHide then
+      worldMapFrameOnHide()
+    end
+  end)
+end
+
+----
 -- Directory Scroll Manager
 ----
 function TurtleRP.Directory_ScrollBar_Update()
   local totalDirectoryChars = 0
   local totalDirectoryOnline = 0
   for i, v in TurtleRPCharacters do
-    if TurtleRPQueryablePlayers[i] then
-      totalDirectoryChars = totalDirectoryChars + 1
-      if type(TurtleRPQueryablePlayers[i]) == "number" then
-        if TurtleRPQueryablePlayers[i] > (time() - 65) then
-          totalDirectoryOnline = totalDirectoryOnline + 1
+    if TurtleRPCharacters[i]['full_name'] ~= nil then
+      if TurtleRPQueryablePlayers[i] then
+        totalDirectoryChars = totalDirectoryChars + 1
+        if type(TurtleRPQueryablePlayers[i]) == "number" then
+          if TurtleRPQueryablePlayers[i] > (time() - 65) then
+            totalDirectoryOnline = totalDirectoryOnline + 1
+          end
         end
       end
     end
   end
-  TurtleRP_DirectoryFrame_Directory_Total:SetText(totalDirectoryChars .. " profiles (" .. totalDirectoryOnline .. " online)")
+  TurtleRP_DirectoryFrame_Directory_Total:SetText(totalDirectoryChars .. " profiles saved (" .. totalDirectoryOnline .. " online)")
 
   FauxScrollFrame_Update(TurtleRP_DirectoryFrame_Directory_ScrollFrame, totalDirectoryChars, 17, 16)
   local currentLine = FauxScrollFrame_GetOffset(TurtleRP_DirectoryFrame_Directory_ScrollFrame)
@@ -89,6 +141,20 @@ function TurtleRP.renderDirectory(directoryOffset)
     end
     currentFrameNumber = currentFrameNumber + 1
   end
+end
+
+function TurtleRP.get_players_online()
+  local onlinePlayers = {}
+  for i, v in TurtleRPCharacters do
+    if TurtleRPQueryablePlayers[i] then
+      if type(TurtleRPQueryablePlayers[i]) == "number" then
+        if TurtleRPQueryablePlayers[i] > (time() - 65) then
+          onlinePlayers[i] = v
+        end
+      end
+    end
+  end
+  return onlinePlayers
 end
 
 function TurtleRP.OpenDirectoryListing(frame)

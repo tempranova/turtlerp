@@ -229,12 +229,7 @@ function TurtleRP.checkChatMessage(msg, playerName)
   else
     local firstLetter = string.sub(msg, 1, 1)
     if firstLetter == "P" or firstLetter == "A" then
-      local zoneText = string.sub(msg, 2)
-      TurtleRPQueryablePlayers[playerName] = time()
-      if TurtleRPCharacters[playerName] == nil then
-        TurtleRPCharacters[playerName] = {}
-      end
-      TurtleRPCharacters[playerName]['zone'] = zoneText
+      TurtleRP.recievePingInformation(playerName, msg)
     end
   end
 end
@@ -370,6 +365,25 @@ function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
   end
 end
 
+function TurtleRP.recievePingInformation(playerName, msg)
+  local zoneText = string.sub(msg, 2)
+  TurtleRPQueryablePlayers[playerName] = time()
+  if TurtleRPCharacters[playerName] == nil then
+    TurtleRPCharacters[playerName] = {}
+  end
+  TurtleRPCharacters[playerName]['zone'] = zoneText
+  if string.find(zoneText, '~') then
+    local splitString = string.split(zoneText, "~")
+    TurtleRPCharacters[playerName]['zone'] = splitString[1]
+    if splitString[2] and splitString[3] then
+      local zoneX = splitString[2]
+      local zoneY = splitString[3]
+      TurtleRPCharacters[playerName]['zoneX'] = zoneX
+      TurtleRPCharacters[playerName]['zoneY'] = zoneY
+    end
+  end
+end
+
 function TurtleRP.displayData(dataPrefix, playerName)
   if playerName == UnitName("mouseover") and (dataPrefix == "M" or dataPrefix == "MR") then
     TurtleRP.buildTooltip(playerName, "mouseover")
@@ -441,6 +455,12 @@ end
 function TurtleRP.pingWithLocation(message)
   local revisedMessage = message
   message = message .. GetZoneText()
+  if TurtleRPSettings['share_location'] == "1" then
+    local zoneX, zoneY = GetPlayerMapPosition("player")
+    message = message .. "~" .. math.floor(zoneX * 10000)/10000 .. "~" .. math.floor(zoneY * 10000)/10000
+  else
+    message = message .. "~false~false"
+  end
   TurtleRP.ttrpChatSend(message)
 end
 

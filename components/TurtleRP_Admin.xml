@@ -1507,6 +1507,20 @@
               </FontHeight>
               <Color r="0" g="0" b="0" />
             </FontString>
+            <!-- Share Location Setting Text -->
+            <FontString name="$parent_MinimapHideText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Share Map Location">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_MinimapHideText" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
           </Layer>
         </Layers>
         <Frames>
@@ -1624,6 +1638,30 @@
                   TurtleRPSettings["hide_minimap_icon"] = "0"
                   TurtleRP_MinimapIcon:Show()
                 end
+              </OnClick>
+            </Scripts>
+          </CheckButton>
+
+          <!-- Share Location Button -->
+          <CheckButton name="$parent_ShareLocationButton" inherits="UICheckButtonTemplate">
+            <Size>
+              <AbsDimension x="25" y="25" />
+            </Size>
+            <Anchors>
+              <Anchor point="RIGHT" relativeTo="$parent_HideMinimapButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="0" y="-20"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnClick>
+                if TurtleRPSettings["share_location"] == "0" then
+                  TurtleRPSettings["share_location"] = "1"
+                else
+                  TurtleRPSettings["share_location"] = "0"
+                end
+                TurtleRP.pingWithLocation("P")
               </OnClick>
             </Scripts>
           </CheckButton>
