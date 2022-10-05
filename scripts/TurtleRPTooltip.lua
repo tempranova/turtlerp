@@ -31,7 +31,7 @@ function TurtleRP.tooltip_events()
       getglobal("GameTooltipTextRight" .. i):SetFont(tooltipDefaults["tooltipFontRight" .. i .. "Name"], tooltipDefaults["tooltipFontRight" .. i .. "Height"], tooltipDefaults["tooltipFontRight" .. i .. "Flag"])
     end
     TurtleRP_Tooltip_Icon:Hide()
-    if defaultTooltipShowScript then
+    if defaultTooltipClearedScript then
       defaultTooltipClearedScript()
     end
   end)

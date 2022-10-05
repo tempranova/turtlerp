@@ -181,7 +181,7 @@ function TurtleRP.communication_events()
   CheckMessages:SetScript("OnEvent", function()
     if event == "CHAT_MSG_CHANNEL" then
       if arg9 == TurtleRP.channelName then
-        TurtleRP.checkChatMessage(arg1, arg2)
+        TurtleRP.checkChatMessage(TurtleRP.DrunkDecode(arg1), arg2)
       end
     end
   end)
@@ -210,8 +210,6 @@ function TurtleRP.sendRequestForData(requestType, playerName)
 end
 
 function TurtleRP.checkChatMessage(msg, playerName)
-  -- If it's requesting data from me
-  msg = TurtleRP.DrunkDecode(msg)
   if string.find(msg, ':') then
     local colonStart, colonEnd = string.find(msg, ':')
     local dataPrefix = string.sub(msg, 1, colonEnd - 1)
@@ -248,7 +246,7 @@ end
 
 function TurtleRP.getDataFromString(msg)
   local beginningOfData = strfind(msg, "~")
-  local dataSlice = strsub(arg1, beginningOfData)
+  local dataSlice = strsub(msg, beginningOfData)
   local splitArray = string.split(dataSlice, "~")
   return splitArray
 end
@@ -322,7 +320,7 @@ function TurtleRP.storeChunkedData(dataPrefix, playerName, stringData)
   return readyToProcess
 end
 
-function processAndStoreData(dataPrefix, playerName)
+function TurtleRP.processAndStoreData(dataPrefix, playerName)
   local splitString = string.split(TurtleRPCharacters[playerName]["temp" .. dataPrefix], "~")
   local dataToSave = TurtleRP.dataKeys(dataPrefix)
   for i, dataRef in ipairs(dataToSave) do
@@ -342,7 +340,7 @@ function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
   if dataPrefix == "MR" then
     local readyToProcess = TurtleRP.storeChunkedData(dataPrefix, playerName, stringData)
     if readyToProcess then
-      processAndStoreData(dataPrefix, playerName)
+      TurtleRP.processAndStoreData(dataPrefix, playerName)
       TurtleRP.displayData(dataPrefix, playerName)
       if playerName == UnitName("target") or playerName == UnitName("mouseover") then
         TurtleRP.SetNameFrameWidths(playerName)
@@ -352,14 +350,14 @@ function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
   if dataPrefix == "TR" then
     local readyToProcess = TurtleRP.storeChunkedData(dataPrefix, playerName, stringData)
     if readyToProcess then
-      processAndStoreData(dataPrefix, playerName)
+      TurtleRP.processAndStoreData(dataPrefix, playerName)
       TurtleRP.displayData(dataPrefix, playerName)
     end
   end
   if dataPrefix == "DR" then
     local readyToProcess = TurtleRP.storeChunkedData(dataPrefix, playerName, stringData)
     if readyToProcess then
-      processAndStoreData(dataPrefix, playerName)
+      TurtleRP.processAndStoreData(dataPrefix, playerName)
       TurtleRP.displayData(dataPrefix, playerName)
     end
   end
@@ -380,6 +378,7 @@ function TurtleRP.recievePingInformation(playerName, msg)
       local zoneY = splitString[3]
       TurtleRPCharacters[playerName]['zoneX'] = zoneX
       TurtleRPCharacters[playerName]['zoneY'] = zoneY
+      TurtleRP.display_nearby_players()
     end
     if splitString[4] then
       if TurtleRP.latestVersion ~= splitString[4] then
@@ -440,6 +439,20 @@ function TurtleRP.pingWithLocationAndVersion(message)
     message = message .. "~false~false~" .. TurtleRP.currentVersion
   end
   TurtleRP.ttrpChatSend(message)
+end
+
+function TurtleRP.DrunkEncode(text)
+	text = string.gsub(text, "s", "°");
+	text = string.gsub(text, "S", "§");
+	return text;
+end
+
+function TurtleRP.DrunkDecode(text)
+  local DrunkSuffix = string.gsub(SLURRED_SPEECH, "%%s(.+)", "%1$"); -- remove "%s" from the localized " ...hic!" text;
+	text = string.gsub(text, "°", "s");
+	text = string.gsub(text, "§", "S");
+	text = string.gsub(text, DrunkSuffix, ""); -- likely only needed if decoding an entire message
+	return text;
 end
 
 function TurtleRP.ttrpChatSend(message)

@@ -11,10 +11,7 @@
         </Offset>
       </Anchor>
     </Anchors>
-    <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
-      <EdgeSize>
-        <AbsValue val="0.5"/>
-      </EdgeSize>
+    <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
       <Color r="0" g="0" b="0" a="0" />
       <BorderColor r="255" g="255" b="255" a="0" />
     </Backdrop>
@@ -201,7 +198,7 @@
         </Anchors>
         <Layers>
           <Layer level="OVERLAY">
-            <Texture file="Interface\Addons\TurtleRP\images\wizardturtle">
+            <Texture name="$parent_TurtleIcon" file="Interface\Addons\TurtleRP\images\wizardturtle">
               <Size x="15" y="15"/>
               <Anchors>
                 <Anchor point="CENTER" />
@@ -240,7 +237,7 @@
         </Anchors>
         <Layers>
           <Layer level="OVERLAY">
-            <Texture file="Interface\Addons\TurtleRP\images\directory-icon">
+            <Texture name="$parent_DirectoryIcon" file="Interface\Addons\TurtleRP\images\directory-icon">
               <Size x="12" y="12"/>
               <Anchors>
                 <Anchor point="CENTER" />
@@ -280,7 +277,7 @@
         </Anchors>
         <Layers>
           <Layer level="OVERLAY">
-            <Texture file="Interface\Addons\TurtleRP\images\helm-icon">
+            <Texture name="$parent_HelmIcon" file="Interface\Addons\TurtleRP\images\helm-icon">
               <Size x="14" y="14"/>
               <Anchors>
                 <Anchor point="CENTER" />

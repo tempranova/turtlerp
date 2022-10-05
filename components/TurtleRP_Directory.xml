@@ -117,6 +117,21 @@
 
         PlaySound("igMainMenuOptionCheckBoxOn")
       </OnClick>
+      <OnEnter>
+        GameTooltip:SetOwner(this, "ANCHOR_RIGHT");
+        if getglobal(this:GetName() .. "Variable"):GetText() == nil then
+          if getglobal(this:GetName() .. "_StatusOnline"):IsVisible() then
+            GameTooltip:SetText("Click to view more information.");
+          else
+            GameTooltip:SetText("Player is offline, more details cannot be loaded.");
+          end
+        else
+          GameTooltip:SetText("Click to view more information.");
+        end
+      </OnEnter>
+      <OnLeave>
+        GameTooltip:Hide();
+      </OnLeave>
     </Scripts>
     <HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
       <Size>

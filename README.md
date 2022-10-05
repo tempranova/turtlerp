@@ -14,10 +14,11 @@ Bugs
 
 - Color pick is sometimes connected to other color picker instances
 - Not disabled in BGs
+- Custom colors for emotes get overwritten
 
 Next Up
 
-- Showing data for the section of the map the user is currently looking at (?)
+- Showing data for anywhere on the map
 
 After beta
 
@@ -52,7 +53,7 @@ After beta
 - No more drunk texting
 - TurtleRP_ChatBox now visible in RP mode
 - Longer description
-- Longer notes 
+- Longer notes
 
 1.0.0 same as 0.1.4
 
