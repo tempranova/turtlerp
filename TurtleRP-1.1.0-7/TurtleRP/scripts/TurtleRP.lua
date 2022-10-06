@@ -147,11 +147,8 @@ function TurtleRP:OnEvent()
     if GetRealmName() == "Turtle WoW" and UnitLevel("player") < 5 and UnitLevel("player") ~= 0 then
       TurtleRP.log("|cff8C48ABSorry, but due to Turtle WoW restrictions you can't access other player's TurtleRP profiles until level 5.")
     end
-    TurtleRP.log("TURTLE RP LOADED")
 
-    TurtleRP.log("RUNNING COMMS FUNCTION")
     TurtleRP.communication_prep()
-    TurtleRP.log("DONE COMSM FUNCTION")
     TurtleRP.send_ping_message()
 
     TurtleRP.populate_interface_user_data()

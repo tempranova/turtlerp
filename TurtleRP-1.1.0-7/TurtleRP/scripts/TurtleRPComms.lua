@@ -166,7 +166,6 @@ function TurtleRP.checkTTRPChannel()
 end
 
 function TurtleRP.communication_events()
-  TurtleRP.log("SET UP COMMS")
 
   TurtleRP_Target_DescriptionButton:SetScript("OnClick", function()
     if UnitName("target") == UnitName("player") then
@@ -181,7 +180,6 @@ function TurtleRP.communication_events()
   CheckMessages:RegisterEvent("CHAT_MSG_CHANNEL")
   CheckMessages:SetScript("OnEvent", function()
     if event == "CHAT_MSG_CHANNEL" then
-      TurtleRP.log("CHAT MESSAGE RUNNING")
       TurtleRP.log(arg9)
       TurtleRP.log(TurtleRP.channelName)
       if arg9 == TurtleRP.channelName then

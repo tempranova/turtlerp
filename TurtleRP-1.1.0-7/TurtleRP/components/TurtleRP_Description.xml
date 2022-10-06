@@ -1,0 +1,153 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+
+  <Frame name="TurtleRP_Description" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true">
+    <Size>
+      <AbsDimension x="350" y="300" />
+    </Size>
+    <Anchors>
+      <Anchor point="TOP">
+        <Offset>
+          <AbsDimension x="0" y="-100" />
+        </Offset>
+      </Anchor>
+    </Anchors>
+    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+      <BackgroundInsets>
+        <AbsInset left="11" right="12" top="12" bottom="11"/>
+      </BackgroundInsets>
+      <TileSize>
+        <AbsValue val="32"/>
+      </TileSize>
+      <EdgeSize>
+        <AbsValue val="32"/>
+      </EdgeSize>
+    </Backdrop>
+    <Layers>
+			<Layer level="OVERLAY">
+        <!-- Target Name Text -->
+        <FontString name="$parent_TargetName" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf">
+          <Anchors>
+            <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" >
+              <Offset>
+                <AbsDimension x="0" y="-15"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <FontHeight>
+            <AbsValue val="18" />
+          </FontHeight>
+          <Color r="255" g="255" b="255" />
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <!-- Close button -->
+      <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
+        <Size>
+          <AbsDimension x="25" y="25" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="2" y="2"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <!-- Description frame scrolling -->
+      <ScrollFrame name="$parent_DescriptionScrollBox" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
+        <Size>
+          <AbsDimension x="300" y="280" />
+        </Size>
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="TurtleRP_Description" relativePoint="LEFT">
+            <Offset>
+              <AbsDimension x="20" y="0" />
+            </Offset>
+          </Anchor>
+          <Anchor point="TOP" relativeTo="TurtleRP_Description" relativePoint="TOP">
+            <Offset>
+              <AbsDimension x="0" y="-50" />
+            </Offset>
+          </Anchor>
+          <Anchor point="BOTTOM" relativeTo="TurtleRP_Description" relativePoint="TOP">
+            <Offset>
+              <AbsDimension x="0" y="-265" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
+          <EdgeSize>
+            <AbsValue val="0.5"/>
+          </EdgeSize>
+          <Color r="1" g="1" b="1" a="0" />
+          <BorderColor r="255" g="255" b="255" a="0" />
+        </Backdrop>
+        <ScrollChild>
+          <Frame name="$parent_DescriptionHolder">
+            <Size>
+              <AbsDimension x="280" y="250" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="0" y="-30" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Frames>
+              <SimpleHTML name="$parent_DescriptionHTML">
+                <Size>
+                  <AbsDimension x="280" y="550" />
+                </Size>
+                <Anchors>
+                  <Anchor point="TOPLEFT">
+                    <Offset>
+                      <AbsDimension x="0" y="0" />
+                    </Offset>
+                  </Anchor>
+                </Anchors>
+                <FontStringHeader1 inherits="GameFontHighlightLarge" />
+                <FontStringHeader2 inherits="NumberFontNormalLarge" />
+                <FontStringHeader3 inherits="QuestTitleFont">
+                  <Color r="1" g="1" b="1"/>
+                </FontStringHeader3>
+                <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT">
+                  <Color r="255" g="255" b="255" />
+                </FontString>
+                <Layers>
+            			<Layer level="OVERLAY">
+                    <FontString name="$parent_TargetDescription" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyH="LEFT" justifyV="TOP" text="|cFFFF0000Hiiii|r  |TInterface\TargetingFrame\TargetDead|t">
+                      <Size>
+                        <AbsDimension x="280" y="550" />
+                      </Size>
+                      <Anchors>
+                        <Anchor point="TOPLEFT">
+                          <Offset>
+                            <AbsDimension x="0" y="-10" />
+                          </Offset>
+                        </Anchor>
+                      </Anchors>
+                      <FontHeight>
+                        <AbsValue val="12" />
+                      </FontHeight>
+                      <Color r="255" g="255" b="255" />
+                    </FontString>
+                  </Layer>
+                </Layers>
+              </SimpleHTML>
+            </Frames>
+          </Frame>
+        </ScrollChild>
+      </ScrollFrame>
+    </Frames>
+    <Scripts>
+      <OnMouseDown>
+        this:StartMoving()
+      </OnMouseDown>
+      <OnMouseUp>
+        this:StopMovingOrSizing()
+      </OnMouseUp>
+    </Scripts>
+  </Frame>
+</Ui>
