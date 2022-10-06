@@ -12,6 +12,8 @@ Tests
 
 Bugs
 
+- Map icons for users stay on map when entering a new zone
+
 - Color pick is sometimes connected to other color picker instances
 - Not disabled in BGs
 - Custom colors for emotes get overwritten
