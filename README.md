@@ -13,6 +13,7 @@ Tests
 Bugs
 
 - Map icons for users stay on map when entering a new zone
+- Doing a Drunk text decode on your own description
 
 - Color pick is sometimes connected to other color picker instances
 - Not disabled in BGs

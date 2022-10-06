@@ -180,6 +180,8 @@ function TurtleRP.communication_events()
   CheckMessages:RegisterEvent("CHAT_MSG_CHANNEL")
   CheckMessages:SetScript("OnEvent", function()
     if event == "CHAT_MSG_CHANNEL" then
+      Debug.Log(arg9)
+      Debug.Log(TurtleRP.channelName)
       if arg9 == TurtleRP.channelName then
         TurtleRP.checkChatMessage(TurtleRP.DrunkDecode(arg1), arg2)
       end
