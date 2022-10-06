@@ -14,6 +14,10 @@ Bugs
 
 - Map icons for users stay on map when entering a new zone
 - Doing a Drunk text decode on your own description
+- titles replaced on descriptions when a new at a glance is opened
+- Text getting hidden width-wise by scrollign bar in description
+- Lua errors in emotes (invalid option in "format")
+- % signs not output in emote 
 
 - Color pick is sometimes connected to other color picker instances
 - Not disabled in BGs
