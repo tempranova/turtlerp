@@ -166,7 +166,6 @@ function TurtleRP.checkTTRPChannel()
 end
 
 function TurtleRP.communication_events()
-  TurtleRP.log("SET UP COMMS")
 
   TurtleRP_Target_DescriptionButton:SetScript("OnClick", function()
     if UnitName("target") == UnitName("player") then
@@ -181,10 +180,7 @@ function TurtleRP.communication_events()
   CheckMessages:RegisterEvent("CHAT_MSG_CHANNEL")
   CheckMessages:SetScript("OnEvent", function()
     if event == "CHAT_MSG_CHANNEL" then
-      TurtleRP.log("CHAT MESSAGE RUNNING")
-      TurtleRP.log(arg9)
-      TurtleRP.log(TurtleRP.channelName)
-      if arg9 == TurtleRP.channelName then
+      if string.lower(arg9) == string.lower(TurtleRP.channelName) then
         TurtleRP.checkChatMessage(TurtleRP.DrunkDecode(arg1), arg2)
       end
     end
@@ -214,18 +210,13 @@ function TurtleRP.sendRequestForData(requestType, playerName)
 end
 
 function TurtleRP.checkChatMessage(msg, playerName)
-  TurtleRP.log("CHECKING MESSAGE")
   if string.find(msg, ':') then
-    TurtleRP.log(msg)
     local colonStart, colonEnd = string.find(msg, ':')
     local dataPrefix = string.sub(msg, 1, colonEnd - 1)
     local tildeStart, tildeEnd = string.find(msg, '~')
     if tildeStart then
       local playerName = string.sub(msg, colonEnd + 1, tildeEnd - 1)
-      TurtleRP.log(playerName)
-      TurtleRP.log(UnitName("player"))
       if playerName == UnitName("player") then
-        TurtleRP.log("CHECK KEY")
         if TurtleRP.checkUniqueKey(dataPrefix, msg) ~= true then
           TurtleRP.sendData(dataPrefix)
         end
