@@ -215,8 +215,8 @@ function TurtleRP.checkChatMessage(msg, playerName)
     local dataPrefix = string.sub(msg, 1, colonEnd - 1)
     local tildeStart, tildeEnd = string.find(msg, '~')
     if tildeStart then
-      local playerName = string.sub(msg, colonEnd + 1, tildeEnd - 1)
-      if playerName == UnitName("player") then
+      local playerNameFromString = string.sub(msg, colonEnd + 1, tildeEnd - 1)
+      if playerNameFromString == UnitName("player") then
         if TurtleRP.checkUniqueKey(dataPrefix, msg) ~= true then
           TurtleRP.sendData(dataPrefix)
         end
@@ -254,7 +254,7 @@ end
 function sendChunks(dataPrefix, stringChunks)
   local totalToSend = table.getn(stringChunks)
   for i in stringChunks do
-    TurtleRP.ttrpChatSend(dataPrefix .. 'R:' .. UnitName("player") .. "~" .. TurtleRPCharacterInfo["key" .. dataPrefix] .. '~' .. i .. '~' .. totalToSend .. '~' .. stringChunks[i])
+    TurtleRP.ttrpChatSend(dataPrefix .. 'R:' .. "p" .. "~" .. TurtleRPCharacterInfo["key" .. dataPrefix] .. '~' .. i .. '~' .. totalToSend .. '~' .. stringChunks[i])
   end
 end
 
@@ -333,7 +333,7 @@ function TurtleRP.processAndStoreData(dataPrefix, playerName)
 end
 
 function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
-  local stringData = TurtleRP.getDataFromString(msg) -- 1 is username, 2 is key, 3 is i, 4 is total
+  local stringData = TurtleRP.getDataFromString(msg) -- 1 is playername (not used anymore), 2 is key, 3 is i, 4 is total
   if TurtleRPCharacters[playerName] == nil then
     TurtleRPCharacters[playerName] = {}
   end
@@ -343,7 +343,8 @@ function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
       TurtleRP.processAndStoreData(dataPrefix, playerName)
       TurtleRP.displayData(dataPrefix, playerName)
       if playerName == UnitName("target") or playerName == UnitName("mouseover") then
-        TurtleRP.SetNameFrameWidths(playerName)
+        TurtleRP.SetTargetNameFrameWidths(playerName)
+        TurtleRP.SetDescriptionNameFrameWidths(playerName)
       end
     end
   end
@@ -378,7 +379,7 @@ function TurtleRP.recievePingInformation(playerName, msg)
       local zoneY = splitString[3]
       TurtleRPCharacters[playerName]['zoneX'] = zoneX
       TurtleRPCharacters[playerName]['zoneY'] = zoneY
-      TurtleRP.display_nearby_players()
+      TurtleRP.show_player_locations()
     end
     if splitString[4] then
       if TurtleRP.latestVersion ~= splitString[4] then

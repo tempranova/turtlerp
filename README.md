@@ -10,28 +10,21 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 Tests
 
-Bugs
+- Testing on removing duplicate names (use Ashkir again)
+- Text getting hidden width-wise by scrolling bar in description
+- Sometimes new name isn't appearing right away (not updated when open?) -- requires a target or mouseover to get updated currently?
 
-- Map icons for users stay on map when entering a new zone
-- Doing a Drunk text decode on your own description
-- titles replaced on descriptions when a new at a glance is opened
-- Text getting hidden width-wise by scrollign bar in description
-- Lua errors in emotes (invalid option in "format")
-- % signs not output in emote 
+Bugs
 
 - Color pick is sometimes connected to other color picker instances
 - Not disabled in BGs
 - Custom colors for emotes get overwritten
+- Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
 
 Next Up
 
-- Showing data for anywhere on the map
-
-After beta
-
 - Adding relationships/status tab
-- Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
-- Showing class colors in /say (harder than it seems! Maybe just use Shagu instead)
+- Adding RP style tab
 
 ### Recently Done
 
@@ -54,6 +47,22 @@ After beta
   - Confirmation required when sending any emote with odd "s (long or short form)
 - Version tracker (chat message and note in admin panel)
 - Resetting defaults on tooltip mouseovers (PFUI issue with sticking icon + font size)
+
+Beta fixes
+- Removing any quotation verification from chat-line emote; only present on chat box emote verification
+- Otherwise, chat line emotes are reset with every press so errors do not continue after typos
+- No validation error should appear for other players anymore
+- NOTE: if a link is included in the text, and you are using Shagu / PFUI, the text will be mis-formatted because Shagu adds a white color after a link
+- Validation checking for "~", "°", or "§" in any saved text
+- No longer possible to save characters above, so users should never see them in their own profile (requires a new save to validate, will not work if user already has these characters in the profile)
+- "%" character now allowed in emotes
+- Hiding map icons correctly when changing frames on world map
+  - TEST: possible error with characters on different continents, then moving back to your own continent, players misaligned on map
+- Removed edges from Dark UI Description
+- Titles on descriptions no longer replaced when new "Glances" open
+- Data "sends" will now use "p" as the character name (just a placeholder for 'player'); using message sender instead, more reliable
+- Mechanisms for cleaning directory (removing players with bad characters)
+- Mechanism to delete single player from directory (manually remove characters as desired)
 
 1.0.1 (not released)
 

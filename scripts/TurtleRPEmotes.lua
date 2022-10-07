@@ -8,19 +8,12 @@ StaticPopupDialogs["CONFIRM_QUOTATION"] = {
   button1 = TEXT("Send"),
   button2 = TEXT("Don't Send"),
   OnShow = function()
-    TurtleRP.errorOpen = true
     TurtleRP.sendWithError = nil
   end,
-  OnHide = function()
-    TurtleRP.errorOpen = nil
-  end,
+  -- OnHide = function()
+  -- end,
   OnAccept = function()
-    TurtleRP.sendWithError = true
-    if TurtleRP.sendingLongForm then
-      TurtleRP.SendLongFormMessage("EMOTE", TurtleRP.errorMessage)
-    else
-      ChatThrottleLib:SendChatMessage("NORMAL", "TTRP", TurtleRP.errorMessage, "EMOTE")
-    end
+    TurtleRP.SendLongFormMessage("EMOTE", TurtleRP.errorMessage)
   end,
   timeout = 0,
   whileDead = 0,
@@ -47,6 +40,7 @@ end
 function TurtleRP.emote_events()
 
   local TurtleLastEmote = {}
+  local TurtleEmoteCounter = 0
   local TurtleLastSender = {}
   local beginningQuoteFlag = {}
 
@@ -66,69 +60,62 @@ function TurtleRP.emote_events()
       end
 
       if ( type == "EMOTE" ) then
-        if TurtleRP.sendingLongForm == nil and TurtleRP.sendWithError == nil then
-          if string.find(arg1, '"') then
-            local splitArrayQuotes = string.split(arg1, '"')
-            local numberOfQuotes = getn(splitArrayQuotes) + 1
-            if (numberOfQuotes - math.floor(numberOfQuotes/2)*2) ~= 0 then -- an odd number of quotes!
-              TurtleRP.errorMessage = arg1
-              StaticPopup_Show("CONFIRM_QUOTATION");
-              return
+        if beginningQuoteFlag[this:GetID()] == nil then
+          beginningQuoteFlag[this:GetID()] = 0
+        end
+        if TurtleRP.sendingLongForm ~= nil then
+          if TurtleRP.sendingLongForm > TurtleEmoteCounter then
+            if TurtleLastSender[this:GetID()] and TurtleLastSender[this:GetID()] == arg2 then
+              if string.find(TurtleLastEmote[this:GetID()], '"') then
+                local splitArrayQuotes = string.split(TurtleLastEmote[this:GetID()], '"')
+                local numberOfQuotes = getn(splitArrayQuotes) + 1
+                if (numberOfQuotes - math.floor(numberOfQuotes/2)*2) ~= 0 then -- an odd number of quotes!
+                  if beginningQuoteFlag[this:GetID()] == 1 then
+                    beginningQuoteFlag[this:GetID()] = 0
+                  else
+                    beginningQuoteFlag[this:GetID()] = 1
+                  end
+                end
+              end
+            end
+            TurtleEmoteCounter = TurtleEmoteCounter + 1
+            if TurtleRP.sendingLongForm == (TurtleEmoteCounter + 1) then
+              TurtleRP.sendingLongForm = nil
             end
           end
         end
-        TurtleRP.sendWithError = nil -- it's already made it through the check, so reset errors
-        TurtleRP.errorMessage = nil
-        if TurtleRP.errorOpen == nil or TurtleRP.sendingLongForm == true then
-          if beginningQuoteFlag[this:GetID()] == nil then
-            beginningQuoteFlag[this:GetID()] = 0
-          end
-          if TurtleLastSender[this:GetID()] and TurtleLastSender[this:GetID()] == arg2 then
-            if string.find(TurtleLastEmote[this:GetID()], '"') then
-              local splitArrayQuotes = string.split(TurtleLastEmote[this:GetID()], '"')
-              local numberOfQuotes = getn(splitArrayQuotes) + 1
-              if (numberOfQuotes - math.floor(numberOfQuotes/2)*2) ~= 0 then -- an odd number of quotes!
-                if beginningQuoteFlag[this:GetID()] == 1 then
-                  beginningQuoteFlag[this:GetID()] = 0
-                else
-                  beginningQuoteFlag[this:GetID()] = 1
-                end
+        TurtleLastEmote[this:GetID()] = arg1
+        TurtleLastSender[this:GetID()] = arg2
+        savedEvent = "TURTLE_TAKEOVER"
+        local nameString = arg2
+        local splitArray = string.split(arg1, '"')
+        local firstChunk = splitArray[1]
+        local firstChars = strsub(firstChunk, 1, 3)
+        if firstChars == "|| " then
+          nameString = ""
+          firstChunk = strsub(firstChunk, 4)
+        end
+        local newString = beginningQuoteFlag[this:GetID()] == 1 and (" |cffFFFFFF" .. firstChunk) or firstChunk
+        if getn(splitArray) > 1 then
+          for i in splitArray do
+            if i ~= 1 then
+              if (i - math.floor(i/2)*2) == 0 then -- this is even
+                local colorChange = beginningQuoteFlag[this:GetID()] == 1 and "|cffFF7E40" or "|cffFFFFFF"
+                local colorRevert = beginningQuoteFlag[this:GetID()] == 1 and "|cffFFFFFF" or "|cffFF7E40"
+                local finalQuoteToAdd = splitArray[i + 1] and '"' or ''
+                newString = newString .. colorChange .. '"' .. splitArray[i] .. finalQuoteToAdd .. colorRevert
+              else
+                newString = newString .. splitArray[i]
               end
             end
           end
-          TurtleLastEmote[this:GetID()] = arg1
-          TurtleLastSender[this:GetID()] = arg2
-          savedEvent = "TURTLE_TAKEOVER"
-          local nameString = arg2
-          local splitArray = string.split(arg1, '"')
-          local firstChunk = splitArray[1]
-          local firstChars = strsub(firstChunk, 1, 3)
-          if firstChars == "|| " then
-            nameString = ""
-            firstChunk = strsub(firstChunk, 4)
-          end
-          local newString = beginningQuoteFlag[this:GetID()] == 1 and (" |cffFFFFFF" .. firstChunk) or firstChunk
-          if getn(splitArray) > 1 then
-            for i in splitArray do
-              if i ~= 1 then
-                if (i - math.floor(i/2)*2) == 0 then -- this is even
-                  local colorChange = beginningQuoteFlag[this:GetID()] == 1 and "|cffFF7E40" or "|cffFFFFFF"
-                  local colorRevert = beginningQuoteFlag[this:GetID()] == 1 and "|cffFFFFFF" or "|cffFF7E40"
-                  local finalQuoteToAdd = splitArray[i + 1] and '"' or ''
-                  newString = newString .. colorChange .. '"' .. splitArray[i] .. finalQuoteToAdd .. colorRevert
-                else
-                  newString = newString .. splitArray[i]
-                end
-              end
-            end
-          end
-          local body = format(TEXT(getglobal("CHAT_"..type.."_GET")) .. newString, "|cffFF7E40" .. nameString)
-          if nameString == "" then
-            body = "|cffFF7E40" .. newString
-          end
+        end
+        local body = format(TEXT(getglobal("CHAT_"..type.."_GET")) .. TurtleRP.EscapePercentageCharacter(newString), "|cffFF7E40" .. nameString)
+        if nameString == "" then
+          body = "|cffFF7E40" .. newString
+        end
 
-          this:AddMessage(body)
-        end
+        this:AddMessage(body)
       end
     end
     oldChatFrame_OnEvent(savedEvent)
@@ -142,7 +129,6 @@ function TurtleRP.SendLongFormMessage(type, message)
   local currentMessageString = ""
   local emotePrefix = ""
   if type == "Emote" then
-    TurtleRP.sendingLongForm = true
     if TurtleRP.sendWithError == nil then
       if string.find(message, '"') then
         local splitArrayQuotes = string.split(message, '"')
@@ -156,6 +142,7 @@ function TurtleRP.SendLongFormMessage(type, message)
     end
     emotePrefix = "|| "
   end
+  TurtleRP.sendingLongForm = getn(splitMessage)
   for i, v in splitMessage do
     local stringLength = strlen(v)
     local sendMessage = false
@@ -176,5 +163,9 @@ function TurtleRP.SendLongFormMessage(type, message)
     end
   end
   TurtleRP_ChatBox_TextScrollBox_TextInput:SetText("")
-  TurtleRP.sendingLongForm = nil
+end
+
+function TurtleRP.EscapePercentageCharacter(text)
+	text = string.gsub(text, "%%", "%%%%");
+	return text;
 end

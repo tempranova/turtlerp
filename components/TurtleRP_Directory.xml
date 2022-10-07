@@ -688,6 +688,31 @@
               </OnClick>
             </Scripts>
           </Button>
+          <Button name="$parent_CleanButton" inherits="UIPanelButtonTemplate" text="Clean Directory">
+            <Size>
+              <AbsDimension x="125" y="22"/>
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" relativeTo="$parent_RefreshButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="0" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnClick>
+                TurtleRP.cleanDirectory()
+                TurtleRP.Directory_ScrollBar_Update()
+              </OnClick>
+              <OnEnter>
+                GameTooltip:SetOwner(this, "ANCHOR_RIGHT");
+                GameTooltip:SetText("Remove duplicates and players with invalid names.");
+              </OnEnter>
+              <OnLeave>
+                GameTooltip:Hide();
+              </OnLeave>
+            </Scripts>
+          </Button>
           <EditBox name="$parent_EditBox" autoFocus="false" frameStrata="HIGH" historyLines="32">
             <Size>
               <AbsDimension x="296" y="32"/>
@@ -841,6 +866,30 @@
           <OnClick>
             TurtleRP.showDescription = TurtleRP.currentlyViewedPlayer
             TurtleRP.sendRequestForData("D", TurtleRP.currentlyViewedPlayer)
+          </OnClick>
+        </Scripts>
+      </Button>
+      <!-- Delete button -->
+      <Button name="$parent_DescriptionButton" inherits="UIPanelButtonGrayTemplate" text="Delete">
+        <Size>
+          <AbsDimension x="35" y="18" />
+        </Size>
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parent_DescriptionButton" relativePoint="RIGHT">
+            <Offset>
+              <AbsDimension x="20" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            this:SetFont("Fonts\\FRIZQT__.ttf", 8)
+          </OnLoad>
+          <OnClick>
+            TurtleRPCharacters[TurtleRP.currentlyViewedPlayer] = nil
+            TurtleRP.Directory_ScrollBar_Update()
+            this:GetParent():Hide()
+            TurtleRP.currentlyViewedPlayer = nil
           </OnClick>
         </Scripts>
       </Button>

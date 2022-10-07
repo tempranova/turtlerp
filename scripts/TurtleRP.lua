@@ -20,7 +20,6 @@ TurtleRP.disableMessageSending = nil
 TurtleRP.sendingLongForm = nil
 TurtleRP.errorMessage = nil
 TurtleRP.sendWithError = nil
-TurtleRP.errorOpen = nil
 -- Interface
 TurtleRP.iconFrames = nil
 TurtleRP.directoryFrames = nil
@@ -131,6 +130,8 @@ function TurtleRP:OnEvent()
       TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
     end
 
+    -- TurtleRPCharacters["A°hkir"] = TurtleRPCharacters["Ashkir"]
+
     -- For adding additional settings after plugin is in use
     if TurtleRPSettings ~= nil then
       for i, field in pairs(TurtleRPSettingsTemplate) do
@@ -156,6 +157,7 @@ function TurtleRP:OnEvent()
     TurtleRP.tooltip_events()
     TurtleRP.mouseover_and_target_events()
     TurtleRP.communication_events()
+    TurtleRP.display_nearby_players()
 
     TurtleRP.emote_events()
 
@@ -180,7 +182,7 @@ TurtleRP_Parent:SetScript("OnEvent", TurtleRP.OnEvent)
 -----
 -- Building interfaces to display data
 -----
-function TurtleRP.SetNameFrameWidths(playerName)
+function TurtleRP.SetTargetNameFrameWidths(playerName)
   if TurtleRPCharacters[playerName] then
     local fullName = TurtleRPCharacters[playerName]["full_name"]
     TurtleRP_Target_TargetName:SetText(fullName)
@@ -189,7 +191,9 @@ function TurtleRP.SetNameFrameWidths(playerName)
       stringWidth = 100
     end
     TurtleRP_Target:SetWidth(tonumber(stringWidth) + 40)
+end
 
+function TurtleRP.SetDescriptionNameFrameWidths(playerName)
     TurtleRP_Description_TargetName:SetText(TurtleRP_Target_TargetName:GetText())
     local stringWidth = TurtleRP_Description_TargetName:GetStringWidth()
     if (stringWidth + 40) > 350 then
@@ -232,7 +236,7 @@ function TurtleRP.buildTargetFrame(playerName)
       TurtleRP_Target_AtAGlance3:Show()
     end
 
-    TurtleRP.SetNameFrameWidths(playerName)
+    TurtleRP.SetTargetNameFrameWidths(playerName)
 
     TurtleRP_Target:Show()
   end
@@ -252,7 +256,7 @@ function TurtleRP.buildDescription(playerName)
       TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText(replacedLineBreaks)
     end
 
-    TurtleRP.SetNameFrameWidths(playerName)
+    TurtleRP.SetDescriptionNameFrameWidths(playerName)
   end
 end
 
@@ -460,10 +464,20 @@ function TurtleRP.rgb2hex(r, g, b)
 end
 
 function TurtleRP.validateBeforeSaving(data)
-  if string.find(data, '~') then
-    _ERRORMESSAGE('Please do not use the character "~" in your text. Thanks!')
+  if string.find(data, '~') or string.find(data, '°') or string.find(data, '§') then
+    _ERRORMESSAGE('Please do not use the characters "~", "°", or "§" in your text. Thanks!')
   else
     return data
+  end
+end
+
+function TurtleRP.cleanDirectory()
+  for i, v in TurtleRPCharacters do
+    if string.find(i, '°') or string.find(i, '§') then
+      local fixedName = TurtleRP.DrunkDecode(i)
+      TurtleRPCharacters[fixedName] = TurtleRPCharacters[i]
+      TurtleRPCharacters[i] = nil
+    end
   end
 end
 

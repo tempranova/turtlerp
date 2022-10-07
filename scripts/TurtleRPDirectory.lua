@@ -13,11 +13,25 @@ end
 -- Map Directory Display
 ----
 function TurtleRP.display_nearby_players()
+
+  local zoneListener = CreateFrame("Frame")
+  zoneListener:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+  zoneListener:RegisterEvent("WORLD_MAP_UPDATE")
+  zoneListener:SetScript("OnEvent", function()
+    for i, v in TurtleRP.locationFrames do
+      TurtleRP.locationFrames[i]:Hide()
+    end
+    TurtleRP.show_player_locations()
+  end)
+end
+
+function TurtleRP.show_player_locations()
   local onlinePlayers = TurtleRP.get_players_online()
-  local createdFrames = 1
+  local createdFrames = 0
   for i, v in onlinePlayers do
     if i ~= UnitName("player") then
-      if TurtleRPCharacters[i] and TurtleRPCharacters[i]['zone'] == GetZoneText() then
+      local zonesByID = TurtleRP.LoadZones(GetMapZones(GetCurrentMapContinent()))
+      if TurtleRPCharacters[i] and TurtleRPCharacters[i]['zone'] == zonesByID[GetCurrentMapZone()] then
         if TurtleRPCharacters[i]['zoneX'] and TurtleRPCharacters[i]['zoneY'] then
           if TurtleRPCharacters[i]['zoneX'] ~= "false" and TurtleRPCharacters[i]['zoneY'] ~= "false" then
             local zoneX = tonumber(TurtleRPCharacters[i]['zoneX'])
@@ -25,7 +39,7 @@ function TurtleRP.display_nearby_players()
             local playerPositionFrame = getglobal("TurtleRP_MapPlayerPosition_" .. createdFrames)
             if playerPositionFrame == nil then
               playerPositionFrame = CreateFrame("Button", "TurtleRP_MapPlayerPosition_" .. createdFrames, WorldMapDetailFrame, "TurtleRP_WorldMapUnitTemplate")
-              TurtleRP.locationFrames[getn(TurtleRP.locationFrames) + 1] = { playerPositionFrame }
+              table.insert(TurtleRP.locationFrames, playerPositionFrame)
             end
             local mapWidth = WorldMapDetailFrame:GetWidth()
             local mapLeft = WorldMapDetailFrame:GetLeft()
@@ -160,6 +174,14 @@ function TurtleRP.Directory_FrameDropDown_Initialize()
     info.func = TurtleRP.Directory_FrameDropDown_OnClick;
     UIDropDownMenu_AddButton(info);
   end
+end
+
+function TurtleRP.LoadZones(...)
+  local info = {}
+  for i=1, arg.n, 1 do
+    info[i] = arg[i]
+  end
+  return info
 end
 
 function TurtleRP.Directory_FrameDropDown_OnClick()

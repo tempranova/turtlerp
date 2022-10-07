@@ -76,10 +76,7 @@
             </Offset>
           </Anchor>
         </Anchors>
-        <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
-          <EdgeSize>
-            <AbsValue val="0.5"/>
-          </EdgeSize>
+        <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" tile="true">
           <Color r="1" g="1" b="1" a="0" />
           <BorderColor r="255" g="255" b="255" a="0" />
         </Backdrop>
