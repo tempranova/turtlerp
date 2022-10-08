@@ -96,6 +96,13 @@ function TurtleRP:OnEvent()
     TurtleRPCharacterInfoTemplate["keyD"] = TurtleRP.randomchars()
     TurtleRPCharacterInfoTemplate["description"] = ""
 
+    TurtleRPCharacterInfoTemplate["keyS"] = TurtleRP.randomchars()
+    TurtleRPCharacterInfoTemplate["experience"] = "1"
+    TurtleRPCharacterInfoTemplate["walkups"] = "0"
+    TurtleRPCharacterInfoTemplate["injury"] = "0"
+    TurtleRPCharacterInfoTemplate["romance"] = "0"
+    TurtleRPCharacterInfoTemplate["death"] = "0"
+
     local TurtleRPSettingsTemplate = {}
     TurtleRPSettingsTemplate["bgs"] = "off"
     TurtleRPSettingsTemplate["tray"] = "1"

@@ -35,6 +35,50 @@
     <CheckedTexture file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD"/>
   </CheckButton>
 
+  <!-- Spellbook bottom tab button template -->
+  <Button name="TurtleRP_SpellBookFrameTabButtonTemplate" virtual="true" hidden="true">
+    <Size>
+      <AbsDimension x="128" y="64"/>
+    </Size>
+    <HitRectInsets>
+      <AbsInset left="15" right="14" top="13" bottom="15"/>
+    </HitRectInsets>
+    <Scripts>
+      <OnClick>
+        TurtleRP.OnBottomTabClick(this.bookType)
+      </OnClick>
+    </Scripts>
+    <NormalText inherits="GameFontNormalSmall">
+      <Anchors>
+        <Anchor point="CENTER">
+          <Offset>
+            <AbsDimension x="0" y="3"/>
+          </Offset>
+        </Anchor>
+      </Anchors>
+    </NormalText>
+    <HighlightText inherits="GameFontHighlightSmall">
+      <Anchors>
+        <Anchor point="CENTER">
+          <Offset>
+            <AbsDimension x="0" y="3"/>
+          </Offset>
+        </Anchor>
+      </Anchors>
+    </HighlightText>
+    <DisabledText inherits="GameFontHighlightSmall">
+      <Anchors>
+        <Anchor point="CENTER">
+          <Offset>
+            <AbsDimension x="0" y="6"/>
+          </Offset>
+        </Anchor>
+      </Anchors>
+    </DisabledText>
+    <NormalTexture file="Interface\SpellBook\UI-SpellBook-Tab-Unselected"/>
+    <!-- <HighlightTexture file="Interface\SpellBook\UI-SpellbookPanel-Tab-Highlight"/> -->
+  </Button>
+
   <!-- Admin frame -->
   <Frame name="TurtleRP_AdminSB" toplevel="true" movable="true" enableMouse="true" hidden="true" parent="UIParent">
     <Size>
@@ -655,6 +699,281 @@
               </OnLoad>
             </Scripts>
           </EditBox>
+        </Frames>
+      </Frame>
+
+      <Frame name="$parent_Content1_Tab2" hidden="true">
+        <Size>
+          <AbsDimension x="320" y="352"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+            <Offset>
+              <AbsDimension x="30" y="-88" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+    			<Layer level="OVERLAY">
+            <!-- Flavour Text -->
+            <FontString name="$parent_FlavourText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Describe your RP style for others to see.">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="12" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
+            <!-- HR -->
+            <Texture name="$parent_hr">
+              <Anchors>
+                <Anchor point="LEFT" relativeTo="$parent_FlavourText" relativePoint="LEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-15" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <Size>
+                <AbsDimension x="300" y="1"/>
+              </Size>
+              <Anchors>
+                <Anchor point="CENTER" />
+              </Anchors>
+              <Color r="0" g="0" b="0" a="0.3" />
+            </Texture>
+            <!-- Experience Text -->
+            <FontString name="$parent_ExperienceText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="RP experience">
+              <Anchors>
+                <Anchor point="LEFT" relativeTo="$parent_hr" relativePoint="LEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-15" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
+            <!-- Walkups Text -->
+            <FontString name="$parent_WalkupsText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Walk-Ups">
+              <Anchors>
+                <Anchor point="LEFT" relativeTo="$parent_ExperienceText" relativePoint="LEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-50" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
+            <!-- Injury Text -->
+            <FontString name="$parent_InjuryText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Character Injury">
+              <Anchors>
+                <Anchor point="LEFT" relativeTo="$parent_WalkupsText" relativePoint="LEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-50" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
+            <!-- Romance Text -->
+            <FontString name="$parent_RomanceText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Character Romance">
+              <Anchors>
+                <Anchor point="LEFT" relativeTo="$parent_InjuryText" relativePoint="LEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-50" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
+            <!-- Death Text -->
+            <FontString name="$parent_DeathText" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" text="Character Death">
+              <Anchors>
+                <Anchor point="LEFT" relativeTo="$parent_RomanceText" relativePoint="LEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-50" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="10" />
+              </FontHeight>
+              <Color r="0" g="0" b="0" />
+            </FontString>
+          </Layer>
+        </Layers>
+        <Frames>
+          <Frame name="$parent_ExperienceDropdown" inherits="UIDropDownMenuTemplate" enableMouse="true">
+            <Size>
+              <AbsDimension x="70" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent_ExperienceText" relativePoint="BOTTOMLEFT">
+                <Offset>
+                  <AbsDimension x="-20" y="-5" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Layers>
+              <Layer level="OVERLAY">
+                <FontString name="$parent_Text" inherits="GameFontHighlightSmall" text="Experience">
+                  <Anchors>
+                    <Anchor point="TOPLEFT">
+                      <Offset>
+                        <AbsDimension x="24" y="-8"/>
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                </FontString>
+              </Layer>
+            </Layers>
+            <Scripts>
+              <OnLoad>
+                getglobal(this:GetName() .. "Text"):Hide()
+                TurtleRP.InitializeRPStyleDropdown(this, TurtleRPDropdownOptions["experience"])
+              </OnLoad>
+            </Scripts>
+          </Frame>
+          <Frame name="$parent_WalkupsDropdown" inherits="UIDropDownMenuTemplate" enableMouse="true">
+            <Size>
+              <AbsDimension x="70" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent_WalkupsText" relativePoint="BOTTOMLEFT">
+                <Offset>
+                  <AbsDimension x="-20" y="-5" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Layers>
+              <Layer level="OVERLAY">
+                <FontString name="$parent_Text" inherits="GameFontHighlightSmall" text="Walk-Ups">
+                  <Anchors>
+                    <Anchor point="TOPLEFT">
+                      <Offset>
+                        <AbsDimension x="24" y="-8"/>
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                </FontString>
+              </Layer>
+            </Layers>
+            <Scripts>
+              <OnLoad>
+                getglobal(this:GetName() .. "Text"):Hide()
+                TurtleRP.InitializeRPStyleDropdown(this, TurtleRPDropdownOptions["walkups"])
+              </OnLoad>
+            </Scripts>
+          </Frame>
+          <Frame name="$parent_InjuryDropdown" inherits="UIDropDownMenuTemplate" enableMouse="true">
+            <Size>
+              <AbsDimension x="70" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent_InjuryText" relativePoint="BOTTOMLEFT">
+                <Offset>
+                  <AbsDimension x="-20" y="-5" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Layers>
+              <Layer level="OVERLAY">
+                <FontString name="$parent_Text" inherits="GameFontHighlightSmall" text="injury">
+                  <Anchors>
+                    <Anchor point="TOPLEFT">
+                      <Offset>
+                        <AbsDimension x="24" y="-8"/>
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                </FontString>
+              </Layer>
+            </Layers>
+            <Scripts>
+              <OnLoad>
+                getglobal(this:GetName() .. "Text"):Hide()
+                TurtleRP.InitializeRPStyleDropdown(this, TurtleRPDropdownOptions["injury"])
+              </OnLoad>
+            </Scripts>
+          </Frame>
+          <Frame name="$parent_RomanceDropdown" inherits="UIDropDownMenuTemplate" enableMouse="true">
+            <Size>
+              <AbsDimension x="70" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent_RomanceText" relativePoint="BOTTOMLEFT">
+                <Offset>
+                  <AbsDimension x="-20" y="-5" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Layers>
+              <Layer level="OVERLAY">
+                <FontString name="$parent_Text" inherits="GameFontHighlightSmall" text="Romance">
+                  <Anchors>
+                    <Anchor point="TOPLEFT">
+                      <Offset>
+                        <AbsDimension x="24" y="-8"/>
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                </FontString>
+              </Layer>
+            </Layers>
+            <Scripts>
+              <OnLoad>
+                getglobal(this:GetName() .. "Text"):Hide()
+                TurtleRP.InitializeRPStyleDropdown(this, TurtleRPDropdownOptions["romance"])
+              </OnLoad>
+            </Scripts>
+          </Frame>
+          <Frame name="$parent_DeathDropdown" inherits="UIDropDownMenuTemplate" enableMouse="true">
+            <Size>
+              <AbsDimension x="70" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent_DeathText" relativePoint="BOTTOMLEFT">
+                <Offset>
+                  <AbsDimension x="-20" y="-5" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Layers>
+              <Layer level="OVERLAY">
+                <FontString name="$parent_Text" inherits="GameFontHighlightSmall" text="Death">
+                  <Anchors>
+                    <Anchor point="TOPLEFT">
+                      <Offset>
+                        <AbsDimension x="24" y="-8"/>
+                      </Offset>
+                    </Anchor>
+                  </Anchors>
+                </FontString>
+              </Layer>
+            </Layers>
+            <Scripts>
+              <OnLoad>
+                getglobal(this:GetName() .. "Text"):Hide()
+                TurtleRP.InitializeRPStyleDropdown(this, TurtleRPDropdownOptions["death"])
+              </OnLoad>
+            </Scripts>
+          </Frame>
         </Frames>
       </Frame>
       <Frame name="$parent_Content2" hidden="true">
@@ -1789,107 +2108,107 @@
           </Layer>
         </Layers>
         <Frames>
-          <!-- Issues Reload Button -->
-          <Button name="$parent_ReloadButton" alpha="0.8" inherits="UIPanelButtonGrayTemplate" text="Rejoin / Reload">
-            <Size>
-              <AbsDimension x="100" y="25" />
-            </Size>
-            <Anchors>
-              <Anchor point="BOTTOMLEFT" relativeTo="$parent_IssuesTitle" relativePoint="BOTTOMLEFT">
-                <Offset>
-                  <AbsDimension x="0" y="-120"/>
-                </Offset>
-              </Anchor>
-            </Anchors>
-            <Scripts>
-              <OnLoad>
-                this:SetFont("Fonts\\FRIZQT__.ttf", 10)
-              </OnLoad>
-              <OnClick>
-                JoinChannelByName("TTRP")
-                ConsoleExec("reloadui")
-              </OnClick>
-            </Scripts>
-          </Button>
-          <!-- Clear Directory -->
-          <Button name="$parent_ClearDirectoryButton" alpha="0.8" inherits="UIPanelButtonGrayTemplate" text="Clear Directory">
-            <Size>
-              <AbsDimension x="100" y="25" />
-            </Size>
-            <Anchors>
-              <Anchor point="LEFT" relativeTo="$parent_ReloadButton" relativePoint="RIGHT">
-                <Offset>
-                  <AbsDimension x="0" y="0"/>
-                </Offset>
-              </Anchor>
-            </Anchors>
-            <Scripts>
-              <OnLoad>
-                this:SetFont("Fonts\\FRIZQT__.ttf", 10)
-              </OnLoad>
-              <OnClick>
-                TurtleRPCharacters = {}
-                TurtleRPQueryablePlayers = {}
-                ConsoleExec("reloadui")
-              </OnClick>
-            </Scripts>
-          </Button>
-          <!-- Clear Everything -->
-          <Button name="$parent_ClearAllDataButton" alpha="0.8" inherits="UIPanelButtonGrayTemplate" text="Clear All Data">
-            <Size>
-              <AbsDimension x="100" y="25" />
-            </Size>
-            <Anchors>
-              <Anchor point="LEFT" relativeTo="$parent_ClearDirectoryButton" relativePoint="RIGHT">
-                <Offset>
-                  <AbsDimension x="0" y="0"/>
-                </Offset>
-              </Anchor>
-            </Anchors>
-            <Scripts>
-              <OnLoad>
-                this:SetFont("Fonts\\FRIZQT__.ttf", 10)
-              </OnLoad>
-              <OnClick>
-                TurtleRPCharacterInfo = {}
-                TurtleRPCharacters = {}
-                TurtleRPQueryablePlayers = {}
-                ConsoleExec("reloadui")
-              </OnClick>
-            </Scripts>
-          </Button>
-        </Frames>
-      </Frame>
-      <Button name="$parent_SpellBookFrameTabButton1" inherits="SpellBookFrameTabButtonTemplate">
-        <Anchors>
-            <Anchor point="CENTER" relativePoint="BOTTOMLEFT">
-                <Offset>
-                    <AbsDimension x="79" y="61"/>
-                </Offset>
+        <!-- Issues Reload Button -->
+        <Button name="$parent_ReloadButton" alpha="0.8" inherits="UIPanelButtonGrayTemplate" text="Rejoin / Reload">
+          <Size>
+            <AbsDimension x="100" y="25" />
+          </Size>
+          <Anchors>
+            <Anchor point="BOTTOMLEFT" relativeTo="$parent_IssuesTitle" relativePoint="BOTTOMLEFT">
+              <Offset>
+                <AbsDimension x="0" y="-120"/>
+              </Offset>
             </Anchor>
-        </Anchors>
-        <DisabledTexture file="Interface\SpellBook\UI-SpellBook-Tab1-Selected"/>
-      </Button>
-      <Button name="$parent_SpellBookFrameTabButton2" inherits="SpellBookFrameTabButtonTemplate">
-          <Anchors>
-              <Anchor point="LEFT" relativeTo="SpellBookFrameTabButton1" relativePoint="RIGHT">
-                  <Offset>
-                      <AbsDimension x="-20" y="0"/>
-                  </Offset>
-              </Anchor>
           </Anchors>
-          <DisabledTexture file="Interface\SpellBook\UI-SpellBook-Tab1-Selected"/>
-      </Button>
-      <Button name="$parent_SpellBookFrameTabButton3" inherits="SpellBookFrameTabButtonTemplate">
+          <Scripts>
+            <OnLoad>
+              this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+            </OnLoad>
+            <OnClick>
+              JoinChannelByName("TTRP")
+              ConsoleExec("reloadui")
+            </OnClick>
+          </Scripts>
+        </Button>
+        <!-- Clear Directory -->
+        <Button name="$parent_ClearDirectoryButton" alpha="0.8" inherits="UIPanelButtonGrayTemplate" text="Clear Directory">
+          <Size>
+            <AbsDimension x="100" y="25" />
+          </Size>
           <Anchors>
-              <Anchor point="LEFT" relativeTo="SpellBookFrameTabButton2" relativePoint="RIGHT">
-                  <Offset>
-                      <AbsDimension x="-20" y="0"/>
-                  </Offset>
-              </Anchor>
+            <Anchor point="LEFT" relativeTo="$parent_ReloadButton" relativePoint="RIGHT">
+              <Offset>
+                <AbsDimension x="0" y="0"/>
+              </Offset>
+            </Anchor>
           </Anchors>
-          <DisabledTexture file="Interface\SpellBook\UI-SpellBook-Tab3-Selected"/>
-      </Button>
+          <Scripts>
+            <OnLoad>
+              this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+            </OnLoad>
+            <OnClick>
+              TurtleRPCharacters = {}
+              TurtleRPQueryablePlayers = {}
+              ConsoleExec("reloadui")
+            </OnClick>
+          </Scripts>
+        </Button>
+        <!-- Clear Everything -->
+        <Button name="$parent_ClearAllDataButton" alpha="0.8" inherits="UIPanelButtonGrayTemplate" text="Clear All Data">
+          <Size>
+            <AbsDimension x="100" y="25" />
+          </Size>
+          <Anchors>
+            <Anchor point="LEFT" relativeTo="$parent_ClearDirectoryButton" relativePoint="RIGHT">
+              <Offset>
+                <AbsDimension x="0" y="0"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <Scripts>
+            <OnLoad>
+              this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+            </OnLoad>
+            <OnClick>
+              TurtleRPCharacterInfo = {}
+              TurtleRPCharacters = {}
+              TurtleRPQueryablePlayers = {}
+              ConsoleExec("reloadui")
+            </OnClick>
+          </Scripts>
+        </Button>
+      </Frames>
+    </Frame>
+    <Button name="$parent_SpellBookFrameTabButton1" inherits="TurtleRP_SpellBookFrameTabButtonTemplate">
+      <Anchors>
+          <Anchor point="CENTER" relativePoint="BOTTOMLEFT">
+              <Offset>
+                  <AbsDimension x="79" y="61"/>
+              </Offset>
+          </Anchor>
+      </Anchors>
+      <DisabledTexture file="Interface\SpellBook\UI-SpellBook-Tab1-Selected"/>
+    </Button>
+    <Button name="$parent_SpellBookFrameTabButton2" inherits="TurtleRP_SpellBookFrameTabButtonTemplate">
+      <Anchors>
+        <Anchor point="LEFT" relativeTo="SpellBookFrameTabButton1" relativePoint="RIGHT">
+          <Offset>
+            <AbsDimension x="-20" y="0"/>
+          </Offset>
+        </Anchor>
+      </Anchors>
+      <DisabledTexture file="Interface\SpellBook\UI-SpellBook-Tab1-Selected"/>
+    </Button>
+    <Button name="$parent_SpellBookFrameTabButton3" inherits="TurtleRP_SpellBookFrameTabButtonTemplate">
+      <Anchors>
+        <Anchor point="LEFT" relativeTo="SpellBookFrameTabButton2" relativePoint="RIGHT">
+          <Offset>
+            <AbsDimension x="-20" y="0"/>
+          </Offset>
+        </Anchor>
+      </Anchors>
+      <DisabledTexture file="Interface\SpellBook\UI-SpellBook-Tab3-Selected"/>
+    </Button>
       <!-- <Button name="$parent_SpellBookPrevPageButton">
         <Size>
           <AbsDimension x="32" y="32"/>

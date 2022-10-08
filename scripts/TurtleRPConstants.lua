@@ -42,6 +42,42 @@
 --]]
 TurtleRP = {}
 
+TurtleRPDropdownOptions = {}
+TurtleRPDropdownOptions["experience"] = {
+  ["1"] = "New",
+  ["2"] = "Comfortable",
+  ["3"] = "Advanced",
+  ["4"] = "Do Not Show"
+}
+TurtleRPDropdownOptions["walkups"] = {
+  ["1"] = "Welcomes Walk-Ups",
+  ["2"] = "No Walk-Ups",
+  ["3"] = "Guild Only",
+  ["4"] = "Do Not Show"
+}
+TurtleRPDropdownOptions["injury"] = {
+  ["1"] = "Acceptable",
+  ["2"] = "Ask First",
+  ["3"] = "No",
+  ["4"] = "Do Not Show"
+}
+TurtleRPDropdownOptions["romance"] = {
+  ["1"] = "Looking",
+  ["2"] = "In A Relationship",
+  ["3"] = "Open Relationship",
+  ["4"] = "Committed",
+  ["5"] = "Ask First",
+  ["6"] = "No",
+  ["7"] = "Do Not Show"
+}
+TurtleRPDropdownOptions["death"] = {
+  ["1"] = "Acceptable",
+  ["2"] = "Ask First",
+  ["3"] = "No",
+  ["4"] = "Do Not Show"
+}
+
+
 TurtleRPClassData = {}
 TurtleRPClassData['Druid']    = {1, 0.49, 0.04, "FF7C0A"}
 TurtleRPClassData['Hunter']   = {0.67, 0.83, 0.45, "AAD372"}

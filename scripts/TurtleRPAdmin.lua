@@ -36,7 +36,14 @@ function TurtleRP.OpenAdmin()
   TurtleRP_AdminSB_Tab6.tooltip = "About / Help"
   TurtleRP_AdminSB_Tab6:Show()
 
+  TurtleRP_AdminSB_SpellBookFrameTabButton1:SetText("Basic Info")
+  TurtleRP_AdminSB_SpellBookFrameTabButton1:SetNormalTexture("Interface\\Spellbook\\UI-Spellbook-Tab1-Selected")
+  TurtleRP_AdminSB_SpellBookFrameTabButton1.bookType = "profile"
+  TurtleRP_AdminSB_SpellBookFrameTabButton2:SetText("RP Style")
+  TurtleRP_AdminSB_SpellBookFrameTabButton2.bookType = "rp_style"
+
   TurtleRP.OnAdminTabClick(1)
+
 end
 
 function TurtleRP.OnAdminTabClick(id)
@@ -48,6 +55,30 @@ function TurtleRP.OnAdminTabClick(id)
       getglobal("TurtleRP_AdminSB_Tab"..i):SetChecked(1)
       getglobal("TurtleRP_AdminSB_Content"..i):Show()
     end
+  end
+  if id == 1 then
+    TurtleRP_AdminSB_SpellBookFrameTabButton1:Show()
+    TurtleRP_AdminSB_SpellBookFrameTabButton2:Show()
+  else
+    TurtleRP_AdminSB_SpellBookFrameTabButton1:Hide()
+    TurtleRP_AdminSB_SpellBookFrameTabButton2:Hide()
+  end
+end
+
+function TurtleRP.OnBottomTabClick(bookType)
+  if bookType == "profile" then
+    TurtleRP_AdminSB_Content1:Show()
+    TurtleRP_AdminSB_SpellBookFrameTabButton1:SetNormalTexture("Interface\\Spellbook\\UI-Spellbook-Tab1-Selected")
+    TurtleRP_AdminSB_Content1_Tab2:Hide()
+    TurtleRP_AdminSB_SpellBookFrameTabButton2:SetNormalTexture("Interface\\SpellBook\\UI-SpellBook-Tab-Unselected")
+  end
+
+  if bookType == "rp_style" then
+    TurtleRP_AdminSB_Content1:Hide()
+    TurtleRP_AdminSB_SpellBookFrameTabButton1:SetNormalTexture("Interface\\SpellBook\\UI-SpellBook-Tab-Unselected")
+    TurtleRP_AdminSB_Content1_Tab2:Show()
+    TurtleRP_AdminSB_SpellBookFrameTabButton2:SetNormalTexture("Interface\\Spellbook\\UI-Spellbook-Tab1-Selected")
+    TurtleRP.SetInitialDropdowns()
   end
 end
 
@@ -72,6 +103,46 @@ function TurtleRP.colorPickerCallback(restore)
   local hex = TurtleRP.rgb2hex(r, g, b)
   TurtleRP_AdminSB_Content1_ClassColorButton:SetBackdropColor(r, g, b)
   TurtleRPCharacterInfo['class_color'] = hex
+end
+
+-----
+-- Dropdown RP Style selectors
+-----
+function TurtleRP.InitializeRPStyleDropdown(frame, items)
+  UIDropDownMenu_Initialize(frame, function()
+    local frameName = frame:GetName()
+    for i, v in items do
+      local info = {}
+      info.text = v
+      info.value = i
+      info.arg1 = v
+      info.checked = false
+      info.menuList = i
+      info.hasArrow = false
+      info.func = function(val)
+        getglobal(frameName .. "_Text"):SetText(val)
+        CloseDropDownMenus()
+      end
+      UIDropDownMenu_AddButton(info)
+    end
+  end)
+end
+
+function TurtleRP.SetInitialDropdowns()
+  local dropdownsToSet = {}
+  dropdownsToSet["experience"] = TurtleRP_AdminSB_Content1_Tab2_ExperienceDropdown
+  dropdownsToSet["walkups"] = TurtleRP_AdminSB_Content1_Tab2_WalkupsDropdown
+  dropdownsToSet["injury"] = TurtleRP_AdminSB_Content1_Tab2_XterInjuryDropdown
+  dropdownsToSet["romance"] = TurtleRP_AdminSB_Content1_Tab2_XterRomanceDropdown
+  dropdownsToSet["death"] = TurtleRP_AdminSB_Content1_Tab2_XterDeathDropdown
+
+  for i, v in dropdownsToSet do
+    if TurtleRPCharacters[UnitName("player")][i] ~= "0" then
+      local thisValue = TurtleRPCharacters[UnitName("player")][i]
+      getglobal(v:GetName() .. "_Text"):SetText(TurtleRPDropdownOptions[i][thisValue])
+      UIDropDownMenu_SetSelectedValue(v, thisValue)
+    end
+  end
 end
 
 -----
