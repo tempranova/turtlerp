@@ -44,7 +44,7 @@
     <!-- <HighlightTexture file="Interface\SpellBook\UI-SpellbookPanel-Tab-Highlight"/> -->
   </Button>
 
-  <Frame name="TurtleRP_CharacterDetails" toplevel="true" parent="UIParent" movable="true" enableMouse="true" hidden="true">
+  <Frame name="TurtleRP_CharacterDetails" toplevel="true" parent="UIParent" enableMouse="true" hidden="true">
     <Size>
       <AbsDimension x="384" y="512"/>
     </Size>

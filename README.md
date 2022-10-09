@@ -25,6 +25,7 @@ Next Up
 - Adding note to download from releases
 - Adding relationships/status tab
 - Adding RP style tab
+- Option to make description tab moveable or not 
 
 ### Recently Done
 
