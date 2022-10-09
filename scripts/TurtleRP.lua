@@ -181,6 +181,11 @@ function TurtleRP:OnEvent()
       end
     end
 
+
+    TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText('Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.')
+
+    -- TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetHeight(1000)
+
   end
 end
 
@@ -263,6 +268,7 @@ function TurtleRP.buildDescription(playerName)
       TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText(replacedLineBreaks)
     end
 
+    -- TurtleRP_Description_DescriptionScrollBox:
     TurtleRP.SetDescriptionNameFrameWidths(playerName)
   end
 end
@@ -398,6 +404,20 @@ function TurtleRP.save_general()
   TurtleRPCharacterInfo["ooc_pronouns"] = TurtleRP.validateBeforeSaving(ooc_pronouns)
   TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
   TurtleRP.setCharacterIcon()
+end
+function TurtleRP.save_style()
+  TurtleRPCharacterInfo['keyS'] = TurtleRP.randomchars()
+  local experience = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_ExperienceDropdown)
+  TurtleRPCharacterInfo["experience"] = experience ~= nil and experience or "0"
+  local walkups = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_WalkupsDropdown)
+  TurtleRPCharacterInfo["walkups"] = walkups ~= nil and walkups or "0"
+  local injury = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_InjuryDropdown)
+  TurtleRPCharacterInfo["injury"] = injury ~= nil and injury or "0"
+  local romance = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_RomanceDropdown)
+  TurtleRPCharacterInfo["romance"] = romance ~= nil and romance or "0"
+  local death = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_DeathDropdown)
+  TurtleRPCharacterInfo["death"] = death ~= nil and death or "0"
+  TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
 end
 function TurtleRP.save_at_a_glance()
   TurtleRPCharacterInfo['keyT'] = TurtleRP.randomchars()

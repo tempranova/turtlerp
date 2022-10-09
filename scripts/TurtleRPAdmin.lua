@@ -36,9 +36,12 @@ function TurtleRP.OpenAdmin()
   TurtleRP_AdminSB_Tab6.tooltip = "About / Help"
   TurtleRP_AdminSB_Tab6:Show()
 
+  TurtleRP_AdminSB_Content1_Tab2:Hide()
+
   TurtleRP_AdminSB_SpellBookFrameTabButton1:SetText("Basic Info")
   TurtleRP_AdminSB_SpellBookFrameTabButton1:SetNormalTexture("Interface\\Spellbook\\UI-Spellbook-Tab1-Selected")
   TurtleRP_AdminSB_SpellBookFrameTabButton1.bookType = "profile"
+  TurtleRP_AdminSB_SpellBookFrameTabButton2:SetNormalTexture("Interface\\Spellbook\\UI-SpellBook-Tab-Unselected")
   TurtleRP_AdminSB_SpellBookFrameTabButton2:SetText("RP Style")
   TurtleRP_AdminSB_SpellBookFrameTabButton2.bookType = "rp_style"
 
@@ -132,9 +135,9 @@ function TurtleRP.SetInitialDropdowns()
   local dropdownsToSet = {}
   dropdownsToSet["experience"] = TurtleRP_AdminSB_Content1_Tab2_ExperienceDropdown
   dropdownsToSet["walkups"] = TurtleRP_AdminSB_Content1_Tab2_WalkupsDropdown
-  dropdownsToSet["injury"] = TurtleRP_AdminSB_Content1_Tab2_XterInjuryDropdown
-  dropdownsToSet["romance"] = TurtleRP_AdminSB_Content1_Tab2_XterRomanceDropdown
-  dropdownsToSet["death"] = TurtleRP_AdminSB_Content1_Tab2_XterDeathDropdown
+  dropdownsToSet["injury"] = TurtleRP_AdminSB_Content1_Tab2_InjuryDropdown
+  dropdownsToSet["romance"] = TurtleRP_AdminSB_Content1_Tab2_RomanceDropdown
+  dropdownsToSet["death"] = TurtleRP_AdminSB_Content1_Tab2_DeathDropdown
 
   for i, v in dropdownsToSet do
     if TurtleRPCharacters[UnitName("player")][i] ~= "0" then

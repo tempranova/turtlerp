@@ -819,6 +819,26 @@
           </Layer>
         </Layers>
         <Frames>
+          <Button name="$parent_SaveButton" inherits="UIPanelButtonGrayTemplate" text="Save">
+            <Size>
+              <AbsDimension x="50" y="25" />
+            </Size>
+            <Anchors>
+              <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
+                <Offset>
+                  <AbsDimension x="-20" y="20"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+        		<Scripts>
+              <OnLoad>
+                this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+              </OnLoad>
+              <OnClick>
+                TurtleRP.save_style()
+              </OnClick>
+            </Scripts>
+          </Button>
           <Frame name="$parent_ExperienceDropdown" inherits="UIDropDownMenuTemplate" enableMouse="true">
             <Size>
               <AbsDimension x="70" y="20" />
