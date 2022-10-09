@@ -181,11 +181,6 @@ function TurtleRP:OnEvent()
       end
     end
 
-
-    TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText('Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.')
-
-    -- TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetHeight(1000)
-
   end
 end
 
@@ -203,16 +198,6 @@ function TurtleRP.SetTargetNameFrameWidths(playerName)
       stringWidth = 100
     end
     TurtleRP_Target:SetWidth(tonumber(stringWidth) + 40)
-end
-
-function TurtleRP.SetDescriptionNameFrameWidths(playerName)
-    TurtleRP_Description_TargetName:SetText(TurtleRP_Target_TargetName:GetText())
-    local stringWidth = TurtleRP_Description_TargetName:GetStringWidth()
-    if (stringWidth + 40) > 350 then
-      TurtleRP_Description:SetWidth(tonumber(stringWidth) + 40)
-      TurtleRP_Description_DescriptionScrollBox:SetWidth(tonumber(stringWidth) - 40)
-      TurtleRP_Description:SetPoint("TOP", UIParent, 0, -100)
-    end
   end
 end
 
@@ -258,18 +243,25 @@ function TurtleRP.buildDescription(playerName)
   local characterInfo = TurtleRPCharacters[playerName]
   if characterInfo["keyD"] ~= nil then
 
-    TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body><h1>Hi</h1></body></html>")
-    local replacedLineBreaks = gsub(characterInfo["description"], "@N", "%\n")
-    if string.find(characterInfo['description'], "<p>") then
-      TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body>" .. replacedLineBreaks .. "</body></html>")
-      TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText("")
-    else
-      TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("")
-      TurtleRP_Description_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText(replacedLineBreaks)
+    TurtleRP_CharacterDetails_TargetName:SetText(TurtleRP_Target_TargetName:GetText())
+    local icon = characterInfo['icon']
+    if TurtleRPIcons[tonumber(icon)] then
+      TurtleRP_CharacterDetails_Icon:SetTexture("Interface\\Icons\\" .. TurtleRPIcons[tonumber(icon)])
     end
 
-    -- TurtleRP_Description_DescriptionScrollBox:
-    TurtleRP.SetDescriptionNameFrameWidths(playerName)
+    TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body><h1>Hi</h1></body></html>")
+    local replacedLineBreaks = gsub(characterInfo["description"], "@N", "%\n")
+    if string.find(characterInfo['description'], "<p>") then
+      TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body>" .. replacedLineBreaks .. "</body></html>")
+      TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText("")
+    else
+      TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("")
+      TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText(replacedLineBreaks)
+    end
+
+    local stringHeight = TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:GetHeight()
+    TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder:SetHeight(stringHeight * 1.5)
+    TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetHeight(stringHeight * 1.5)
   end
 end
 

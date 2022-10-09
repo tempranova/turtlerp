@@ -173,7 +173,7 @@ function TurtleRP.communication_events()
     else
       TurtleRP.sendRequestForData("D", UnitName("target"))
     end
-    TurtleRP_Description:Show()
+    TurtleRP_CharacterDetails:Show()
   end)
 
   local CheckMessages = CreateFrame("Frame")
@@ -412,7 +412,7 @@ function TurtleRP.displayData(dataPrefix, playerName)
   if playerName == TurtleRP.showDescription and (dataPrefix == "D" or dataPrefix == "DR") then
     TurtleRP.buildDescription(playerName)
     TurtleRP_Target:Hide()
-    TurtleRP_Description:Show()
+    TurtleRP_CharacterDetails:Show()
     TurtleRP.showDescription = nil
   end
 end
