@@ -22,6 +22,7 @@ Bugs
 
 Next Up
 
+- Adding note to download from releases
 - Adding relationships/status tab
 - Adding RP style tab
 

@@ -1274,7 +1274,7 @@
               <!-- Description Input Box -->
               <EditBox name="$parent_DescriptionInput" visible="true" enableMouse="true" autoFocus="false">
                 <Size>
-                  <AbsDimension x="280" y="300" />
+                  <AbsDimension x="280" y="1000" />
                 </Size>
                 <Anchors>
                   <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
