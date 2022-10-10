@@ -52,6 +52,39 @@ function TurtleRP.buildGeneral(playerName)
   TurtleRP_CharacterDetails_General_Romance:SetText(TurtleRPDropdownOptions["romance"][characterInfo["romance"]])
   TurtleRP_CharacterDetails_General_Death:SetText(TurtleRPDropdownOptions["death"][characterInfo["death"]])
 
+  if characterInfo["keyT"] ~= nil then
+    TurtleRP_CharacterDetails_General_AtAGlance1:Hide()
+    if characterInfo['atAGlance1Icon'] ~= "" then
+      local iconIndex = characterInfo["atAGlance1Icon"]
+      TurtleRP_CharacterDetails_General_AtAGlance1_Icon:SetTexture("Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)])
+      TurtleRP_CharacterDetails_General_AtAGlance1_TextPanel_TitleText:SetText(characterInfo["atAGlance1Title"])
+      TurtleRP_CharacterDetails_General_AtAGlance1_TextPanel_Text:SetText(characterInfo["atAGlance1"])
+      TurtleRP_CharacterDetails_General_AtAGlance1:Show()
+      TurtleRP_CharacterDetails_General_DarkBack:SetPoint("BOTTOMLEFT", TurtleRP_CharacterDetails_General_OOCInfoText, "BOTTOMLEFT", 0, -40)
+    end
+
+    TurtleRP_CharacterDetails_General_AtAGlance2:Hide()
+    if characterInfo['atAGlance2Icon'] ~= "" then
+      local iconIndex = characterInfo["atAGlance2Icon"]
+      TurtleRP_CharacterDetails_General_AtAGlance2_Icon:SetTexture("Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)])
+      TurtleRP_CharacterDetails_General_AtAGlance2_TextPanel_TitleText:SetText(characterInfo["atAGlance2Title"])
+      TurtleRP_CharacterDetails_General_AtAGlance2_TextPanel_Text:SetText(characterInfo["atAGlance2"])
+      TurtleRP_CharacterDetails_General_AtAGlance2:Show()
+      TurtleRP_CharacterDetails_General_DarkBack:SetPoint("BOTTOMLEFT", TurtleRP_CharacterDetails_General_OOCInfoText, "BOTTOMLEFT", 0, -40)
+    end
+
+    TurtleRP_CharacterDetails_General_AtAGlance3:Hide()
+    if characterInfo['atAGlance3Icon'] ~= "" then
+      local iconIndex = characterInfo["atAGlance3Icon"]
+      TurtleRP_CharacterDetails_General_AtAGlance3_Icon:SetTexture("Interface\\Icons\\" .. TurtleRPIcons[tonumber(iconIndex)])
+      TurtleRP_CharacterDetails_General_AtAGlance3_TextPanel_TitleText:SetText(characterInfo["atAGlance3Title"])
+      TurtleRP_CharacterDetails_General_AtAGlance3_TextPanel_Text:SetText(characterInfo["atAGlance3"])
+      TurtleRP_CharacterDetails_General_AtAGlance3:Show()
+      TurtleRP_CharacterDetails_General_DarkBack:SetPoint("BOTTOMLEFT", TurtleRP_CharacterDetails_General_OOCInfoText, "BOTTOMLEFT", 0, -40)
+    end
+
+  end
+
   TurtleRP_CharacterDetails_FrameTabButton1:SetNormalTexture("Interface\\Spellbook\\UI-SpellBook-Tab1-Selected")
   TurtleRP_CharacterDetails_FrameTabButton2:SetNormalTexture("Interface\\Spellbook\\UI-Spellbook-Tab-Unselected")
   TurtleRP_CharacterDetails_FrameTabButton3:SetNormalTexture("Interface\\Spellbook\\UI-SpellBook-Tab-Unselected")
@@ -93,6 +126,11 @@ function TurtleRP.buildNotes(playerName)
 
   local characterInfo = TurtleRPCharacters[playerName]
   TurtleRP.SetNameAndIcon(playerName)
+
+  if TurtleRPCharacterInfo['character_notes'][TurtleRP.currentlyViewedPlayer] ~= nil then
+    TurtleRP_CharacterDetails_Notes_NotesScrollBox_NotesInput:SetText(TurtleRPCharacterInfo['character_notes'][TurtleRP.currentlyViewedPlayer])
+  end
+
   TurtleRP_CharacterDetails_Notes:Show()
 
   TurtleRP_CharacterDetails_FrameTabButton1:SetNormalTexture("Interface\\Spellbook\\UI-Spellbook-Tab-Unselected")

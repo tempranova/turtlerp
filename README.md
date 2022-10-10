@@ -22,7 +22,6 @@ Bugs
 
 Next Up
 
-- Adding individual character notes
 - Option to make description tab moveable or not
 - Update/requery button (if online, otherwise mouseover that can't)
 - General testing and breaking and so on

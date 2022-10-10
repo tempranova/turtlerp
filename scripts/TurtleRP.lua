@@ -103,6 +103,8 @@ function TurtleRP:OnEvent()
     TurtleRPCharacterInfoTemplate["romance"] = "0"
     TurtleRPCharacterInfoTemplate["death"] = "0"
 
+    TurtleRPCharacterInfoTemplate["character_notes"] = {}
+
     local TurtleRPSettingsTemplate = {}
     TurtleRPSettingsTemplate["bgs"] = "off"
     TurtleRPSettingsTemplate["tray"] = "1"
@@ -419,6 +421,11 @@ function TurtleRP.save_notes()
   local notes = TurtleRP_AdminSB_Content4_NotesScrollBox_NotesInput:GetText()
   TurtleRP_AdminSB_Content4_NotesScrollBox_NotesInput:ClearFocus()
   TurtleRPCharacterInfo["notes"] = notes
+end
+function TurtleRP.save_character_notes()
+  local notes = TurtleRP_CharacterDetails_Notes_NotesScrollBox_NotesInput:GetText()
+  TurtleRP_CharacterDetails_Notes_NotesScrollBox_NotesInput:ClearFocus()
+  TurtleRPCharacterInfo["character_notes"][TurtleRP.currentlyViewedPlayer] = notes
 end
 
 -----
