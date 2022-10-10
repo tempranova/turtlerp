@@ -168,14 +168,14 @@ end
 function TurtleRP.communication_events()
 
   TurtleRP_Target_DescriptionButton:SetScript("OnClick", function()
+    TurtleRP.OpenProfile()
+
     if UnitName("target") == UnitName("player") then
       TurtleRP.buildDescription(UnitName("player"))
     else
       TurtleRP.sendRequestForData("D", UnitName("target"))
     end
 
-    UIPanelWindows["TurtleRP_CharacterDetails"] = { area = "left", pushable = 6 }
-    ShowUIPanel(TurtleRP_CharacterDetails)
   end)
 
   local CheckMessages = CreateFrame("Frame")
@@ -346,7 +346,6 @@ function TurtleRP.recieveAndStoreData(dataPrefix, playerName, msg)
       TurtleRP.displayData(dataPrefix, playerName)
       if playerName == UnitName("target") or playerName == UnitName("mouseover") then
         TurtleRP.SetTargetNameFrameWidths(playerName)
-        TurtleRP.SetDescriptionNameFrameWidths(playerName)
       end
     end
   end
@@ -412,12 +411,9 @@ function TurtleRP.displayData(dataPrefix, playerName)
     TurtleRP.showTarget = nil
   end
   if playerName == TurtleRP.showDescription and (dataPrefix == "D" or dataPrefix == "DR") then
+    TurtleRP.OpenProfile()
     TurtleRP.buildDescription(playerName)
     TurtleRP_Target:Hide()
-
-    UIPanelWindows["TurtleRP_CharacterDetails"] = { area = "left", pushable = 6 }
-    ShowUIPanel(TurtleRP_CharacterDetails)
-
     TurtleRP.showDescription = nil
   end
 end

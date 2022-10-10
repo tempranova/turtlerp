@@ -45,7 +45,7 @@
     </HitRectInsets>
     <Scripts>
       <OnClick>
-        TurtleRP.OnBottomTabClick(this.bookType)
+        TurtleRP.OnBottomTabAdminClick(this.bookType)
       </OnClick>
     </Scripts>
     <NormalText inherits="GameFontNormalSmall">

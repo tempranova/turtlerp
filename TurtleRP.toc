@@ -12,13 +12,14 @@ scripts\TurtleRPComms.lua
 scripts\TurtleRPEmotes.lua
 scripts\TurtleRPDirectory.lua
 scripts\TurtleRPIconTray.lua
+scripts\TurtleRPProfile.lua
 scripts\TurtleRPAdmin.lua
 scripts\TurtleRP.lua
 scripts\TurtleRPTooltip.lua
 components\TurtleRP_Admin.xml
 components\TurtleRP_Directory.xml
 components\TurtleRP_Target.xml
-components\TurtleRP_Description.xml
+components\TurtleRP_Profile.xml
 components\TurtleRP_Tooltip.xml
 components\TurtleRP_Minimap.xml
 components\TurtleRP_ChatBox.xml

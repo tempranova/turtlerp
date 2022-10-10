@@ -161,8 +161,7 @@ function TurtleRP.get_players_online()
 end
 
 function TurtleRP.OpenDirectoryListing(frame)
-  TurtleRP_Directory_DetailsFrame:SetPoint("LEFT", frame, "RIGHT", 30, 0)
-  TurtleRP_Directory_DetailsFrame:Show()
+  TurtleRP.OpenProfile("general")
 end
 
 function TurtleRP.Directory_FrameDropDown_Initialize()

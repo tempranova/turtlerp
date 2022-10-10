@@ -43,39 +43,34 @@
 TurtleRP = {}
 
 TurtleRPDropdownOptions = {}
-TurtleRPDropdownOptions["experience"] = {
-  ["1"] = "New",
-  ["2"] = "Comfortable",
-  ["3"] = "Advanced",
-  ["4"] = "Do Not Show"
-}
-TurtleRPDropdownOptions["walkups"] = {
-  ["1"] = "Welcomes Walk-Ups",
-  ["2"] = "No Walk-Ups",
-  ["3"] = "Guild Only",
-  ["4"] = "Do Not Show"
-}
-TurtleRPDropdownOptions["injury"] = {
-  ["1"] = "Acceptable",
-  ["2"] = "Ask First",
-  ["3"] = "No",
-  ["4"] = "Do Not Show"
-}
-TurtleRPDropdownOptions["romance"] = {
-  ["1"] = "Looking",
-  ["2"] = "In A Relationship",
-  ["3"] = "Open Relationship",
-  ["4"] = "Committed",
-  ["5"] = "Ask First",
-  ["6"] = "No",
-  ["7"] = "Do Not Show"
-}
-TurtleRPDropdownOptions["death"] = {
-  ["1"] = "Acceptable",
-  ["2"] = "Ask First",
-  ["3"] = "No",
-  ["4"] = "Do Not Show"
-}
+TurtleRPDropdownOptions["experience"] = {}
+TurtleRPDropdownOptions["experience"][1] = "New"
+TurtleRPDropdownOptions["experience"][2] = "Comfortable"
+TurtleRPDropdownOptions["experience"][3] = "Advanced"
+TurtleRPDropdownOptions["experience"][4] = "Do Not Show"
+TurtleRPDropdownOptions["walkups"] = {}
+TurtleRPDropdownOptions["walkups"][1] = "Welcomes Walk-Ups"
+TurtleRPDropdownOptions["walkups"][2] = "No Walk-Ups"
+TurtleRPDropdownOptions["walkups"][3] = "Guild Only"
+TurtleRPDropdownOptions["walkups"][4] = "Do Not Show"
+TurtleRPDropdownOptions["injury"] = {}
+TurtleRPDropdownOptions["injury"][1] = "Acceptable"
+TurtleRPDropdownOptions["injury"][2] = "Ask First"
+TurtleRPDropdownOptions["injury"][3] = "No"
+TurtleRPDropdownOptions["injury"][4] = "Do Not Show"
+TurtleRPDropdownOptions["romance"] = {}
+TurtleRPDropdownOptions["romance"][1] = "Looking"
+TurtleRPDropdownOptions["romance"][2] = "In A Relationship"
+TurtleRPDropdownOptions["romance"][3] = "Open Relationship"
+TurtleRPDropdownOptions["romance"][4] = "Committed"
+TurtleRPDropdownOptions["romance"][5] = "Ask First"
+TurtleRPDropdownOptions["romance"][6] = "No"
+TurtleRPDropdownOptions["romance"][7] = "Do Not Show"
+TurtleRPDropdownOptions["death"] = {}
+TurtleRPDropdownOptions["death"][1] = "Acceptable"
+TurtleRPDropdownOptions["death"][2] = "Ask First"
+TurtleRPDropdownOptions["death"][3] = "No"
+TurtleRPDropdownOptions["death"][4] = "Do Not Show"
 
 
 TurtleRPClassData = {}

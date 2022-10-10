@@ -97,7 +97,7 @@ function TurtleRP:OnEvent()
     TurtleRPCharacterInfoTemplate["description"] = ""
 
     TurtleRPCharacterInfoTemplate["keyS"] = TurtleRP.randomchars()
-    TurtleRPCharacterInfoTemplate["experience"] = "1"
+    TurtleRPCharacterInfoTemplate["experience"] = "0"
     TurtleRPCharacterInfoTemplate["walkups"] = "0"
     TurtleRPCharacterInfoTemplate["injury"] = "0"
     TurtleRPCharacterInfoTemplate["romance"] = "0"
@@ -239,32 +239,6 @@ function TurtleRP.buildTargetFrame(playerName)
   end
 end
 
-function TurtleRP.buildDescription(playerName)
-  local characterInfo = TurtleRPCharacters[playerName]
-  if characterInfo["keyD"] ~= nil then
-
-    TurtleRP_CharacterDetails_TargetName:SetText(TurtleRP_Target_TargetName:GetText())
-    local icon = characterInfo['icon']
-    if TurtleRPIcons[tonumber(icon)] then
-      TurtleRP_CharacterDetails_Icon:SetTexture("Interface\\Icons\\" .. TurtleRPIcons[tonumber(icon)])
-    end
-
-    TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body><h1>Hi</h1></body></html>")
-    local replacedLineBreaks = gsub(characterInfo["description"], "@N", "%\n")
-    if string.find(characterInfo['description'], "<p>") then
-      TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body>" .. replacedLineBreaks .. "</body></html>")
-      TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText("")
-    else
-      TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("")
-      TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText(replacedLineBreaks)
-    end
-
-    local stringHeight = TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:GetHeight()
-    TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder:SetHeight(stringHeight * 1.5)
-    TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetHeight(stringHeight * 1.5)
-  end
-end
-
 -----
 -- Populate data
 -----
@@ -399,16 +373,16 @@ function TurtleRP.save_general()
 end
 function TurtleRP.save_style()
   TurtleRPCharacterInfo['keyS'] = TurtleRP.randomchars()
-  local experience = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_ExperienceDropdown)
-  TurtleRPCharacterInfo["experience"] = experience ~= nil and experience or "0"
-  local walkups = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_WalkupsDropdown)
-  TurtleRPCharacterInfo["walkups"] = walkups ~= nil and walkups or "0"
-  local injury = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_InjuryDropdown)
-  TurtleRPCharacterInfo["injury"] = injury ~= nil and injury or "0"
-  local romance = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_RomanceDropdown)
-  TurtleRPCharacterInfo["romance"] = romance ~= nil and romance or "0"
-  local death = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_DeathDropdown)
-  TurtleRPCharacterInfo["death"] = death ~= nil and death or "0"
+  local experience = UIDropDownMenu_GetSelectedID(TurtleRP_AdminSB_Content1_Tab2_ExperienceDropdown)
+  TurtleRPCharacterInfo["experience"] = experience ~= nil and experience or 0
+  local walkups = UIDropDownMenu_GetSelectedID(TurtleRP_AdminSB_Content1_Tab2_WalkupsDropdown)
+  TurtleRPCharacterInfo["walkups"] = walkups ~= nil and walkups or 0
+  local injury = UIDropDownMenu_GetSelectedID(TurtleRP_AdminSB_Content1_Tab2_InjuryDropdown)
+  TurtleRPCharacterInfo["injury"] = injury ~= nil and injury or 0
+  local romance = UIDropDownMenu_GetSelectedID(TurtleRP_AdminSB_Content1_Tab2_RomanceDropdown)
+  TurtleRPCharacterInfo["romance"] = romance ~= nil and romance or 0
+  local death = UIDropDownMenu_GetSelectedID(TurtleRP_AdminSB_Content1_Tab2_DeathDropdown)
+  TurtleRPCharacterInfo["death"] = death ~= nil and death or 0
   TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
 end
 function TurtleRP.save_at_a_glance()

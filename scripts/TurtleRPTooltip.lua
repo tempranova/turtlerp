@@ -112,10 +112,6 @@ function TurtleRP.buildTooltip(playerName, targetType)
     locallyRetrievable = true
   end
 
-  if targetType == nil then
-    GameTooltip_SetDefaultAnchor(TurtleRP.gameTooltip, UIParent)
-  end
-
   -- Getting details for character
   local fullName        = locallyRetrievable and characterInfo["full_name"] or UnitName(targetType)
   local race            = locallyRetrievable and characterInfo["race"] or UnitRace(targetType)

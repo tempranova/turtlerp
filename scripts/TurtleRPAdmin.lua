@@ -68,7 +68,7 @@ function TurtleRP.OnAdminTabClick(id)
   end
 end
 
-function TurtleRP.OnBottomTabClick(bookType)
+function TurtleRP.OnBottomTabAdminClick(bookType)
   if bookType == "profile" then
     TurtleRP_AdminSB_Content1:Show()
     TurtleRP_AdminSB_SpellBookFrameTabButton1:SetNormalTexture("Interface\\Spellbook\\UI-Spellbook-Tab1-Selected")
@@ -122,8 +122,9 @@ function TurtleRP.InitializeRPStyleDropdown(frame, items)
       info.checked = false
       info.menuList = i
       info.hasArrow = false
-      info.func = function(val)
-        getglobal(frameName .. "_Text"):SetText(val)
+      info.func = function(text)
+        getglobal(frameName .. "_Text"):SetText(text)
+        UIDropDownMenu_SetSelectedName(frame, text)
         CloseDropDownMenus()
       end
       UIDropDownMenu_AddButton(info)
@@ -143,7 +144,7 @@ function TurtleRP.SetInitialDropdowns()
     if TurtleRPCharacters[UnitName("player")][i] ~= "0" then
       local thisValue = TurtleRPCharacters[UnitName("player")][i]
       getglobal(v:GetName() .. "_Text"):SetText(TurtleRPDropdownOptions[i][thisValue])
-      UIDropDownMenu_SetSelectedValue(v, thisValue)
+      UIDropDownMenu_SetSelectedID(v, thisValue)
     end
   end
 end

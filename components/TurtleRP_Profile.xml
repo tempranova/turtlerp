@@ -1,0 +1,476 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+
+  <!-- Spellbook bottom tab button template -->
+  <Button name="TurtleRP_ProfileFrameTabButtonTemplate" virtual="true">
+    <Size>
+      <AbsDimension x="128" y="64"/>
+    </Size>
+    <HitRectInsets>
+      <AbsInset left="15" right="14" top="13" bottom="15"/>
+    </HitRectInsets>
+    <Scripts>
+      <OnClick>
+        TurtleRP.OnBottomTabProfileClick(this.bookType)
+      </OnClick>
+    </Scripts>
+    <NormalText inherits="GameFontNormalSmall">
+      <Anchors>
+        <Anchor point="CENTER">
+          <Offset>
+            <AbsDimension x="0" y="3"/>
+          </Offset>
+        </Anchor>
+      </Anchors>
+    </NormalText>
+    <HighlightText inherits="GameFontHighlightSmall">
+      <Anchors>
+        <Anchor point="CENTER">
+          <Offset>
+            <AbsDimension x="0" y="3"/>
+          </Offset>
+        </Anchor>
+      </Anchors>
+    </HighlightText>
+    <DisabledText inherits="GameFontHighlightSmall">
+      <Anchors>
+        <Anchor point="CENTER">
+          <Offset>
+            <AbsDimension x="0" y="6"/>
+          </Offset>
+        </Anchor>
+      </Anchors>
+    </DisabledText>
+    <NormalTexture file="Interface\SpellBook\UI-SpellBook-Tab-Unselected"/>
+    <!-- <HighlightTexture file="Interface\SpellBook\UI-SpellbookPanel-Tab-Highlight"/> -->
+  </Button>
+
+  <Frame name="TurtleRP_CharacterDetails" toplevel="true" parent="UIParent" enableMouse="true" hidden="true">
+    <Size>
+      <AbsDimension x="384" y="512"/>
+    </Size>
+    <Anchors>
+      <Anchor point="TOPLEFT">
+        <Offset>
+          <AbsDimension x="0" y="-104"/>
+        </Offset>
+      </Anchor>
+    </Anchors>
+    <HitRectInsets>
+      <AbsInset left="0" right="30" top="0" bottom="45"/>
+    </HitRectInsets>
+    <Layers>
+      <Layer level="ARTWORK">
+        <Texture name="$parent_TopLeft" file="Interface\Addons\TurtleRP\images\description\TTRP-Description-TopLeft">
+          <Size>
+            <AbsDimension x="256" y="256"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOPLEFT">
+              <Offset>
+                <AbsDimension x="0" y="0"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </Texture>
+        <Texture name="$parent_TopRight" file="Interface\QuestFrame\UI-QuestGreeting-TopRight">
+          <Size>
+            <AbsDimension x="128" y="256"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOPRIGHT">
+              <Offset>
+                <AbsDimension x="0" y="0"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </Texture>
+        <Texture name="$parent_BottomLeft" file="Interface\Addons\TurtleRP\images\description\TTRP-Description-BotLeft">
+          <Size>
+            <AbsDimension x="256" y="256"/>
+          </Size>
+          <Anchors>
+            <Anchor point="BOTTOMLEFT">
+              <Offset>
+                <AbsDimension x="0" y="0"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </Texture>
+        <Texture name="$parent_BottomRight" file="Interface\Addons\TurtleRP\images\description\TTRP-Description-BotRight">
+          <Size>
+            <AbsDimension x="128" y="256"/>
+          </Size>
+          <Anchors>
+            <Anchor point="BOTTOMRIGHT">
+              <Offset>
+                <AbsDimension x="0" y="0"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <FontString name="$parent_TargetName" inherits="GameFontHighlightLarge">
+          <Anchors>
+            <Anchor point="TOPLEFT">
+              <Offset>
+                <AbsDimension x="65" y="-52"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
+        <Texture name="$parent_Icon" file="Interface\Icons\Ability_Druid_TravelForm">
+          <Size>
+            <AbsDimension x="30" y="30"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOPLEFT">
+              <Offset>
+                <AbsDimension x="30" y="-45"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </Texture>
+      </Layer>
+    </Layers>
+    <Frames>
+      <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
+        <Anchors>
+          <Anchor point="TOPRIGHT">
+            <Offset>
+              <AbsDimension x="-27" y="-14"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+
+      <Frame name="$parent_General" hidden="true" enableMouse="true">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+            <Offset>
+              <AbsDimension x="20" y="-79" />
+            </Offset>
+          </Anchor>
+          <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
+            <Offset>
+              <AbsDimension x="-62" y="75" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="ARTWORK">
+            <Texture name="$parent_DarkBack" >
+              <Size>
+                <AbsDimension x="256" y="100"/>
+              </Size>
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" />
+                <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" />
+              </Anchors>
+              <Color r="0" g="0" b="0" a="0.7" />
+            </Texture>
+          </Layer>
+          <Layer level="OVERLAY">
+            <!-- Race and class -->
+            <FontString name="$parent_TargetRaceClass" inherits="GameTooltipHeaderText" text="Race |cff000000Class">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                  <Offset>
+                    <AbsDimension x="10" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <!-- IC or OOC -->
+            <FontString name="$parent_ICOOC" inherits="GameTooltipHeaderText" text="Currently IC">
+              <Anchors>
+                <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+                  <Offset>
+                    <AbsDimension x="-10" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <!-- IC Info -->
+            <FontString name="$parent_ICInfo" inherits="GameTooltipHeaderText" text="|cffCC9900IC Info">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_TargetRaceClass" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <FontString name="$parent_ICInfoText" inherits="GameTooltipText" text="">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_ICInfo" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <!-- OOC Info -->
+            <FontString name="$parent_OOCInfo" inherits="GameTooltipHeaderText" text="|cffCC9900OOC Info">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_ICInfoText" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <FontString name="$parent_OOCInfoText" inherits="GameTooltipText" text="">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_OOCInfo" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <!-- Experience -->
+            <FontString name="$parent_ExperienceText" inherits="QuestFont" text="Experience">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_DarkBack" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="10" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <Color r="0" g="0" b="0" a="0.6" />
+            </FontString>
+            <FontString name="$parent_Experience" inherits="QuestFont" text="Experience">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_DarkBack" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="100" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <!-- Walkups -->
+            <FontString name="$parent_WalkupsText" inherits="QuestFont" text="Walk-Ups">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_ExperienceText" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <Color r="0" g="0" b="0" a="0.6" />
+            </FontString>
+            <FontString name="$parent_Walkups" inherits="QuestFont" text="Walkups">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_Experience" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <!-- Injury -->
+            <FontString name="$parent_InjuryText" inherits="QuestFont" text="Injury">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_WalkupsText" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <Color r="0" g="0" b="0" a="0.6" />
+            </FontString>
+            <FontString name="$parent_Injury" inherits="QuestFont" text="Injury">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_Walkups" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <!-- Romance -->
+            <FontString name="$parent_RomanceText" inherits="QuestFont" text="Romance">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_InjuryText" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <Color r="0" g="0" b="0" a="0.6" />
+            </FontString>
+            <FontString name="$parent_Romance" inherits="QuestFont" text="Romance">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_Injury" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <!-- Death -->
+            <FontString name="$parent_DeathText" inherits="QuestFont" text="Death">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_RomanceText" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <Color r="0" g="0" b="0" a="0.6" />
+            </FontString>
+            <FontString name="$parent_Death" inherits="QuestFont" text="Death">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent_Romance" relativePoint="BOTTOMLEFT">
+                  <Offset>
+                    <AbsDimension x="0" y="-10"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+        <Frames>
+          <Frame>
+          </Frame>
+        </Frames>
+      </Frame>
+
+      <!-- Description frame scrolling -->
+      <ScrollFrame name="$parent_DescriptionScrollBox" hidden="true" enableMouse="true" inherits="UIPanelScrollFrameTemplate">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+            <Offset>
+              <AbsDimension x="20" y="-79" />
+            </Offset>
+          </Anchor>
+          <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
+            <Offset>
+              <AbsDimension x="-62" y="75" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <ScrollChild>
+          <Frame name="$parent_DescriptionHolder">
+            <Size>
+              <AbsDimension x="280" y="50" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="0" y="-30" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Frames>
+              <SimpleHTML name="$parent_DescriptionHTML">
+                <Size>
+                  <AbsDimension x="280" y="150" />
+                </Size>
+                <Anchors>
+                  <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                    <Offset>
+                      <AbsDimension x="10" y="-10" />
+                    </Offset>
+                  </Anchor>
+                </Anchors>
+                <FontStringHeader1 inherits="GameFontHighlightLarge">
+                  <Shadow>
+                    <Offset>
+                      <AbsDimension x="1" y="-1"/>
+                    </Offset>
+                    <Color r="0.6" g="0.6" b="0.6" a="0.5"/>
+                  </Shadow>
+                  <Color r="0" g="0" b="0"/>
+                </FontStringHeader1>
+                <FontStringHeader2 inherits="GameTooltipHeaderText">
+                  <Shadow>
+                    <Offset>
+                      <AbsDimension x="1" y="-1"/>
+                    </Offset>
+                    <Color r="0.6" g="0.6" b="0.6" a="0.5"/>
+                  </Shadow>
+                  <Color r="0" g="0" b="0"/>
+                </FontStringHeader2>
+                <FontStringHeader3 inherits="QuestTitleFont">
+                  <Color r="0" g="0" b="0"/>
+                </FontStringHeader3>
+                <FontString inherits="QuestFont" justifyV="TOP" justifyH="LEFT">
+                  <Color r="0" g="0" b="0" />
+                </FontString>
+                <Layers>
+            			<Layer level="OVERLAY">
+                    <FontString name="$parent_TargetDescription" inherits="OVERLAY" font="Fonts\FRIZQT__.ttf" justifyH="LEFT" justifyV="TOP" text="">
+                      <Size>
+                        <AbsDimension x="280" />
+                      </Size>
+                      <Anchors>
+                        <Anchor point="TOPLEFT">
+                          <Offset>
+                            <AbsDimension x="0" y="-10" />
+                          </Offset>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT">
+                          <Offset>
+                            <AbsDimension x="0" y="0" />
+                          </Offset>
+                        </Anchor>
+                      </Anchors>
+                      <FontHeight>
+                        <AbsValue val="12" />
+                      </FontHeight>
+                      <Color r="0" g="0" b="0" />
+                    </FontString>
+                  </Layer>
+                </Layers>
+              </SimpleHTML>
+            </Frames>
+          </Frame>
+        </ScrollChild>
+      </ScrollFrame>
+
+      <Frame name="$parent_Notes" hidden="true" enableMouse="true">
+      </Frame>
+
+      <Button name="$parent_FrameTabButton1" inherits="TurtleRP_ProfileFrameTabButtonTemplate" text="General">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT">
+            <Offset>
+              <AbsDimension x="10" y="90"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <DisabledTexture file="Interface\SpellBook\UI-SpellBook-Tab1-Selected"/>
+      </Button>
+      <Button name="$parent_FrameTabButton2" inherits="TurtleRP_ProfileFrameTabButtonTemplate" text="Description">
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parent_FrameTabButton1" relativePoint="RIGHT">
+            <Offset>
+              <AbsDimension x="-20" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <DisabledTexture file="Interface\SpellBook\UI-SpellBook-Tab1-Selected"/>
+      </Button>
+      <Button name="$parent_FrameTabButton3" inherits="TurtleRP_ProfileFrameTabButtonTemplate" text="Notes">
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parent_FrameTabButton2" relativePoint="RIGHT">
+            <Offset>
+              <AbsDimension x="-20" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <DisabledTexture file="Interface\SpellBook\UI-SpellBook-Tab1-Selected"/>
+      </Button>
+    </Frames>
+    <Scripts>
+      <OnMouseDown>
+        this:StartMoving()
+      </OnMouseDown>
+      <OnMouseUp>
+        this:StopMovingOrSizing()
+      </OnMouseUp>
+    </Scripts>
+  </Frame>
+</Ui>

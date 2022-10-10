@@ -109,11 +109,11 @@
     </Frames>
     <Scripts>
       <OnClick>
-        TurtleRP.OpenDirectoryListing(this)
-
         local thisFrameName = "TurtleRP_DirectoryFrame_Directory_Button" .. this:GetID()
         local playerName = getglobal(thisFrameName .. "Name"):GetText()
         TurtleRP.currentlyViewedPlayer = playerName
+
+        TurtleRP.OpenDirectoryListing(this)
 
         PlaySound("igMainMenuOptionCheckBoxOn")
       </OnClick>
