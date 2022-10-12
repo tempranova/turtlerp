@@ -846,6 +846,16 @@
       </Button>
     </Frames>
     <Scripts>
+      <OnLoad>
+        if ShaguTweaks_config and ShaguTweaks_config["Darkened UI"] and ShaguTweaks_config["Darkened UI"] == 1 then
+          this.Material = this.Material or this:CreateTexture(nil, "OVERLAY")
+          this.Material:SetTexture("Interface\\Stationery\\StationeryTest1")
+          this.Material:SetWidth(300)
+          this.Material:SetHeight(350)
+          this.Material:SetPoint("TOPLEFT", this, 20, -84)
+          this.Material:SetVertexColor(.8, .8, .8)
+        end
+      </OnLoad>
       <OnHide>
         TurtleRP.SetDirectoryButtonsActive(false)
       </OnHide>

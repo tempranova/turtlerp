@@ -23,6 +23,8 @@ Bugs
 
 Next Up
 
+- Make a help menu
+
 ### Recently Done
 
 1.1.0
