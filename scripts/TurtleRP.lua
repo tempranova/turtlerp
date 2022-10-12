@@ -152,7 +152,7 @@ function TurtleRP:OnEvent()
 
     -- Intro message
     TurtleRP.log("Welcome, |cff8C48AB" .. TurtleRPCharacterInfo["full_name"] .. "|ccfFFFFFF, to TurtleRP.")
-    TurtleRP.log("Type |cff8C48AB/ttrp |ccfFFFFFFto open the addon.")
+    TurtleRP.log("Type |cff8C48AB/ttrp |ccfFFFFFFto open the addon, or |cff8C48AB/ttrp help|ccfFFFFFF to see slash commands.")
 
     if GetRealmName() == "Turtle WoW" and UnitLevel("player") < 5 and UnitLevel("player") ~= 0 then
       TurtleRP.log("|cff8C48ABSorry, but due to Turtle WoW restrictions you can't access other player's TurtleRP profiles until level 5.")
@@ -176,7 +176,11 @@ function TurtleRP:OnEvent()
     -- SLash commands
     SLASH_TURTLERP1 = "/ttrp";
     function SlashCmdList.TURTLERP(msg)
-      if msg == "dir" or msg == "directory" then
+      if msg == "help" then
+        TurtleRP.log("|cff8C48AB/ttrp|ccfFFFFFF - open admin panel")
+        TurtleRP.log("|cff8C48AB/ttrp dir|ccfFFFFFF - open directory panel")
+        TurtleRP.log("Visit our Discord for more help.")
+      elseif msg == "dir" or msg == "directory" then
         TurtleRP.OpenDirectory()
       else
         TurtleRP.OpenAdmin()
