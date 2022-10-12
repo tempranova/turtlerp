@@ -42,6 +42,13 @@ Next Up
   - Confirmation required when sending any emote with odd "s (long or short form)
 - Version tracker (chat message and note in admin panel)
 - Resetting defaults on tooltip mouseovers (PFUI issue with sticking icon + font size)
+- Revised Description window, more in line with WoW interface 
+- Description panel now Profile window, has Mouseover and Target information as well
+- Ability to select and fetch in directory, delete in directory
+- Clicking in directory opens new Profile window
+- Personal notes now collected in Profile window
+- Ability to set RP Style in Admin Profile RP Style tab
+- RP style shows in Profile window
 
 Beta fixes
 - Removing any quotation verification from chat-line emote; only present on chat box emote verification
