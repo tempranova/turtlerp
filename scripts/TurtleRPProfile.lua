@@ -170,6 +170,8 @@ function TurtleRP.buildNotes(playerName)
 
   if TurtleRPCharacterInfo['character_notes'][TurtleRP.currentlyViewedPlayer] ~= nil then
     TurtleRP_CharacterDetails_Notes_NotesScrollBox_NotesInput:SetText(TurtleRPCharacterInfo['character_notes'][TurtleRP.currentlyViewedPlayer])
+  else
+    TurtleRP_CharacterDetails_Notes_NotesScrollBox_NotesInput:SetText("")
   end
 
   TurtleRP_CharacterDetails_Notes:Show()

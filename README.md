@@ -14,6 +14,8 @@ Tests
 
 Bugs
 
+- Personal note not populating with proper user note
+
 - Color pick is sometimes connected to other color picker instances
 - Not disabled in BGs
 - Custom colors for emotes get overwritten
@@ -42,7 +44,7 @@ Next Up
   - Confirmation required when sending any emote with odd "s (long or short form)
 - Version tracker (chat message and note in admin panel)
 - Resetting defaults on tooltip mouseovers (PFUI issue with sticking icon + font size)
-- Revised Description window, more in line with WoW interface 
+- Revised Description window, more in line with WoW interface
 - Description panel now Profile window, has Mouseover and Target information as well
 - Ability to select and fetch in directory, delete in directory
 - Clicking in directory opens new Profile window
