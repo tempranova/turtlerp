@@ -112,6 +112,13 @@
         local thisFrameName = "TurtleRP_DirectoryFrame_Directory_Button" .. this:GetID()
         local playerName = getglobal(thisFrameName .. "Name"):GetText()
         TurtleRP.currentlyViewedPlayer = playerName
+        TurtleRP.SetDirectoryButtonsActive(true)
+
+        if TurtleRP.currentlyViewedPlayerFrame ~= nil then
+          TurtleRP.currentlyViewedPlayerFrame:UnlockHighlight()
+        end
+        TurtleRP.currentlyViewedPlayerFrame = this
+        TurtleRP.currentlyViewedPlayerFrame:LockHighlight()
 
         TurtleRP.OpenDirectoryListing(this)
 
@@ -688,9 +695,9 @@
               </OnClick>
             </Scripts>
           </Button>
-          <Button name="$parent_CleanButton" inherits="UIPanelButtonTemplate" text="Clean Directory">
+          <Button name="$parent_CleanButton" inherits="UIPanelButtonTemplate" text="Clean List">
             <Size>
-              <AbsDimension x="125" y="22"/>
+              <AbsDimension x="100" y="22"/>
             </Size>
             <Anchors>
               <Anchor point="LEFT" relativeTo="$parent_RefreshButton" relativePoint="RIGHT">
@@ -707,6 +714,70 @@
               <OnEnter>
                 GameTooltip:SetOwner(this, "ANCHOR_RIGHT");
                 GameTooltip:SetText("Remove duplicates and players with invalid names.");
+              </OnEnter>
+              <OnLeave>
+                GameTooltip:Hide();
+              </OnLeave>
+            </Scripts>
+          </Button>
+
+          <Button name="$parent_FetchButton" inherits="UIPanelButtonTemplate" text="Fetch">
+            <Size>
+              <AbsDimension x="80" y="22"/>
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" relativeTo="$parent_CleanButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="-5" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                this:Disable()
+              </OnLoad>
+              <OnClick>
+                if TurtleRP.currentlyViewedPlayer then
+                  TurtleRP.sendRequestForData("M", TurtleRP.currentlyViewedPlayer)
+                  TurtleRP.sendRequestForData("T", TurtleRP.currentlyViewedPlayer)
+                  TurtleRP.sendRequestForData("D", TurtleRP.currentlyViewedPlayer)
+                end
+              </OnClick>
+              <OnEnter>
+                GameTooltip:SetOwner(this, "ANCHOR_RIGHT");
+                GameTooltip:SetText("Fetch new data for selected player (if they are online).");
+              </OnEnter>
+              <OnLeave>
+                GameTooltip:Hide();
+              </OnLeave>
+            </Scripts>
+          </Button>
+
+          <Button name="$parent_DeleteButton" inherits="UIPanelButtonTemplate" text="Delete">
+            <Size>
+              <AbsDimension x="70" y="22"/>
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" relativeTo="$parent_FetchButton" relativePoint="RIGHT">
+                <Offset>
+                  <AbsDimension x="-5" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                this:Disable()
+              </OnLoad>
+              <OnClick>
+                if TurtleRP.currentlyViewedPlayer then
+                  TurtleRPCharacters[TurtleRP.currentlyViewedPlayer] = nil
+                  TurtleRPQueryablePlayers[TurtleRP.currentlyViewedPlayer] = nil
+                  TurtleRP.Directory_ScrollBar_Update()
+                end
+              </OnClick>
+              <OnEnter>
+                GameTooltip:SetOwner(this, "ANCHOR_RIGHT");
+                GameTooltip:SetText("Delete selected player from directory.");
               </OnEnter>
               <OnLeave>
                 GameTooltip:Hide();
@@ -758,142 +829,14 @@
         </Frames>
       </Frame>
     </Frames>
-  </Frame>
-
-  <Frame name="TurtleRP_Directory_DetailsFrame" hidden="true">
-    <Size>
-      <AbsDimension x="150" y="65"/>
-    </Size>
-    <Anchors>
-      <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPRIGHT">
-        <Offset>
-          <AbsDimension x="0" y="0" />
-        </Offset>
-      </Anchor>
-    </Anchors>
-    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-      <BackgroundInsets>
-        <AbsInset left="11" right="12" top="12" bottom="11"/>
-      </BackgroundInsets>
-      <TileSize>
-        <AbsValue val="32"/>
-      </TileSize>
-      <EdgeSize>
-        <AbsValue val="32"/>
-      </EdgeSize>
-    </Backdrop>
-    <Frames>
-      <!-- Close button -->
-      <Button name="$parent_CloseButton" inherits="UIPanelCloseButton">
-        <Size>
-          <AbsDimension x="20" y="20" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPRIGHT">
-            <Offset>
-              <AbsDimension x="-10" y="-10"/>
-            </Offset>
-          </Anchor>
-        </Anchors>
-      </Button>
-      <!-- See Tooltip button -->
-      <Button name="$parent_TooltipButton" inherits="UIPanelButtonGrayTemplate" text="Tooltip">
-        <Size>
-          <AbsDimension x="40" y="18" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
-            <Offset>
-              <AbsDimension x="15" y="-15"/>
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Scripts>
-          <OnLoad>
-            this:SetFont("Fonts\\FRIZQT__.ttf", 8)
-          </OnLoad>
-          <OnClick>
-            TurtleRP.showTooltip = TurtleRP.currentlyViewedPlayer
-            TurtleRP.sendRequestForData("M", TurtleRP.currentlyViewedPlayer)
-          </OnClick>
-          <OnHide>
-            TurtleRP.showTooltip = nil
-            TurtleRP.gameTooltip:Hide()
-          </OnHide>
-        </Scripts>
-      </Button>
-      <!-- See Glances button -->
-      <Button name="$parent_GlancesButton" inherits="UIPanelButtonGrayTemplate" text="Glances">
-        <Size>
-          <AbsDimension x="45" y="18" />
-        </Size>
-        <Anchors>
-          <Anchor point="LEFT" relativeTo="$parent_TooltipButton" relativePoint="RIGHT">
-            <Offset>
-              <AbsDimension x="5" y="0"/>
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Scripts>
-          <OnLoad>
-            this:SetFont("Fonts\\FRIZQT__.ttf", 8)
-          </OnLoad>
-          <OnClick>
-            TurtleRP.showTarget = TurtleRP.currentlyViewedPlayer
-            TurtleRP.sendRequestForData("T", TurtleRP.currentlyViewedPlayer)
-          </OnClick>
-          <OnHide>
-            TurtleRP.currentlyViewedPlayer = nil
-          </OnHide>
-        </Scripts>
-      </Button>
-      <!-- See Description button -->
-      <Button name="$parent_DescriptionButton" inherits="UIPanelButtonGrayTemplate" text="Description">
-        <Size>
-          <AbsDimension x="60" y="18" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="$parent_TooltipButton" relativePoint="BOTTOMLEFT">
-            <Offset>
-              <AbsDimension x="0" y="-1"/>
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Scripts>
-          <OnLoad>
-            this:SetFont("Fonts\\FRIZQT__.ttf", 8)
-          </OnLoad>
-          <OnClick>
-            TurtleRP.showDescription = TurtleRP.currentlyViewedPlayer
-            TurtleRP.sendRequestForData("D", TurtleRP.currentlyViewedPlayer)
-          </OnClick>
-        </Scripts>
-      </Button>
-      <!-- Delete button -->
-      <Button name="$parent_DescriptionButton" inherits="UIPanelButtonGrayTemplate" text="Delete">
-        <Size>
-          <AbsDimension x="35" y="18" />
-        </Size>
-        <Anchors>
-          <Anchor point="LEFT" relativeTo="$parent_DescriptionButton" relativePoint="RIGHT">
-            <Offset>
-              <AbsDimension x="20" y="0"/>
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Scripts>
-          <OnLoad>
-            this:SetFont("Fonts\\FRIZQT__.ttf", 8)
-          </OnLoad>
-          <OnClick>
-            TurtleRPCharacters[TurtleRP.currentlyViewedPlayer] = nil
-            TurtleRP.Directory_ScrollBar_Update()
-            this:GetParent():Hide()
-            TurtleRP.currentlyViewedPlayer = nil
-          </OnClick>
-        </Scripts>
-      </Button>
-    </Frames>
+    <Scripts>
+      <OnHide>
+        if TurtleRP.currentlyViewedPlayerFrame ~= nil then
+          TurtleRP.currentlyViewedPlayerFrame:UnlockHighlight()
+          TurtleRP.currentlyViewedPlayerFrame = nil
+        end
+      </OnHide>
+    </Scripts>
   </Frame>
 
   <Frame name="TurtleRP_WorldMapUnitTemplate" hidden="true" virtual="true">

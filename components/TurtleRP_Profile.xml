@@ -179,6 +179,11 @@
                     <AbsDimension x="10" y="-10"/>
                   </Offset>
                 </Anchor>
+                <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+                  <Offset>
+                    <AbsDimension x="-10" y="-10"/>
+                  </Offset>
+                </Anchor>
               </Anchors>
             </FontString>
             <!-- IC or OOC -->
@@ -202,6 +207,9 @@
               </Anchors>
             </FontString>
             <FontString name="$parent_ICInfoText" inherits="GameTooltipText" text="">
+              <Size>
+                <AbsDimension x="280" y="10"/>
+              </Size>
               <Anchors>
                 <Anchor point="TOPLEFT" relativeTo="$parent_ICInfo" relativePoint="BOTTOMLEFT">
                   <Offset>
@@ -221,6 +229,9 @@
               </Anchors>
             </FontString>
             <FontString name="$parent_OOCInfoText" inherits="GameTooltipText" text="">
+              <Size>
+                <AbsDimension x="280" y="10"/>
+              </Size>
               <Anchors>
                 <Anchor point="TOPLEFT" relativeTo="$parent_OOCInfo" relativePoint="BOTTOMLEFT">
                   <Offset>
@@ -835,12 +846,9 @@
       </Button>
     </Frames>
     <Scripts>
-      <OnMouseDown>
-        this:StartMoving()
-      </OnMouseDown>
-      <OnMouseUp>
-        this:StopMovingOrSizing()
-      </OnMouseUp>
+      <OnHide>
+        TurtleRP.SetDirectoryButtonsActive(false)
+      </OnHide>
     </Scripts>
   </Frame>
 </Ui>

@@ -10,7 +10,6 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 Tests
 
-- Text getting hidden width-wise by scrolling bar in description
 - Sometimes new name isn't appearing right away (not updated when open?) -- requires a target or mouseover to get updated currently?
 
 Bugs
@@ -21,10 +20,6 @@ Bugs
 - Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
 
 Next Up
-
-- Option to make description tab moveable or not
-- Update/requery button (if online, otherwise mouseover that can't)
-- General testing and breaking and so on
 
 ### Recently Done
 

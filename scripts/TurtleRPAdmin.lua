@@ -59,6 +59,11 @@ function TurtleRP.OnAdminTabClick(id)
       getglobal("TurtleRP_AdminSB_Content"..i):Show()
     end
   end
+
+  TurtleRP_AdminSB_Content1_Tab2:Hide()
+  TurtleRP_AdminSB_SpellBookFrameTabButton1:SetNormalTexture("Interface\\Spellbook\\UI-Spellbook-Tab1-Selected")
+  TurtleRP_AdminSB_SpellBookFrameTabButton2:SetNormalTexture("Interface\\Spellbook\\UI-SpellBook-Tab-Unselected")
+
   if id == 1 then
     TurtleRP_AdminSB_SpellBookFrameTabButton1:Show()
     TurtleRP_AdminSB_SpellBookFrameTabButton2:Show()

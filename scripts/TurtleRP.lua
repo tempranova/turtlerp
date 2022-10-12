@@ -36,6 +36,7 @@ TurtleRP.gameTooltip = GameTooltip
 TurtleRP.shaguEnabled = nil
 -- Directory
 TurtleRP.currentlyViewedPlayer = nil
+TurtleRP.currentlyViewedPlayerFrame = nil
 TurtleRP.locationFrames = {}
 TurtleRP.showTooltip = nil
 TurtleRP.showTarget = nil
@@ -112,7 +113,6 @@ function TurtleRP:OnEvent()
     TurtleRPSettingsTemplate["minimap_icon_size"] = "0"
     TurtleRPSettingsTemplate["hide_minimap_icon"] = "1"
     TurtleRPSettingsTemplate["share_location"] = "1"
-
 
     -- Global character defaults setup
     if TurtleRPCharacterInfo == nil then
@@ -262,7 +262,8 @@ function TurtleRP.populate_interface_user_data()
   TurtleRP_AdminSB_Content2_AtAGlance3ScrollBox_AAG3Input:SetText(TurtleRPCharacterInfo["atAGlance3"])
   TurtleRP_AdminSB_Content2_AAG3TitleInput:SetText(TurtleRPCharacterInfo["atAGlance3Title"])
   TurtleRP.setAtAGlanceIcons()
-  TurtleRP_AdminSB_Content3_DescriptionScrollBox_DescriptionInput:SetText(TurtleRPCharacterInfo["description"])
+  local replacedLineBreaks = gsub(TurtleRPCharacterInfo["description"], "@N", "%\n")
+  TurtleRP_AdminSB_Content3_DescriptionScrollBox_DescriptionInput:SetText(replacedLineBreaks)
   TurtleRP_AdminSB_Content4_NotesScrollBox_NotesInput:SetText(TurtleRPCharacterInfo["notes"])
 
   TurtleRP_AdminSB_Content5_PVPButton:SetChecked(TurtleRPSettings["bgs"] == "on" and true or false)
