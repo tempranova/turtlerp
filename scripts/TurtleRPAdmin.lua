@@ -129,7 +129,8 @@ function TurtleRP.InitializeRPStyleDropdown(frame, items)
       info.hasArrow = false
       info.func = function(text)
         getglobal(frameName .. "_Text"):SetText(text)
-        UIDropDownMenu_SetSelectedName(frame, text)
+        TurtleRP.log(this.value)
+        UIDropDownMenu_SetSelectedValue(frame, this.value)
         CloseDropDownMenus()
       end
       UIDropDownMenu_AddButton(info)
@@ -149,7 +150,7 @@ function TurtleRP.SetInitialDropdowns()
     if TurtleRPCharacters[UnitName("player")][i] ~= "0" then
       local thisValue = TurtleRPCharacters[UnitName("player")][i]
       getglobal(v:GetName() .. "_Text"):SetText(TurtleRPDropdownOptions[i][thisValue])
-      UIDropDownMenu_SetSelectedID(v, thisValue)
+      UIDropDownMenu_SetSelectedValue(v, thisValue)
     end
   end
 end

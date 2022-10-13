@@ -77,7 +77,7 @@ function TurtleRP.buildGeneral(playerName)
 
   local lastFrame = nil
   lastFrame = TurtleRP.ShowOrHideProfileDetails(lastFrame, characterInfo, TurtleRP_CharacterDetails_General_TargetRaceClass, raceClassString)
-  TurtleRP.ShowOrHideProfileDetails(nil, characterInfo, TurtleRP_CharacterDetails_General_ICOOC, characterInfo["currently_ic"] == "1" and "|cff40AF6FCurrently IC" or "|cffD3681ECurrently OOC")
+  TurtleRP.ShowOrHideProfileDetails(nil, characterInfo, TurtleRP_CharacterDetails_General_ICOOC, characterInfo["currently_ic"] == "1" and "|cff40AF6FIC" or "|cffD3681EOOC")
   lastFrame = TurtleRP.ShowOrHideProfileDetails(lastFrame, characterInfo, TurtleRP_CharacterDetails_General_ICInfo, "|cffCC9900IC Info" .. TurtleRP.getPronounsText(characterInfo["ic_pronouns"], "|cffffcc80"), characterInfo["ic_info"] == nil or characterInfo["ic_info"] == "")
   lastFrame = TurtleRP.ShowOrHideProfileDetails(lastFrame, characterInfo, TurtleRP_CharacterDetails_General_ICInfoText, characterInfo["ic_info"])
   lastFrame = TurtleRP.ShowOrHideProfileDetails(lastFrame, characterInfo, TurtleRP_CharacterDetails_General_OOCInfo, "|cffCC9900OOC Info" .. TurtleRP.getPronounsText(characterInfo["ooc_pronouns"], "|cffffcc80"), characterInfo["ooc_info"] == nil or characterInfo["ooc_info"] == "")

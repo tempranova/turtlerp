@@ -92,17 +92,14 @@ function TurtleRP:OnEvent()
     TurtleRPCharacterInfoTemplate["atAGlance3"] = ""
     TurtleRPCharacterInfoTemplate["atAGlance3Title"] = ""
     TurtleRPCharacterInfoTemplate["atAGlance3Icon"] = ""
-    TurtleRPCharacterInfoTemplate["newfieldtest"] = ""
-
-    TurtleRPCharacterInfoTemplate["keyD"] = TurtleRP.randomchars()
-    TurtleRPCharacterInfoTemplate["description"] = ""
-
-    TurtleRPCharacterInfoTemplate["keyS"] = TurtleRP.randomchars()
     TurtleRPCharacterInfoTemplate["experience"] = "0"
     TurtleRPCharacterInfoTemplate["walkups"] = "0"
     TurtleRPCharacterInfoTemplate["injury"] = "0"
     TurtleRPCharacterInfoTemplate["romance"] = "0"
     TurtleRPCharacterInfoTemplate["death"] = "0"
+
+    TurtleRPCharacterInfoTemplate["keyD"] = TurtleRP.randomchars()
+    TurtleRPCharacterInfoTemplate["description"] = ""
 
     TurtleRPCharacterInfoTemplate["character_notes"] = {}
 
@@ -379,16 +376,18 @@ function TurtleRP.save_general()
   TurtleRP.setCharacterIcon()
 end
 function TurtleRP.save_style()
-  TurtleRPCharacterInfo['keyS'] = TurtleRP.randomchars()
-  local experience = UIDropDownMenu_GetSelectedID(TurtleRP_AdminSB_Content1_Tab2_ExperienceDropdown)
+  TurtleRPCharacterInfo['keyT'] = TurtleRP.randomchars()
+  local experience = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_ExperienceDropdown)
+  TurtleRP.log(experience)
   TurtleRPCharacterInfo["experience"] = experience ~= nil and experience or 0
-  local walkups = UIDropDownMenu_GetSelectedID(TurtleRP_AdminSB_Content1_Tab2_WalkupsDropdown)
+  local walkups = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_WalkupsDropdown)
+  TurtleRP.log(walkups)
   TurtleRPCharacterInfo["walkups"] = walkups ~= nil and walkups or 0
-  local injury = UIDropDownMenu_GetSelectedID(TurtleRP_AdminSB_Content1_Tab2_InjuryDropdown)
+  local injury = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_InjuryDropdown)
   TurtleRPCharacterInfo["injury"] = injury ~= nil and injury or 0
-  local romance = UIDropDownMenu_GetSelectedID(TurtleRP_AdminSB_Content1_Tab2_RomanceDropdown)
+  local romance = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_RomanceDropdown)
   TurtleRPCharacterInfo["romance"] = romance ~= nil and romance or 0
-  local death = UIDropDownMenu_GetSelectedID(TurtleRP_AdminSB_Content1_Tab2_DeathDropdown)
+  local death = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_DeathDropdown)
   TurtleRPCharacterInfo["death"] = death ~= nil and death or 0
   TurtleRPCharacters[UnitName("player")] = TurtleRPCharacterInfo
 end

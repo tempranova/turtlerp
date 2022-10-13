@@ -14,7 +14,7 @@ Tests
 
 Bugs
 
-- Personal note not populating with proper user note
+- Race/class overlap with Current status
 
 - Color pick is sometimes connected to other color picker instances
 - Not disabled in BGs
@@ -22,8 +22,6 @@ Bugs
 - Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
 
 Next Up
-
-- Make a help menu
 
 ### Recently Done
 

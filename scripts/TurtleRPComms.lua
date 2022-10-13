@@ -292,7 +292,7 @@ function TurtleRP.dataKeys(dataPrefix)
     dataKeys = { "keyM", "icon", "full_name", "race", "class", "class_color", "ooc_info", "ic_info", "currently_ic", "ooc_pronouns", "ic_pronouns" }
   end
   if dataPrefix == "T" or dataPrefix == "TR" then
-    dataKeys = { "keyT", "atAGlance1", "atAGlance1Title", "atAGlance1Icon", "atAGlance2", "atAGlance2Title", "atAGlance2Icon", "atAGlance3", "atAGlance3Title", "atAGlance3Icon" }
+    dataKeys = { "keyT", "atAGlance1", "atAGlance1Title", "atAGlance1Icon", "atAGlance2", "atAGlance2Title", "atAGlance2Icon", "atAGlance3", "atAGlance3Title", "atAGlance3Icon", "experience", "walkups", "injury", "romance", "death" }
   end
   if dataPrefix == "D" or dataPrefix == "DR" then
     dataKeys = { "keyD", "description" }
