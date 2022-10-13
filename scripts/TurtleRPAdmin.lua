@@ -129,7 +129,6 @@ function TurtleRP.InitializeRPStyleDropdown(frame, items)
       info.hasArrow = false
       info.func = function(text)
         getglobal(frameName .. "_Text"):SetText(text)
-        TurtleRP.log(this.value)
         UIDropDownMenu_SetSelectedValue(frame, this.value)
         CloseDropDownMenus()
       end

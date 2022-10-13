@@ -378,10 +378,8 @@ end
 function TurtleRP.save_style()
   TurtleRPCharacterInfo['keyT'] = TurtleRP.randomchars()
   local experience = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_ExperienceDropdown)
-  TurtleRP.log(experience)
   TurtleRPCharacterInfo["experience"] = experience ~= nil and experience or 0
   local walkups = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_WalkupsDropdown)
-  TurtleRP.log(walkups)
   TurtleRPCharacterInfo["walkups"] = walkups ~= nil and walkups or 0
   local injury = UIDropDownMenu_GetSelectedValue(TurtleRP_AdminSB_Content1_Tab2_InjuryDropdown)
   TurtleRPCharacterInfo["injury"] = injury ~= nil and injury or 0
