@@ -611,6 +611,12 @@
             </Scripts>
           </Button>
         </Frames>
+        <Scripts>
+          <OnShow>
+            TurtleRP.sendRequestForData("M", TurtleRP.currentlyViewedPlayer)
+            TurtleRP.sendRequestForData("T", TurtleRP.currentlyViewedPlayer)
+          </OnShow>
+        </Scripts>
       </Frame>
 
       <!-- Description frame scrolling -->
@@ -704,6 +710,11 @@
             </Frames>
           </Frame>
         </ScrollChild>
+        <Scripts>
+          <OnShow>
+            TurtleRP.sendRequestForData("D", TurtleRP.currentlyViewedPlayer)
+          </OnShow>
+        </Scripts>
       </ScrollFrame>
 
       <Frame name="$parent_Notes">

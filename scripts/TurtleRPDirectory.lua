@@ -11,10 +11,8 @@ end
 
 function TurtleRP.SetDirectoryButtonsActive(enable)
   if enable then
-    TurtleRP_DirectoryFrame_Directory_FetchButton:Enable()
     TurtleRP_DirectoryFrame_Directory_DeleteButton:Enable()
   else
-    TurtleRP_DirectoryFrame_Directory_FetchButton:Disable()
     TurtleRP_DirectoryFrame_Directory_DeleteButton:Disable()
   end
 end

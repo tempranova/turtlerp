@@ -695,9 +695,9 @@
               </OnClick>
             </Scripts>
           </Button>
-          <Button name="$parent_CleanButton" inherits="UIPanelButtonTemplate" text="Clean List">
+          <Button name="$parent_CleanButton" inherits="UIPanelButtonTemplate" text="Clean Directory">
             <Size>
-              <AbsDimension x="100" y="22"/>
+              <AbsDimension x="130" y="22"/>
             </Size>
             <Anchors>
               <Anchor point="LEFT" relativeTo="$parent_RefreshButton" relativePoint="RIGHT">
@@ -721,44 +721,12 @@
             </Scripts>
           </Button>
 
-          <Button name="$parent_FetchButton" inherits="UIPanelButtonTemplate" text="Fetch">
+          <Button name="$parent_DeleteButton" inherits="UIPanelButtonTemplate" text="Delete Player">
             <Size>
-              <AbsDimension x="80" y="22"/>
+              <AbsDimension x="110" y="22"/>
             </Size>
             <Anchors>
               <Anchor point="LEFT" relativeTo="$parent_CleanButton" relativePoint="RIGHT">
-                <Offset>
-                  <AbsDimension x="-5" y="0"/>
-                </Offset>
-              </Anchor>
-            </Anchors>
-            <Scripts>
-              <OnLoad>
-                this:Disable()
-              </OnLoad>
-              <OnClick>
-                if TurtleRP.currentlyViewedPlayer then
-                  TurtleRP.sendRequestForData("M", TurtleRP.currentlyViewedPlayer)
-                  TurtleRP.sendRequestForData("T", TurtleRP.currentlyViewedPlayer)
-                  TurtleRP.sendRequestForData("D", TurtleRP.currentlyViewedPlayer)
-                end
-              </OnClick>
-              <OnEnter>
-                GameTooltip:SetOwner(this, "ANCHOR_RIGHT");
-                GameTooltip:SetText("Fetch new data for selected player (if they are online).");
-              </OnEnter>
-              <OnLeave>
-                GameTooltip:Hide();
-              </OnLeave>
-            </Scripts>
-          </Button>
-
-          <Button name="$parent_DeleteButton" inherits="UIPanelButtonTemplate" text="Delete">
-            <Size>
-              <AbsDimension x="70" y="22"/>
-            </Size>
-            <Anchors>
-              <Anchor point="LEFT" relativeTo="$parent_FetchButton" relativePoint="RIGHT">
                 <Offset>
                   <AbsDimension x="-5" y="0"/>
                 </Offset>

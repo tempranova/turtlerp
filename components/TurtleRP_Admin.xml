@@ -2009,7 +2009,7 @@
                 else
                   TurtleRPSettings["share_location"] = "0"
                 end
-                TurtleRP.pingWithLocation("P")
+                TurtleRP.pingWithLocationAndVersion("P")
               </OnClick>
             </Scripts>
           </CheckButton>

@@ -403,12 +403,11 @@ function TurtleRP.displayData(dataPrefix, playerName)
     TurtleRP.buildDescription(playerName)
   end
   -- Directory exceptions
-  if playerName == TurtleRP.showTooltip and (dataPrefix == "M" or dataPrefix == "MR") then
-    TurtleRP.buildTooltip(playerName, nil) -- Missing some data
+  if playerName == TurtleRP.currentlyViewedPlayer and (dataPrefix == "M" or dataPrefix == "MR") then
+    TurtleRP.buildGeneral(playerName)
   end
-  if playerName == TurtleRP.showTarget and (dataPrefix == "T" or dataPrefix == "TR") then
-    TurtleRP.buildTargetFrame(playerName)
-    TurtleRP.showTarget = nil
+  if playerName == TurtleRP.currentlyViewedPlayer and (dataPrefix == "T" or dataPrefix == "TR") then
+    TurtleRP.buildGeneral(playerName)
   end
   if playerName == TurtleRP.showDescription and (dataPrefix == "D" or dataPrefix == "DR") then
     TurtleRP.OpenProfile()
