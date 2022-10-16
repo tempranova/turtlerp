@@ -12,7 +12,7 @@ TurtleRP.TestMode = 0
 TurtleRP.currentVersion = "1.1.0"
 TurtleRP.latestVersion = TurtleRP.currentVersion
 -- Chat
-TurtleRP.channelName = "TTRPTEST"
+TurtleRP.channelName = "TTRP"
 TurtleRP.channelIndex = 0
 TurtleRP.timeBetweenPings = 30
 TurtleRP.currentlyRequestedData = nil
