@@ -10,11 +10,9 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 Tests
 
-- Sometimes new name isn't appearing right away (not updated when open?) -- requires a target or mouseover to get updated currently?
+
 
 Bugs
-
-- Race/class overlap with Current status
 
 - Color pick is sometimes connected to other color picker instances
 - Not disabled in BGs
