@@ -10,9 +10,12 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 Tests
 
-
-
 Bugs
+
+- RP style tab forced to right (PFuI)
+- If you have Profile open, and a description comes back in the chat, it'll obscure the profile
+
+Minor Bugs
 
 - Color pick is sometimes connected to other color picker instances
 - Not disabled in BGs
@@ -22,6 +25,13 @@ Bugs
 Next Up
 
 ### Recently Done
+
+1.1.1
+
+- Directory, when ordered, now snaps user back to the top of the scrollbar
+- Descriptions should all be properly scrollable (probably even too long, now)
+- Show player name in minimap hover if no full name is present
+- Lua error from hovering on players on map. Difficult to pinpoint if this was fixed.
 
 1.1.0
 

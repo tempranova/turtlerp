@@ -53,7 +53,10 @@ function TurtleRP.show_player_locations()
             local mapLeft = WorldMapDetailFrame:GetLeft()
             local mapHeight = WorldMapDetailFrame:GetHeight()
             local mapLeft = WorldMapDetailFrame:GetLeft()
-            playerPositionFrame.full_name = TurtleRPCharacters[i]['full_name']
+            playerPositionFrame.full_name = i
+            if TurtleRPCharacters[i]['full_name'] ~= nil and TurtleRPCharacters[i]['full_name'] ~= "" then
+              playerPositionFrame.full_name = TurtleRPCharacters[i]['full_name']
+            end
             playerPositionFrame:SetPoint("CENTER", WorldMapDetailFrame, "TOPLEFT", zoneX * mapWidth, zoneY * mapHeight * -1)
             playerPositionFrame:Show()
             createdFrames = createdFrames + 1
