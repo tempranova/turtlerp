@@ -382,9 +382,13 @@ function TurtleRP.recievePingInformation(playerName, msg)
       TurtleRPCharacters[playerName]['zoneY'] = zoneY
       TurtleRP.show_player_locations()
     end
-    if splitString[4] then
-      if TurtleRP.latestVersion ~= splitString[4] then
-        TurtleRP.latestVersion = splitString[4]
+    if splitString[5] then
+      local latestVersionString = gsub(TurtleRP.latestVersion, "%.", "")
+      local latestVersionSentString = gsub(splitString[5], "%.", "")
+      local latestVersionNumber = tonumber(latestVersionString)
+      local latestVersionSentNumber = tonumber(latestVersionSentString)
+      if latestVersionSentNumber > latestVersionNumber then
+        TurtleRP.latestVersion = splitString[5]
         TurtleRP_AdminSB_UpdateText:Show()
         TurtleRP.log("|cff8C48ABA new version of TurtleRP is available (" .. TurtleRP.latestVersion ..  ")! Please update to have access to more features.")
       end
@@ -430,14 +434,15 @@ function TurtleRP.splitByChunk(text, chunkSize)
     return chunksToReturn
 end
 
+-- Have to keep stupid 1.1.0 code because I made a boo boo
 function TurtleRP.pingWithLocationAndVersion(message)
   local revisedMessage = message
   message = message .. GetZoneText()
   if TurtleRPSettings['share_location'] == "1" then
     local zoneX, zoneY = GetPlayerMapPosition("player")
-    message = message .. "~" .. math.floor(zoneX * 10000)/10000 .. "~" .. math.floor(zoneY * 10000)/10000 .. "~" .. TurtleRP.currentVersion
+    message = message .. "~" .. math.floor(zoneX * 10000)/10000 .. "~" .. math.floor(zoneY * 10000)/10000 .. "~1.1.0~" .. TurtleRP.currentVersion
   else
-    message = message .. "~false~false~" .. TurtleRP.currentVersion
+    message = message .. "~false~false~1.1.0~" .. TurtleRP.currentVersion
   end
   TurtleRP.ttrpChatSend(message)
 end
