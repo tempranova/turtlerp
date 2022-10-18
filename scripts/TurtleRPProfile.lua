@@ -146,12 +146,12 @@ function TurtleRP.buildDescription(playerName)
     TurtleRP.SetNameAndIcon(playerName)
 
     local replacedLineBreaks = gsub(characterInfo["description"], "@N", "%\n")
+    TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetHeight(1000)
     if string.find(characterInfo['description'], "<p>") then
       TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("<html><body>" .. replacedLineBreaks .. "<br /><br /><br /></body></html>")
       TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText("")
-      TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetHeight(1000)
     else
-      TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("")
+      TurtleRP_CharacterDetails_DeszzcriptionScrollBox_DescriptionHolder_DescriptionHTML:SetText("")
       TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:SetText(replacedLineBreaks)
       local stringHeight = TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder_DescriptionHTML_TargetDescription:GetHeight()
       TurtleRP_CharacterDetails_DescriptionScrollBox_DescriptionHolder:SetHeight(stringHeight * 3)

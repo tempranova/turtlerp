@@ -31,7 +31,9 @@ Next Up
 - Directory, when ordered, now snaps user back to the top of the scrollbar
 - Descriptions should all be properly scrollable (probably even too long, now)
 - Show player name in minimap hover if no full name is present
-- Lua error from hovering on players on map. Difficult to pinpoint if this was fixed.
+- Lua error from hovering on players on map solved
+- Description tab should always show as active after being clicked
+- Descriptions properly fetched when description open after directory click
 
 1.1.0
 
