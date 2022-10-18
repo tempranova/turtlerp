@@ -648,7 +648,7 @@
             <Frames>
               <SimpleHTML name="$parent_DescriptionHTML">
                 <Size>
-                  <AbsDimension x="280" y="150" />
+                  <AbsDimension x="280" y="1000" />
                 </Size>
                 <Anchors>
                   <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
