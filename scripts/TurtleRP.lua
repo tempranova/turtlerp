@@ -9,7 +9,7 @@
 TurtleRP.TestMode = 0
 
 -- Dev
-TurtleRP.currentVersion = "1.1.0"
+TurtleRP.currentVersion = "1.1.1"
 TurtleRP.latestVersion = TurtleRP.currentVersion
 -- Chat
 TurtleRP.channelName = "TTRP"
