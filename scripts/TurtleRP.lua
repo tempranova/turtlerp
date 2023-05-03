@@ -13,7 +13,7 @@ TurtleRP.currentVersion = "1.1.1b"
 TurtleRP.latestVersion = TurtleRP.currentVersion
 -- Chat
 TurtleRP.channelName = "TTRP"
--- TurtleRP.channelIndex = 0
+TurtleRP.channelIndex = 0
 TurtleRP.timeBetweenPings = 30
 TurtleRP.currentlyRequestedData = nil
 TurtleRP.disableMessageSending = nil
