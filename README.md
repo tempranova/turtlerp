@@ -26,6 +26,10 @@ Next Up
 
 ### Recently Done
 
+1.1.1b (Pull request bugfix)
+
+- Updated minimum chat limit on *Turtle WoW* from level 5 to level 10
+
 1.1.1
 
 - Directory, when ordered, now snaps user back to the top of the scrollbar
