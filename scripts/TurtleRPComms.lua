@@ -90,7 +90,7 @@ end
 
 -- This function often runs too early
 function TurtleRP.communication_prep()
-  if UnitLevel("player") > 4 then
+  if UnitLevel("player") > 9 then
     TurtleRP.pingWithLocationAndVersion("A")
   end
 
@@ -114,7 +114,7 @@ function TurtleRP.communication_prep()
 end
 
 function TurtleRP.send_ping_message()
-  if UnitLevel("player") > 4 then
+  if UnitLevel("player") > 9 then
     TurtleRP.pingWithLocationAndVersion("P")
   end
 
@@ -132,7 +132,7 @@ function TurtleRP.send_ping_message()
     local st = (this.startTime + plus) * 1000
     if gt >= st then
       if TurtleRP.disableMessageSending == nil then
-        if UnitLevel("player") > 4 then
+        if UnitLevel("player") > 9 then
           TurtleRP.pingWithLocationAndVersion("P")
         end
       end
@@ -155,11 +155,11 @@ function TurtleRP.checkTTRPChannel()
   end
   if TurtleRP.channelIndex == 0 then
     JoinChannelByName(TurtleRP.channelName)
-    if UnitLevel("player") > 4 then
+    if UnitLevel("player") > 9 then
       TurtleRP.pingWithLocationAndVersion("A")
     end
   else
-    if UnitLevel("player") > 4 then
+    if UnitLevel("player") > 9 then
       TurtleRP.pingWithLocationAndVersion("A")
     end
   end
