@@ -380,7 +380,6 @@ function TurtleRP.recievePingInformation(playerName, msg)
       local zoneY = splitString[3]
       TurtleRPCharacters[playerName]['zoneX'] = zoneX
       TurtleRPCharacters[playerName]['zoneY'] = zoneY
-      TurtleRP.show_player_locations()
     end
   end
 end

@@ -293,7 +293,6 @@ function TurtleRP.populate_interface_user_data()
 
   if TurtleRPSettings["share_location"] == "1" then
     TurtleRP_AdminSB_Content5_ShareLocationButton:SetChecked(true)
-    TurtleRP_MinimapIcon:Hide()
   end
 
 end

@@ -2136,7 +2136,7 @@
           <Anchors>
             <Anchor point="BOTTOMLEFT" relativeTo="$parent_IssuesTitle" relativePoint="BOTTOMLEFT">
               <Offset>
-                <AbsDimension x="0" y="-120"/>
+                <AbsDimension x="0" y="-105"/>
               </Offset>
             </Anchor>
           </Anchors>
@@ -2194,6 +2194,27 @@
               TurtleRPCharacters = {}
               TurtleRPQueryablePlayers = {}
               ConsoleExec("reloadui")
+            </OnClick>
+          </Scripts>
+        </Button>
+        <!-- Reset Icon Tray Button -->
+        <Button name="$parent_ResetTrayButton" alpha="0.8" inherits="UIPanelButtonGrayTemplate" text="Reset Tray">
+          <Size>
+            <AbsDimension x="100" y="25" />
+          </Size>
+          <Anchors>
+            <Anchor point="BOTTOMLEFT" relativeTo="$parent_ReloadButton" relativePoint="BOTTOMLEFT">
+              <Offset>
+                <AbsDimension x="0" y="-25"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <Scripts>
+            <OnLoad>
+              this:SetFont("Fonts\\FRIZQT__.ttf", 10)
+            </OnLoad>
+            <OnClick>
+              TurtleRP_IconTray:SetPoint("TOPLEFT", "UIParent")
             </OnClick>
           </Scripts>
         </Button>

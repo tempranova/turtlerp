@@ -110,9 +110,9 @@ function TurtleRP.emote_events()
             end
           end
         end
-        local body = format(TEXT(getglobal("CHAT_"..type.."_GET")) .. TurtleRP.EscapePercentageCharacter(newString), "|cffFF7E40" .. nameString)
+        local body = format(TEXT(getglobal("CHAT_"..type.."_GET")) .. TurtleRP.EscapePercentageCharacter(newNewString), "|cffFF7E40" .. nameString)
         if nameString == "" then
-          body = "|cffFF7E40" .. newString
+          body = "|cffFF7E40" .. newNewString
         end
 
         this:AddMessage(body)

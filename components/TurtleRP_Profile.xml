@@ -713,6 +713,7 @@
         <Scripts>
           <OnShow>
             TurtleRP.sendRequestForData("D", TurtleRP.currentlyViewedPlayer)
+            TurtleRP.showDescription = TurtleRP.currentlyViewedPlayer
           </OnShow>
         </Scripts>
       </ScrollFrame>

@@ -8,7 +8,19 @@ To archive from source code, use `git archive --output=TurtleRP-<v>.zip --prefix
 
 ### To Do
 
+Notes
+- The HTML must contain a "<p>" to get rendered as HTML in Description
+
 Tests
+- Bug with description. If it opened and populated, I closed, then press to open, it stays blank.
+- Description just not populating when opened from directory
+- Description-related bugs, often showing a previous profile/description and/or the user's instead of the target's (https://discord.com/channels/1023388329485549568/1023389076977627147/1099243720139886632, https://discord.com/channels/1023388329485549568/1023389076977627147/1046807473316696074, https://discord.com/channels/1023388329485549568/1023388673733054474/1044892748202901556, https://discord.com/channels/1023388329485549568/1023388673733054474/1046098320902324244, https://discord.com/channels/1023388329485549568/1023388673733054474/1039697836733898802)
+- Trying to reliably cause profiles to be overwritten by description getting returned
+
+Bugs 2023
+- General issues with incorrect locations on minimap, sort of hard to replicate. At least some bugs with staying at 0,0 locations in regards to Lion Pride's Inn
+- Large Tooltip Name having no effect with PFui other player targets (https://discord.com/channels/1023388329485549568/1023388673733054474/1039700349600137246)
+- Issues in the last month or so with low level character profiles not showing properly (https://discord.com/channels/1023388329485549568/1023389076977627147/1093180085214912584)
 
 Bugs
 
@@ -21,10 +33,19 @@ Minor Bugs
 - Not disabled in BGs
 - Custom colors for emotes get overwritten
 - Slight adjustment in PvP text padding/spacing when icon added while PvP enabled
+- Issue with text after a linked item not reverting to proper color (https://discord.com/channels/1023388329485549568/1023388673733054474/1039696480933515354) -- deemed too small for too much effort
+- Occasional issue with selecting icons... hard to replicate (https://discord.com/channels/1023388329485549568/1023389076977627147/1074086278427050005)
 
 Next Up
 
 ### Recently Done
+
+1.2.1
+- Description more reliably opens when requested from Profile window
+- Minimap icon properly loads in when enabled
+- Fixed minimap button not hidden in screenshot mode
+- Adding a "reset button tray" button
+- Frame dropping due to constant updating of player locations. Player locations now only updated on map being opened or zone changing.
 
 1.1.1
 
