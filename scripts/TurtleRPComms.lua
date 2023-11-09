@@ -186,6 +186,12 @@ function TurtleRP.communication_events()
         TurtleRP.checkChatMessage(TurtleRP.DrunkDecode(arg1), arg2)
       end
     end
+    -- This is a fix for Tel'Abim response messages being sent erroneously to CHAT_MSG_ADDON instead of to the TTRP channel.
+    if event == "CHAT_MSG_ADDON" then
+      if string.lower(arg3) == "unknown" then
+        TurtleRP.checkChatMessage(TurtleRP.DrunkDecode(arg1), arg2)
+      end
+    end
   end)
 
 end
